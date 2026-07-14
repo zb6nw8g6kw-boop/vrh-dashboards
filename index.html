@@ -3,236 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Операционный дашборд ВРХ · 28 неделя · EGGHEADS</title>
+  <title>Операционные показатели 28 недели · ВРХ</title>
   <style id="eh-logo-style">
-.eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:'Helvetica Neue',Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
-.eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
-.eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
-.eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
-.eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
-@keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
-.eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
-.eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
-@keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
-@keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
-.eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
-.eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
-@keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
-@media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
-.eh-text{display:flex;align-items:flex-end;min-width:0}
-.eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
-.eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
-.eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
+    .eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:'Helvetica Neue',Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
+    .eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+    .eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
+    .eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
+    .eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
+    @keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
+    .eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
+    .eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
+    @keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
+    @keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
+    .eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
+    .eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
+    @keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
+    @media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
+    .eh-text{display:flex;align-items:flex-end;min-width:0}
+    .eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
+    .eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
+    .eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
   </style>
   <style>
-:root {
-  --page-bg: #f5f5f7;
-  --surface: #ffffff;
-  --hero-from: #fafafa;
-  --hero-to: #f0f0f5;
-  --card-bg: #ffffff;
-  --text: #1d1d1f;
-  --muted: #666;
-  --muted-light: #86868b;
-  --border: #e5e5e5;
-  --accent: #FF0000;
-  --dark: #1d1d1f;
-  --shadow: 0 4px 24px rgba(0,0,0,.06);
-  --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
-  --button-secondary: #f5f5f7;
-  --button-secondary-hover: #e8e8ed;
-  /* data colors */
-  --good: #067647;
-  --good-bg: rgba(6,118,71,.12);
-  --bad: #c03221;
-  --bad-bg: rgba(192,50,33,.12);
-  --warn: #b54708;
-  --warn-bg: rgba(181,71,8,.12);
-  --bar-ac: #1d1d1f;
-  --bar-pl: #9aa0aa;
-  --bar-py: #d8dae0;
-  --bar-track: #f1f1f4;
-}
-[data-theme="dark"] {
-  --page-bg: #0f1014;
-  --surface: #181a20;
-  --hero-from: #181a20;
-  --hero-to: #111217;
-  --card-bg: #181a20;
-  --text: #f5f5f7;
-  --muted: #c7c7cf;
-  --muted-light: #a6a6ad;
-  --border: rgba(255,255,255,.12);
-  --accent: #FF0000;
-  --dark: #f5f5f7;
-  --shadow: 0 4px 24px rgba(0,0,0,.28);
-  --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
-  --button-secondary: #23252d;
-  --button-secondary-hover: #2b2e38;
-  --good: #6dd6a8;
-  --good-bg: rgba(109,214,168,.14);
-  --bad: #ff8a7d;
-  --bad-bg: rgba(255,138,125,.14);
-  --warn: #f0b45c;
-  --warn-bg: rgba(240,180,92,.14);
-  --bar-ac: #f5f5f7;
-  --bar-pl: #8b8f98;
-  --bar-py: #3a3d45;
-  --bar-track: #23252d;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
-a{color:inherit}
-.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
-.header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.site-header .eh-head{width:28px;height:28px;flex-basis:28px}
-.site-header .eh-wordmark{height:22px}
-.site-header .eh-div{height:20px;margin:0 12px}
-.site-header .eh-tag{font-size:11px}
-[data-theme="dark"] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
-.header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
-.header-meta{text-align:right;min-width:0}
-.header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
-.header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
-.theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
-.theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
-.theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
-.theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
-.report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
-.report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
-.site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
-.footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
-.site-footer .eh-wordmark{height:22px}
-.footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
-@media (max-width:980px){
-  .site-header .eh-tag,.site-header .eh-div{display:none}
-  .header-sub{display:none}
-}
-@media (max-width:640px){
-  .site-header{padding:18px}
-  .header-inner{gap:14px;align-items:flex-start}
-  .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
-  .site-header .eh-wordmark{height:21px;max-width:148px}
-  .header-right{gap:10px;flex-direction:column;align-items:flex-end}
-  .header-title{display:none}
-  .theme-toggle{padding:7px 10px;font-size:12px}
-  .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
-  .report-section{padding:18px}
-  .footer-inner{flex-direction:column;align-items:flex-start}
-  .site-footer .eh-tag,.site-footer .eh-div{display:none}
-  .footer-note{text-align:left}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
-}
+    :root {
+      --page-bg: #f5f5f7;
+      --surface: #ffffff;
+      --card-bg: #ffffff;
+      --text: #1d1d1f;
+      --muted: #666;
+      --muted-light: #86868b;
+      --border: #e5e5e5;
+      --accent: #FF0000;
+      --dark: #1d1d1f;
+      --shadow: 0 4px 24px rgba(0,0,0,.06);
+      --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
+      --button-secondary: #f5f5f7;
+      --button-secondary-hover: #e8e8ed;
+      --good: #1a7f37;
+      --bad: #d1242f;
+      --warn: #9a6700;
+    }
+    [data-theme="dark"] {
+      --page-bg: #0f1014;
+      --surface: #181a20;
+      --card-bg: #181a20;
+      --text: #f5f5f7;
+      --muted: #c7c7cf;
+      --muted-light: #a6a6ad;
+      --border: rgba(255,255,255,.12);
+      --accent: #FF0000;
+      --dark: #f5f5f7;
+      --shadow: 0 4px 24px rgba(0,0,0,.28);
+      --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
+      --button-secondary: #23252d;
+      --button-secondary-hover: #2b2e38;
+      --good: #3fb950;
+      --bad: #f85149;
+      --warn: #d29922;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
+    a{color:inherit}
 
-/* ===== dashboard content ===== */
-.tabs{display:flex;flex-wrap:wrap;gap:8px}
-.tab-btn{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:10px 18px;font:700 13px/1.2 'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
-.tab-btn:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
-.tab-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
-.tab-btn.is-active{background:var(--dark);color:var(--page-bg);border-color:var(--dark)}
-.tab-panel[hidden]{display:none}
-.tab-panel.is-active{animation:fadein .25s ease both}
-@keyframes fadein{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
+    .site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
+    .header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+    .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+    .site-header .eh-wordmark{height:22px}
+    .site-header .eh-div{height:20px;margin:0 12px}
+    .site-header .eh-tag{font-size:11px}
+    [data-theme="dark"] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+    .header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+    .header-meta{text-align:right;min-width:0}
+    .header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
+    .header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
+    .theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
+    .theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
+    .theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
+    .theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
 
-.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:16px}
-.section-head h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.01em}
-.section-meta{font-size:13px;color:var(--muted-light)}
+    .report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
+    .report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
+    .site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
+    .footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
+    .site-footer .eh-wordmark{height:22px}
+    .footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
 
-.say-block{background:var(--button-secondary);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin-bottom:20px;font-size:15px;line-height:1.55}
-.say-block strong{font-weight:800}
+    /* Dashboard custom */
+    .dash-title{font-size:28px;font-weight:800;margin:0 0 8px;line-height:1.2}
+    .dash-subtitle{font-size:15px;color:var(--muted);margin:0 0 20px}
+    .message-block{background:linear-gradient(135deg,rgba(255,0,0,.06),rgba(255,0,0,.02));border-left:4px solid var(--accent);padding:18px 22px;border-radius:0 8px 8px 0;margin:0 0 24px}
+    .message-block p{margin:0;font-size:15px;line-height:1.55}
+    .message-block strong{color:var(--accent)}
 
-.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:4px}
-.kpi-card{border:1px solid var(--border);border-radius:8px;padding:14px 14px 12px;min-width:0}
-.kpi-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-light);margin-bottom:8px;line-height:1.35}
-.kpi-value{font-size:26px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
-.kpi-value .unit{font-size:15px;font-weight:700;color:var(--muted);margin-left:3px}
-.kpi-sub{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.4}
-.kpi-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px;padding:6px;background:var(--button-secondary);border-radius:8px;border:1px solid var(--border)}
+    .tab{appearance:none;border:1px solid transparent;background:transparent;color:var(--text);border-radius:6px;padding:10px 16px;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background .2s,border-color .2s,transform .2s;white-space:nowrap}
+    .tab:hover{background:rgba(255,255,255,.5)}
+    .tab.active{background:var(--card-bg);border-color:var(--border);box-shadow:var(--shadow);transform:translateY(-1px)}
+    .tab:disabled{opacity:.5;cursor:not-allowed}
 
-.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-.badge--good{background:var(--good-bg);color:var(--good)}
-.badge--bad{background:var(--bad-bg);color:var(--bad)}
-.badge--warn{background:var(--warn-bg);color:var(--warn)}
-.badge--neutral{background:var(--button-secondary);color:var(--muted);border:1px solid var(--border)}
+    .page{display:none}
+    .page.active{display:block;animation:fadeIn .25s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-.block-title{margin:0 0 4px;font-size:16px;font-weight:800}
-.block-note{margin:0 0 16px;font-size:12.5px;color:var(--muted-light);line-height:1.5}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:0 0 22px}
+    .kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;transition:box-shadow .2s,transform .2s}
+    .kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+    .kpi-label{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+    .kpi-value{font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+    .kpi-delta{font-size:13px;font-weight:700}
+    .kpi-delta.pos{color:var(--good)}
+    .kpi-delta.neg{color:var(--bad)}
+    .kpi-delta.warn{color:var(--warn)}
+    .kpi-note{font-size:12px;color:var(--muted-light);margin-top:2px}
 
-.legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 14px;font-size:12px;color:var(--muted)}
-.legend-item{display:inline-flex;align-items:center;gap:7px}
-.legend-swatch{width:14px;height:10px;border-radius:3px;flex:0 0 auto}
-.legend-swatch--ac{background:var(--bar-ac)}
-.legend-swatch--pl{background:var(--bar-pl)}
-.legend-swatch--py{background:var(--bar-py)}
+    .details-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:0 0 16px}
+    .details-header{width:100%;appearance:none;border:none;background:var(--button-secondary);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:15px;font-weight:700;color:var(--text);transition:background .2s}
+    .details-header:hover{background:var(--button-secondary-hover)}
+    .details-header::after{content:'+';font-size:20px;color:var(--accent);font-weight:400;transition:transform .2s}
+    .details-card.open .details-header::after{content:'−'}
+    .details-body{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
+    .details-card.open .details-body{max-height:1200px;padding:0 18px 18px}
+    .details-inner{padding-top:18px}
 
-.bars{display:flex;flex-direction:column;gap:16px}
-.bar-group{display:flex;flex-direction:column;gap:6px}
-.bar-group-name{font-size:13px;font-weight:700}
-.bar-row{display:grid;grid-template-columns:88px 1fr 102px;align-items:center;gap:10px}
-.bar-scn{font-size:12px;color:var(--muted);text-align:right}
-.bar-track{background:var(--bar-track);border-radius:6px;height:14px;overflow:hidden}
-.bar-fill{display:block;height:100%;border-radius:6px;min-width:2px}
-.bar-fill--ac{background:var(--bar-ac)}
-.bar-fill--pl{background:var(--bar-pl)}
-.bar-fill--py{background:var(--bar-py)}
-.bar-val{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:0 0 14px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border)}
+    th{background:var(--button-secondary);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+    tr:last-child td{border-bottom:none}
+    td.num{font-variant-numeric:tabular-nums;text-align:right}
+    .num-val{font-weight:700}
+    .num-val.neg{color:var(--bad)}
+    .num-val.pos{color:var(--good)}
+    .num-val.warn{color:var(--warn)}
 
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
-table.data{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums;min-width:640px}
-table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
-table.data th{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted-light);background:var(--button-secondary)}
-table.data th:first-child,table.data td:first-child{text-align:left;white-space:normal}
-table.data tr.is-total td{font-weight:800;background:var(--button-secondary)}
-table.data tr.is-sub td:first-child{padding-left:22px;color:var(--muted)}
-table.data td.pos{color:var(--good);font-weight:700}
-table.data td.neg{color:var(--bad);font-weight:700}
-table.data tbody tr:last-child td{border-bottom:none}
+    .bar-row{display:grid;grid-template-columns:120px 1fr 100px;gap:12px;align-items:center;padding:8px 0;font-size:14px}
+    .bar-track{height:20px;background:var(--button-secondary);border-radius:4px;overflow:hidden}
+    .bar-fill{height:100%;background:var(--accent);border-radius:4px;min-width:2px}
+    .bar-fill.plan{background:transparent;border:2px solid var(--accent);box-sizing:border-box}
+    .bar-row .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bar-row .value{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
 
-.q3-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.horizon{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:center;background:var(--warn-bg);border-radius:8px;padding:16px 18px}
-.horizon-title{font-size:14px;font-weight:800;margin-bottom:4px}
-.horizon-text{font-size:13px;line-height:1.55;color:var(--text)}
-.horizon-kpis{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-.horizon-kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;min-width:120px}
-.horizon-kpi .kv{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
-.horizon-kpi .kv .unit{font-size:12px;font-weight:700;color:var(--muted)}
-.horizon-kpi .kl{font-size:11px;color:var(--muted);margin-top:3px}
+    .bar-chart-vertical{display:flex;align-items:flex-end;gap:18px;height:220px;padding:14px 0 4px;border-bottom:1px solid var(--border);margin:0 0 12px}
+    .v-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end;min-width:44px}
+    .v-area{position:relative;width:55%;height:100%;display:flex;align-items:flex-end;justify-content:center}
+    .v-bar{position:absolute;bottom:0;left:0;width:100%;border-radius:4px 4px 0 0;min-height:2px}
+    .v-bar.plan{background:rgba(255,0,0,.08);border:2px solid var(--accent);box-sizing:border-box}
+    .v-bar.fact{background:var(--accent);z-index:2}
+    .v-val{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .v-lbl{font-size:12px;color:var(--muted);font-weight:600}
 
-.stub{border:1px dashed var(--border);border-radius:8px;padding:26px 22px;background:var(--button-secondary)}
-.stub h3{margin:0 0 8px;font-size:17px;font-weight:800}
-.stub p{margin:0 0 12px;font-size:14px;line-height:1.55;color:var(--muted)}
-.stub-teaser{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:14px}
-.stub-teaser .kpi-card{background:var(--card-bg)}
+    .mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:0 0 14px}
+    .mini-card{border:1px solid var(--border);border-radius:8px;padding:14px}
+    .mini-card h4{margin:0 0 8px;font-size:14px;font-weight:700}
+    .mini-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--muted)}
+    .mini-card li{margin:0 0 4px}
 
-.source-note{margin-top:4px;font-size:12px;color:var(--muted-light);line-height:1.6}
-.source-note strong{color:var(--muted);font-weight:700}
+    .placeholder-body{text-align:center;padding:48px 24px;color:var(--muted)}
+    .placeholder-body h3{margin:0 0 12px;font-size:20px;color:var(--text)}
+    .placeholder-body p{margin:0 0 18px;line-height:1.6;max-width:600px;margin-left:auto;margin-right:auto}
 
-@media (max-width:980px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .q3-grid{grid-template-columns:1fr}
-  .horizon{grid-template-columns:1fr}
-  .horizon-kpis{justify-content:flex-start}
-}
-@media (max-width:640px){
-  .section-head h2{font-size:19px}
-  .kpi-grid{grid-template-columns:1fr}
-  .kpi-value{font-size:24px}
-  .bar-row{grid-template-columns:64px 1fr 84px;gap:7px}
-  .bar-scn{font-size:11px}
-  .bar-val{font-size:11.5px}
-  .tab-btn{padding:9px 13px;font-size:12px}
-  .say-block{font-size:14px}
-}
+    .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--button-secondary);color:var(--text);margin:0 4px 4px 0}
+    .tag.good{background:rgba(26,127,55,.1);color:var(--good)}
+    .tag.warn{background:rgba(154,103,0,.1);color:var(--warn)}
+    .tag.bad{background:rgba(209,36,47,.1);color:var(--bad)}
+
+    .source-note{font-size:12px;color:var(--muted-light);margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+
+    @media (max-width:980px){
+      .site-header .eh-tag,.site-header .eh-div{display:none}
+      .header-sub{display:none}
+      .kpi-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .site-header{padding:14px 18px}
+      .header-inner{gap:14px;align-items:flex-start}
+      .site-header .eh-wordmark{height:21px;max-width:148px}
+      .header-right{gap:10px;flex-direction:column;align-items:flex-end}
+      .header-title{font-size:13px}
+      .theme-toggle{padding:7px 10px;font-size:12px}
+      .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
+      .report-section{padding:18px}
+      .dash-title{font-size:22px}
+      .tabs{gap:6px}
+      .tab{padding:9px 12px;font-size:12px}
+      .kpi-grid{grid-template-columns:1fr}
+      .bar-row{grid-template-columns:90px 1fr 80px;font-size:12px}
+      .bar-chart-vertical{gap:10px}
+      .v-val{font-size:11px}
+      .footer-inner{flex-direction:column;align-items:flex-start}
+      .site-footer .tag,.site-footer .eh-div{display:none}
+      .footer-note{text-align:left}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
+    }
   </style>
 </head>
 <body data-theme="light" id="top">
   <header class="site-header">
     <div class="header-inner">
-      <a class="eh-logo" href="#report-main" aria-label="EGGHEADS · Операционный дашборд ВРХ">
+      <a class="eh-logo" href="#top" aria-label="EGGHEADS · Операционные показатели 28 недели">
         <span class="eh-head" aria-hidden="true">
           <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
         </span>
@@ -244,8 +216,8 @@ table.data tbody tr:last-child td{border-bottom:none}
       </a>
       <div class="header-right">
         <div class="header-meta">
-          <div class="header-title">Операционный дашборд ВРХ</div>
-          <div class="header-sub">28 неделя · 06–12.07.2026</div>
+          <div class="header-title">Операционные показатели 28 недели</div>
+          <div class="header-sub">ВРХ · 3 квартал 2026 · 06–12 июля</div>
         </div>
         <button class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">☀</span>
@@ -256,339 +228,389 @@ table.data tbody tr:last-child td{border-bottom:none}
   </header>
 
   <main class="report-main" id="report-main">
+    <section class="report-section">
+      <h1 class="dash-title">Операционные показатели 28 недели</h1>
+      <p class="dash-subtitle">06–12 июля 2026 · источники: ДДС, ЦПИ, отдел качества, HR · одна вкладка — одно направление</p>
 
-    <section class="report-section" aria-label="Навигация по разделам">
-      <nav class="tabs" role="tablist" aria-label="Разделы дашборда">
-        <button class="tab-btn is-active" type="button" role="tab" id="tab-supergreen" aria-controls="panel-supergreen" aria-selected="true" data-tab="supergreen">Статус проекта Супергрин</button>
-        <button class="tab-btn" type="button" role="tab" id="tab-green" aria-controls="panel-green" aria-selected="false" data-tab="green">Статус проекта Грин</button>
-        <button class="tab-btn" type="button" role="tab" id="tab-ops" aria-controls="panel-ops" aria-selected="false" data-tab="ops">Операционные показатели · 28 неделя</button>
-      </nav>
+      <div class="tabs" role="tablist" aria-label="Направления">
+        <button class="tab active" role="tab" aria-selected="true" data-target="dds">ДДС и финансы</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="caviar">Переработка икры</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="quality">Качество</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="hr">HR</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="fish">Рыбоводство</button>
+      </div>
+
+      <!-- ДДС и финансы -->
+      <div class="page active" id="dds" role="tabpanel">
+        <div class="message-block">
+          <p><strong>Главное:</strong> 28 неделя — поступления превысили план на 29% (6,5 млн ₽ факт vs 5,0 млн ₽ план). Но до конца июля запланировано ещё 11,3 млн ₽, а факт пока только 11,5 млн за две недели — риск дефицита на 29–31 неделях. Просроченная дебиторская задолженность — 2,89 млн ₽.</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Поступления, 28 нед.</span>
+            <span class="kpi-value">6 465 628 ₽</span>
+            <span class="kpi-delta pos">+1 439 732 ₽ к плану</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Выполнение плана, 28 нед.</span>
+            <span class="kpi-value">129%</span>
+            <span class="kpi-delta pos">план 5 025 896 ₽</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Просроченная ДЗ</span>
+            <span class="kpi-value">2 892 588 ₽</span>
+            <span class="kpi-delta warn">7 дебиторов</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Профицит/дефицит, 29 нед.</span>
+            <span class="kpi-value">−10 965 869 ₽</span>
+            <span class="kpi-delta neg">при поступлениях 6 548 358 ₽</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Июль, факт / план</span>
+            <span class="kpi-value">11 494 725 ₽</span>
+            <span class="kpi-delta neg">58% от плана 19 904 252 ₽</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Остаток фондов на конец</span>
+            <span class="kpi-value">28 591 164 ₽</span>
+            <span class="kpi-delta">при распределении 1 333 890 ₽</span>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">ДДС по неделям</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <p style="margin:0 0 8px;font-size:13px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;background:var(--accent);border-radius:2px;margin:0 6px -2px 0"></span>факт <span style="display:inline-block;width:12px;height:12px;background:rgba(255,0,0,.08);border:2px solid var(--accent);border-radius:2px;margin:0 6px -2px 14px"></span>план</p>
+              <div class="bar-chart-vertical" id="dds-chart">
+                <!-- JS will populate -->
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Неделя</th><th class="num">План, ₽</th><th class="num">Факт, ₽</th><th class="num">Отклонение, ₽</th><th class="num">%</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>27</td><td class="num">3 586 685</td><td class="num">5 029 097</td><td class="num pos">+1 442 412</td><td class="num pos">+40%</td></tr>
+                    <tr><td>28</td><td class="num">5 025 896</td><td class="num">6 465 628</td><td class="num pos">+1 439 732</td><td class="num pos">+29%</td></tr>
+                    <tr><td>29</td><td class="num">5 216 057</td><td class="num">—</td><td class="num neg">−5 216 057</td><td class="num neg">—</td></tr>
+                    <tr><td>30</td><td class="num">3 509 606</td><td class="num">—</td><td class="num neg">−3 509 606</td><td class="num neg">—</td></tr>
+                    <tr><td>31</td><td class="num">2 566 009</td><td class="num">—</td><td class="num neg">−2 566 009</td><td class="num neg">—</td></tr>
+                    <tr><td><strong>Всего</strong></td><td class="num"><strong>19 904 252</strong></td><td class="num"><strong>11 494 725</strong></td><td class="num neg"><strong>−8 409 527</strong></td><td class="num neg"><strong>−42%</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Просроченная дебиторская задолженность</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Контрагент</th><th>Сумма, ₽</th><th>Действие</th><th>Срок</th><th>Менеджер</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>КАВИАР 65 ООО</td><td class="num">1 690 330</td><td>Исполнительное производство, запрет на изменения в ЕГРЮЛ</td><td>—</td><td>Комарова Т.С.</td></tr>
+                    <tr><td>БРИЗ ООО</td><td class="num">183 542</td><td>Исполнительное производство с 15.05.26</td><td>—</td><td>Комарова Т.С.</td></tr>
+                    <tr><td>Квельман Д.Н. ИП</td><td class="num">416 540</td><td>Исполнительное производство возбуждено 1 июля</td><td>—</td><td>Комарова Т.С.</td></tr>
+                    <tr><td>Красавцев М.В. ИП</td><td class="num">307 425</td><td>Исковое заявление принято к производству</td><td>10.08.2026</td><td>Комарова Т.С.</td></tr>
+                    <tr><td>ПЕРЕКРЕСТОК ТОРГОВЫЙ ДОМ АО</td><td class="num">182 121</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Фоменкова А.О.</td></tr>
+                    <tr><td>Земцов С.Ю.</td><td class="num">100 000</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Смолянинова Д.А.</td></tr>
+                    <tr><td>Рыльцова П.А. ИП</td><td class="num">12 630</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Хайлова Е.С.</td></tr>
+                    <tr><td><strong>Общий итог</strong></td><td class="num"><strong>2 892 588</strong></td><td colspan="3"></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Финансовое планирование 29 недели</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="mini-grid">
+                <div class="mini-card">
+                  <h4>Ожидаемые поступления</h4>
+                  <div class="bar-row"><span class="label">Поступления</span><div class="bar-track"><div class="bar-fill" style="width:37%"></div></div><span class="value">6 548 358 ₽</span></div>
+                  <div class="bar-row"><span class="label">Точка прибыльности</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="value">17 514 227 ₽</span></div>
+                  <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Дефицит: <span class="num-val neg">−10 965 869 ₽</span></p>
+                </div>
+                <div class="mini-card">
+                  <h4>Крупные фонды (заявки на 29 нед.)</h4>
+                  <ul>
+                    <li>ФОТ — 4 040 000 ₽ (62%)</li>
+                    <li>Налоги/проценты/лизинг — 894 000 ₽</li>
+                    <li>Энергоресурсы — 368 000 ₽</li>
+                    <li>Эксплуатация — 273 000 ₽</li>
+                    <li>Аренда/охрана/СО — 380 000 ₽</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="source-note">Источник: PDF «ДДС_финансы_28_неделя.pdf». Подготовлено: 14 июля 2026.</p>
+      </div>
+
+      <!-- Переработка икры -->
+      <div class="page" id="caviar" role="tabpanel">
+        <div class="message-block">
+          <p><strong>Главное:</strong> Производство ГП — 57,0 кг на 2,86 млн ₽. Запасы сырья 2025-2026 гг. выросли до 6,72 т, что в 11 раз выше остатков 2024 г. (0,61 т). Рекомендация: сбалансировать загрузку сырья и отгрузку ГП, чтобы не накапливать избыточные запасы. Забойная икра за неделю не перерабатывалась — данные не заполнены.</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Произведено ГП</span>
+            <span class="kpi-value">56,99 кг</span>
+            <span class="kpi-delta">лидеры: Sterlet 17,65 кг, Selected 16,41 кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Стоимость ГП</span>
+            <span class="kpi-value">2 858 595 ₽</span>
+            <span class="kpi-delta">средняя 50 160 ₽/кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Переработано дойной икры</span>
+            <span class="kpi-value">11,30 кг</span>
+            <span class="kpi-delta">Premium 10,70 кг, Classic 0,60 кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Остатки ГП на конец недели</span>
+            <span class="kpi-value">44,80 кг</span>
+            <span class="kpi-delta">Sterlet 14,08 кг, Classic 11,50 кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Сырьё 2025-2026</span>
+            <span class="kpi-value">6 721,28 кг</span>
+            <span class="kpi-delta pos">vs 611,75 кг в 2024 г.</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Потери Selected</span>
+            <span class="kpi-value">0,13%</span>
+            <span class="kpi-delta pos">в пределах нормы</span>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Структура производства ГП</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="bar-row"><span class="label">Sterlet</span><div class="bar-track"><div class="bar-fill" style="width:31%"></div></div><span class="value">17,65 кг</span></div>
+              <div class="bar-row"><span class="label">Selected</span><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div><span class="value">16,41 кг</span></div>
+              <div class="bar-row"><span class="label">Прочие</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="value">22,93 кг</span></div>
+              <p class="source-note" style="margin-top:12px">Прочие — расчётная разница до итога 56,99 кг. Детальная структура по остальным позициям в PDF не раскрыта.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Остатки сырья по видам</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Вид сырья</th><th class="num">Остаток, кг</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Овулированный осётр (замороженный)</td><td class="num">2 587,54</td></tr>
+                    <tr><td>Premium</td><td class="num">1 752,55</td></tr>
+                    <tr><td>Selected</td><td class="num">815,05</td></tr>
+                    <tr><td>Classic</td><td class="num">907,38</td></tr>
+                    <tr><td>Стерлядь грязи расфасованная</td><td class="num">304,45</td></tr>
+                    <tr><td>Икра солёно-паюсная</td><td class="num">316,15</td></tr>
+                    <tr><td>Sterlet Альбинос</td><td class="num">15,50</td></tr>
+                    <tr><td>Белуга</td><td class="num">10,60</td></tr>
+                    <tr><td>Traditional</td><td class="num">8,00</td></tr>
+                    <tr><td>Забой стерляди замороженный</td><td class="num">2,35</td></tr>
+                    <tr><td>Забой осетра замороженный</td><td class="num">1,70</td></tr>
+                    <tr><td><strong>Итого</strong></td><td class="num"><strong>6 721,28</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="source-note">Источник: PDF «переработка икры_28_неделя_2026_со_стоимостью.pdf». Подготовлено: 14 июля 2026.</p>
+      </div>
+
+      <!-- Качество -->
+      <div class="page" id="quality" role="tabpanel">
+        <div class="message-block">
+          <p><strong>Главное:</strong> Внешних рекламаций по икре и рыбе за 28 неделю не поступало. На складе выявлено 24 несоответствия по икре (3,9% от 621 проверенной единицы) и 3 — по рыбе (2,0% от 150). Ключевой риск недели — маркировка и герметичность: этикетка, дата, развакуум. Икорное масло 100 г: совокупный возврат январь–май — 25,3%.</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Рекламаций по икре</span>
+            <span class="kpi-value">0</span>
+            <span class="kpi-delta pos">0 шт. · 0 кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Рекламаций по рыбе</span>
+            <span class="kpi-value">0</span>
+            <span class="kpi-delta pos">0 шт. · 0 кг</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Проверено икры на складе</span>
+            <span class="kpi-value">621 ед.</span>
+            <span class="kpi-delta warn">24 несоответствия (3,9%)</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Проверено рыбы на складе</span>
+            <span class="kpi-value">150 ед.</span>
+            <span class="kpi-delta warn">3 несоответствия (2,0%)</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Возврат икорного масла, янв–май</span>
+            <span class="kpi-value">25,3%</span>
+            <span class="kpi-delta neg">снижение с 30,2% до 17,0%</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Критичные сигналы ХАССП</span>
+            <span class="kpi-value">не выявлено</span>
+            <span class="kpi-delta pos">28 неделя</span>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Несоответствия по икре</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <p style="margin:0 0 14px;font-size:14px">Структура по категориям (всего 24 единицы). Точные количества по каждой категории в PDF не раскрыты — показаны направления для фокуса проверки:</p>
+              <div class="mini-grid">
+                <div class="mini-card">
+                  <h4>Категории несоответствий</h4>
+                  <ul>
+                    <li>Этикетка</li>
+                    <li>Стирание даты</li>
+                    <li>Развакуум</li>
+                    <li>QR</li>
+                    <li>Брак крышки</li>
+                  </ul>
+                </div>
+                <div class="mini-card">
+                  <h4>Фокус проверки на следующую неделю</h4>
+                  <ul>
+                    <li>Читаемость маркировки</li>
+                    <li>Наличие вакуума</li>
+                    <li>Состояние крышки</li>
+                    <li>Читаемость QR</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Возвраты икорного масла 100 г, янв–май 2026</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Месяц</th><th class="num">Отгрузка, кг</th><th class="num">Возврат, кг</th><th class="num">%</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Январь</td><td class="num">9,6</td><td class="num">2,9</td><td class="num neg">30,2%</td></tr>
+                    <tr><td>Февраль</td><td class="num">11,4</td><td class="num">3,0</td><td class="num neg">26,3%</td></tr>
+                    <tr><td>Март</td><td class="num">13,8</td><td class="num">3,9</td><td class="num neg">28,3%</td></tr>
+                    <tr><td>Апрель</td><td class="num">11,2</td><td class="num">2,7</td><td class="num neg">24,1%</td></tr>
+                    <tr><td>Май</td><td class="num">10,6</td><td class="num">1,8</td><td class="num neg">17,0%</td></tr>
+                    <tr><td><strong>Итого</strong></td><td class="num"><strong>56,6</strong></td><td class="num"><strong>14,3</strong></td><td class="num neg"><strong>25,3%</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="source-note">Источник: PDF «Качество_28_неделя_2026.pdf». Подготовлено: 14 июля 2026.</p>
+      </div>
+
+      <!-- HR -->
+      <div class="page" id="hr" role="tabpanel">
+        <div class="message-block">
+          <p><strong>Главное:</strong> 28 неделя — закрыта 1 вакансия (Специалист по благоустройству). В активной работе Главный бухгалтер и Логист (2 финалиста). Поиск трёх рыбоводов продолжается. Дополнительно ведётся холодный поиск Шоколатье и менеджера по корпоративным подаркам. Проведён День рыбака — награждено 55 сотрудников.</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Найм за неделю</span>
+            <span class="kpi-value">1</span>
+            <span class="kpi-delta pos">Специалист по благоустройству</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Вакансии в работе</span>
+            <span class="kpi-value">4</span>
+            <span class="kpi-delta">главбух, логист, 3×рыбовод</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Финалисты на этапе</span>
+            <span class="kpi-value">2</span>
+            <span class="kpi-delta">по вакансии Логист</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Холодный поиск</span>
+            <span class="kpi-value">3</span>
+            <span class="kpi-delta">Шоколатье + корп. подарки</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">События недели</span>
+            <span class="kpi-value">День рыбака</span>
+            <span class="kpi-delta">55 сотрудников награждены</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Самый длительный подбор</span>
+            <span class="kpi-value">Главбух</span>
+            <span class="kpi-delta">19 телефонных звонков с момента старта</span>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <button class="details-header" type="button" aria-expanded="false">Воронка по позициям</button>
+          <div class="details-body">
+            <div class="details-inner">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Позиция</th><th class="num">Отклики</th><th class="num">Скрининг</th><th class="num">Звонки</th><th class="num">Отказы</th><th class="num">Думают</th><th class="num">Интервью</th><th class="num">Найм</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Главный бухгалтер</td><td class="num">2</td><td class="num">2</td><td class="num">8</td><td class="num">5 / 1</td><td class="num">1</td><td class="num">1</td><td class="num">—</td></tr>
+                    <tr><td>Логист</td><td class="num">2</td><td class="num">2</td><td class="num">5</td><td class="num">5 / 1</td><td class="num">—</td><td class="num">2</td><td class="num">—</td></tr>
+                    <tr><td>Специалист по благоустройству</td><td class="num">5</td><td class="num">1</td><td class="num">6</td><td class="num">2 / 1</td><td class="num">—</td><td class="num">1</td><td class="num">1</td></tr>
+                    <tr><td>Рыбовод ×3</td><td class="num">3</td><td class="num">2</td><td class="num">4</td><td class="num">— / 1</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="source-note" style="margin-top:12px">Отказы: «нам отказали / мы отказали». Данные за 28 неделю.</p>
+            </div>
+          </div>
+        </div>
+        <p class="source-note">Источник: PDF «HR_ВРХ 28 неделя.pdf». Подготовлено: 14 июля 2026.</p>
+      </div>
+
+      <!-- Рыбоводство (placeholder) -->
+      <div class="page" id="fish" role="tabpanel">
+        <div class="message-block">
+          <p><strong>Главное:</strong> Отчёт по рыбоводству за 28 неделю был предоставлен в виде PDF-скана, текст из которого автоматически не извлекается. Чтобы встроить эту вкладку, пришлите, пожалуйста, HTML-версию или таблицу с показателями.</p>
+        </div>
+        <div class="placeholder-body">
+          <h3>Рыбоводство · 28 неделя</h3>
+          <p>Здесь появятся ключевые показатели рыбоводства (поголовье, вес, кормление, потери, биометрия и т.д.) после получения данных в текстовом или HTML-формате.</p>
+          <span class="tag warn">Ожидается HTML-версия отчёта</span>
+        </div>
+      </div>
     </section>
-
-    <!-- ============ SUPERGREEN (full) ============ -->
-    <div class="tab-panel is-active" id="panel-supergreen" role="tabpanel" aria-labelledby="tab-supergreen">
-
-      <section class="report-section">
-        <div class="section-head">
-          <h2>Статус проекта Супергрин</h2>
-          <span class="section-meta">3 квартал 2026 · план Супергрин · суммы в ₽</span>
-        </div>
-        <div class="say-block">
-          <strong>План Супергрин на 3 квартал — 140,1 млн ₽ отгрузки и 51,9 млн ₽ фин. результата.</strong> Текущий прогноз — 101,1 млн ₽ и 16,6 млн ₽, дефицит к плану −39,0 млн ₽ и −35,3 млн ₽. Основная причина недобора — икра: план 130,7 млн ₽, прогноз 91,6 млн ₽ (−39,1 млн). При этом в сравнении с 2025 годом динамика резко позитивная: отгрузка +27,6 млн ₽, фин. результат +39,3 млн ₽. План Супергрин более агрессивный, чем план Грин; одинаковый прогноз выглядит выше плана Грин, но ниже плана Супергрин.
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-label">Отгрузка · Q3</div>
-            <div class="kpi-value">101,1<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 140,1 млн · 2025: 73,5 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−39,0 млн к плану</span>
-              <span class="badge badge--good">+27,6 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Фин. результат · Q3</div>
-            <div class="kpi-value">16,6<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 51,9 млн · 2025: −22,7 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−35,3 млн к плану</span>
-              <span class="badge badge--good">+39,3 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Маржинальность</div>
-            <div class="kpi-value">82,1<span class="unit">%</span></div>
-            <div class="kpi-sub">план 84,9% · 2025: 63,1%</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−2,8 п.п. к плану</span>
-              <span class="badge badge--good">+19,0 п.п. к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Дефицит икры · Q3</div>
-            <div class="kpi-value">91,6<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 130,7 млн · 2025: 60,6 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−39,1 млн к плану</span>
-              <span class="badge badge--good">+30,96 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Точка безубыточности</div>
-            <div class="kpi-value">80,9<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 78,9 млн · 2025: 109,5 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">+1,94 млн к плану</span>
-              <span class="badge badge--good">−28,7 млн к 2025</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <h3 class="block-title">Отгрузка Q3 (план Супергрин): ожидание vs план vs 2025</h3>
-        <p class="block-note">Масштаб — максимум план Супергрин, 140,1 млн ₽. Живая рыба (до 1,2 млн ₽) — в таблице ниже, на общей шкале не читается.</p>
-        <div class="legend">
-          <span class="legend-item"><span class="legend-swatch legend-swatch--ac"></span>Ожидание 2026</span>
-          <span class="legend-item"><span class="legend-swatch legend-swatch--pl"></span>План 2026</span>
-          <span class="legend-item"><span class="legend-swatch legend-swatch--py"></span>Q3 2025</span>
-        </div>
-        <div class="bars">
-          <div class="bar-group">
-            <div class="bar-group-name">Отгрузка — всего</div>
-            <div class="bar-row"><span class="bar-scn">Ожидание</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:72.2%"></span></span><span class="bar-val">101 092 669</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:100%"></span></span><span class="bar-val">140 075 827</span></div>
-            <div class="bar-row"><span class="bar-scn">Q3 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:52.5%"></span></span><span class="bar-val">73 511 376</span></div>
-          </div>
-          <div class="bar-group">
-            <div class="bar-group-name">Икра</div>
-            <div class="bar-row"><span class="bar-scn">Ожидание</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:65.4%"></span></span><span class="bar-val">91 580 101</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:93.3%"></span></span><span class="bar-val">130 703 686</span></div>
-            <div class="bar-row"><span class="bar-scn">Q3 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:43.3%"></span></span><span class="bar-val">60 619 261</span></div>
-          </div>
-          <div class="bar-group">
-            <div class="bar-group-name">Рыба переработанная и деликатесы</div>
-            <div class="bar-row"><span class="bar-scn">Ожидание</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:6.7%"></span></span><span class="bar-val">9 382 242</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:6.6%"></span></span><span class="bar-val">9 273 841</span></div>
-            <div class="bar-row"><span class="bar-scn">Q3 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:8.3%"></span></span><span class="bar-val">11 694 744</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <h3 class="block-title">Детализация Q3 (план Супергрин)</h3>
-        <p class="block-note">План Супергрин, ожидаемый факт и отклонения к плану и к 3 кварталу 2025 года. Отклонения окрашены по влиянию на бизнес.</p>
-        <div class="table-scroll">
-          <table class="data">
-            <thead>
-              <tr><th>Показатель</th><th>План</th><th>Ожидание</th><th>Δ к плану</th><th>Q3 2025</th><th>Δ к 2025</th></tr>
-            </thead>
-            <tbody>
-              <tr class="is-total"><td>Отгрузка</td><td>140 075 827</td><td>101 092 669</td><td class="neg">−38 983 158</td><td>73 511 376</td><td class="pos">+27 581 293</td></tr>
-              <tr class="is-sub"><td>Икра</td><td>130 703 686</td><td>91 580 101</td><td class="neg">−39 123 585</td><td>60 619 261</td><td class="pos">+30 960 840</td></tr>
-              <tr class="is-sub"><td>Рыба живая</td><td>98 300</td><td>130 326</td><td class="pos">+32 026</td><td>1 197 371</td><td class="neg">−1 067 045</td></tr>
-              <tr class="is-sub"><td>Рыба перераб. и деликатесы</td><td>9 273 841</td><td>9 382 242</td><td class="pos">+108 401</td><td>11 694 744</td><td class="neg">−2 312 502</td></tr>
-              <tr><td>Маржинальность, %</td><td>84,93</td><td>82,09</td><td class="neg">−2,84 п.п.</td><td>63,11</td><td class="pos">+18,97 п.п.</td></tr>
-              <tr><td>Маржа расчётная</td><td>118 960 476</td><td>82 984 010</td><td class="neg">−35 976 466</td><td>46 395 919</td><td class="pos">+36 588 091</td></tr>
-              <tr class="is-total"><td>Фин. результат</td><td>51 922 869</td><td>16 596 695</td><td class="neg">−35 326 174</td><td>−22 733 615</td><td class="pos">+39 330 310</td></tr>
-              <tr><td>Точка безубыточности</td><td>78 936 707</td><td>80 874 265</td><td class="neg">+1 937 558</td><td>109 531 341</td><td class="pos">−28 657 076</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="source-note" style="margin-top:14px"><strong>Источник:</strong> «Грин_28_неделя.pdf», раздел «Финансовый результат 3 квартала (супергрин)». План Супергрин — более агрессивный целевой сценарий; ожидаемый факт использует тот же прогноз, что и план Грин. Сравнение с 2025 годом — по аналогичному периоду.</p>
-      </section>
-    </div>
-
-    <!-- ============ GREEN (full) ============ -->
-    <div class="tab-panel" id="panel-green" role="tabpanel" aria-labelledby="tab-green" hidden>
-
-      <section class="report-section">
-        <div class="section-head">
-          <h2>Статус проекта Грин</h2>
-          <span class="section-meta">28 неделя · 06–12.07.2026 · суммы в ₽</span>
-        </div>
-        <div class="say-block">
-          <strong>28 неделя закрыта убытком −2,72 млн ₽:</strong> отгрузка 2,63 млн ₽ при недельном плане 5,34 млн (выполнение 49%), просадка — в икре (−2,70 млн к плану). Фон для решений: маржинальность растёт (+21,8 п.п. к 2025), прогноз 3 квартала держится выше плана (+2,5 млн ₽ отгрузки, +1,6 млн ₽ фин. результата). Точка внимания — покрытие плана 29 недели заявками всего 16%.
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-label">Отгрузка · 28 нед</div>
-            <div class="kpi-value">2,63<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 5,34 млн · выполнение 49%</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−2,72 млн к плану</span>
-              <span class="badge badge--bad">−4,10 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Фин. результат · 28 нед</div>
-            <div class="kpi-value">−2,72<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план +0,10 млн ₽</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−2,82 млн к плану</span>
-              <span class="badge badge--bad">−1,12 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Маржинальность</div>
-            <div class="kpi-value">77,0<span class="unit">%</span></div>
-            <div class="kpi-sub">план 88,5% · 2025: 55,2%</div>
-            <div class="kpi-badges">
-              <span class="badge badge--bad">−11,4 п.п. к плану</span>
-              <span class="badge badge--good">+21,8 п.п. к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Q3 · прогноз отгрузки</div>
-            <div class="kpi-value">101,1<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 98,5 млн · 2025: 73,5 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--good">+2,5 млн к плану</span>
-              <span class="badge badge--good">+27,6 млн к 2025</span>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Q3 · прогноз фин. результата</div>
-            <div class="kpi-value">16,6<span class="unit">млн ₽</span></div>
-            <div class="kpi-sub">план 15,0 млн · 2025: −22,7 млн</div>
-            <div class="kpi-badges">
-              <span class="badge badge--good">+1,6 млн к плану</span>
-              <span class="badge badge--good">+39,3 млн к 2025</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <h3 class="block-title">Отгрузка 28 недели: факт vs план vs 2025</h3>
-        <p class="block-note">Горизонтальные бары в одном масштабе (максимум — 28 неделя 2025, 6,73 млн ₽). Живая рыба (24 345 ₽) — в таблице ниже, на общей шкале её столбцы не читаются.</p>
-        <div class="legend">
-          <span class="legend-item"><span class="legend-swatch legend-swatch--ac"></span>Факт 2026</span>
-          <span class="legend-item"><span class="legend-swatch legend-swatch--pl"></span>План 2026</span>
-          <span class="legend-item"><span class="legend-swatch legend-swatch--py"></span>Факт 2025</span>
-        </div>
-        <div class="bars">
-          <div class="bar-group">
-            <div class="bar-group-name">Отгрузка — всего</div>
-            <div class="bar-row"><span class="bar-scn">Факт 2026</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:39.0%"></span></span><span class="bar-val">2 627 269</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:79.4%"></span></span><span class="bar-val">5 342 331</span></div>
-            <div class="bar-row"><span class="bar-scn">Факт 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:100%"></span></span><span class="bar-val">6 731 943</span></div>
-          </div>
-          <div class="bar-group">
-            <div class="bar-group-name">Икра</div>
-            <div class="bar-row"><span class="bar-scn">Факт 2026</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:33.9%"></span></span><span class="bar-val">2 281 036</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:74.0%"></span></span><span class="bar-val">4 979 650</span></div>
-            <div class="bar-row"><span class="bar-scn">Факт 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:87.1%"></span></span><span class="bar-val">5 864 546</span></div>
-          </div>
-          <div class="bar-group">
-            <div class="bar-group-name">Рыба переработанная и деликатесы</div>
-            <div class="bar-row"><span class="bar-scn">Факт 2026</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:4.8%"></span></span><span class="bar-val">321 888</span></div>
-            <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:5.3%"></span></span><span class="bar-val">356 781</span></div>
-            <div class="bar-row"><span class="bar-scn">Факт 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:12.5%"></span></span><span class="bar-val">842 268</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <h3 class="block-title">Детализация 28 недели</h3>
-        <p class="block-note">План, факт и отклонения к плану и к 28 неделе 2025 года. Отклонения окрашены по влиянию на бизнес: зелёный — улучшение, красный — ухудшение.</p>
-        <div class="table-scroll">
-          <table class="data">
-            <thead>
-              <tr><th>Показатель</th><th>План</th><th>Факт</th><th>Δ к плану</th><th>28 нед 2025</th><th>Δ к 2025</th></tr>
-            </thead>
-            <tbody>
-              <tr class="is-total"><td>Отгрузка</td><td>5 342 331</td><td>2 627 269</td><td class="neg">−2 715 062</td><td>6 731 943</td><td class="neg">−4 104 674</td></tr>
-              <tr class="is-sub"><td>Икра</td><td>4 979 650</td><td>2 281 036</td><td class="neg">−2 698 615</td><td>5 864 546</td><td class="neg">−3 583 510</td></tr>
-              <tr class="is-sub"><td>Рыба живая</td><td>5 900</td><td>24 345</td><td class="pos">+18 445</td><td>25 129</td><td class="neg">−784</td></tr>
-              <tr class="is-sub"><td>Рыба перераб. и деликатесы</td><td>356 781</td><td>321 888</td><td class="neg">−34 892</td><td>842 268</td><td class="neg">−520 380</td></tr>
-              <tr><td>Маржинальность, %</td><td>88,46</td><td>77,03</td><td class="neg">−11,42 п.п.</td><td>55,23</td><td class="pos">+21,80 п.п.</td></tr>
-              <tr><td>Маржа расчётная</td><td>4 725 721</td><td>2 023 907</td><td class="neg">−2 701 815</td><td>3 718 165</td><td class="neg">−1 694 258</td></tr>
-              <tr class="is-total"><td>Фин. результат</td><td>97 268</td><td>−2 718 044</td><td class="neg">−2 815 312</td><td>−1 599 492</td><td class="neg">−1 118 553</td></tr>
-              <tr><td>Точка безубыточности</td><td>5 232 371</td><td>6 155 611</td><td class="neg">+923 240</td><td>9 627 912</td><td class="pos">−3 472 301</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <h3 class="block-title">Прогноз 3 квартала (план Грин)</h3>
-        <p class="block-note">Ожидаемый факт квартала vs квартальный план и 3 квартал 2025. Прогноз — оценка на дату отчёта, не подтверждённый факт.</p>
-        <div class="q3-grid">
-          <div>
-            <div class="legend">
-              <span class="legend-item"><span class="legend-swatch legend-swatch--ac"></span>Ожидание 2026</span>
-              <span class="legend-item"><span class="legend-swatch legend-swatch--pl"></span>План 2026</span>
-              <span class="legend-item"><span class="legend-swatch legend-swatch--py"></span>Q3 2025</span>
-            </div>
-            <div class="bars">
-              <div class="bar-group">
-                <div class="bar-group-name">Отгрузка, млн ₽</div>
-                <div class="bar-row"><span class="bar-scn">Ожидание</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:100%"></span></span><span class="bar-val">101,1</span></div>
-                <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:97.5%"></span></span><span class="bar-val">98,5</span></div>
-                <div class="bar-row"><span class="bar-scn">Q3 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:72.7%"></span></span><span class="bar-val">73,5</span></div>
-              </div>
-              <div class="bar-group">
-                <div class="bar-group-name">Фин. результат, млн ₽</div>
-                <div class="bar-row"><span class="bar-scn">Ожидание</span><span class="bar-track"><span class="bar-fill bar-fill--ac" style="width:100%"></span></span><span class="bar-val">16,6</span></div>
-                <div class="bar-row"><span class="bar-scn">План</span><span class="bar-track"><span class="bar-fill bar-fill--pl" style="width:90.5%"></span></span><span class="bar-val">15,0</span></div>
-                <div class="bar-row"><span class="bar-scn">Q3 2025</span><span class="bar-track"><span class="bar-fill bar-fill--py" style="width:0.6%"></span></span><span class="bar-val">−22,7</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="table-scroll">
-            <table class="data" style="min-width:520px">
-              <thead>
-                <tr><th>Показатель</th><th>План</th><th>Ожидание</th><th>Δ к плану</th><th>Δ к 2025</th></tr>
-              </thead>
-              <tbody>
-                <tr class="is-total"><td>Отгрузка</td><td>98 546 083</td><td>101 092 669</td><td class="pos">+2 546 586</td><td class="pos">+27 581 293</td></tr>
-                <tr class="is-sub"><td>Икра</td><td>89 173 942</td><td>91 580 101</td><td class="pos">+2 406 159</td><td class="pos">+30 960 840</td></tr>
-                <tr class="is-sub"><td>Рыба перераб. и деликатесы</td><td>9 273 841</td><td>9 382 242</td><td class="pos">+108 401</td><td class="neg">−2 312 502</td></tr>
-                <tr><td>Маржинальность, %</td><td>80,99</td><td>82,09</td><td class="pos">+1,09 п.п.</td><td class="pos">+18,97 п.п.</td></tr>
-                <tr class="is-total"><td>Фин. результат</td><td>15 016 606</td><td>16 596 695</td><td class="pos">+1 580 089</td><td class="pos">+39 330 311</td></tr>
-                <tr><td>Точка безубыточности</td><td>80 005 350</td><td>80 874 265</td><td class="neg">+868 915</td><td class="pos">−28 657 076</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-section">
-        <div class="horizon">
-          <div>
-            <div class="horizon-title">На горизонте: 29 неделя — риск срыва плана</div>
-            <div class="horizon-text">План 29 недели — 14,14 млн ₽ (в т.ч. икра 13,78 млн), текущие заявки покрывают только 16%. Если крупные отгрузки икры не подтвердятся, квартальный прогноз придётся пересматривать. Прогнозный фин. результат 29 недели при текущих заявках — −2,97 млн ₽.</div>
-          </div>
-          <div class="horizon-kpis">
-            <div class="horizon-kpi"><div class="kv">14,14<span class="unit"> млн ₽</span></div><div class="kl">план 29 недели</div></div>
-            <div class="horizon-kpi"><div class="kv">2,27<span class="unit"> млн ₽</span></div><div class="kl">заявки на 29 неделю</div></div>
-            <div class="horizon-kpi"><div class="kv">16<span class="unit">%</span></div><div class="kl">покрытие плана заявками</div></div>
-          </div>
-        </div>
-        <p class="source-note" style="margin-top:14px"><strong>Источник:</strong> «Грин_28_неделя.pdf» — финансовый результат 28 недели (06–12.07.2026), прогноз 29 недели (заявки), ожидаемый факт 3 квартала. Единицы — рубли; Δ к 2025 — сравнение с аналогичным периодом 2025 года. Маржинальность — расчётный % маржи из источника.</p>
-      </section>
-    </div>
-
-    <!-- ============ OPS (stub) ============ -->
-    <div class="tab-panel" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" hidden>
-      <section class="report-section">
-        <div class="section-head">
-          <h2>Операционные показатели · 28 неделя</h2>
-          <span class="section-meta">Раздел готовится к наполнению</span>
-        </div>
-        <div class="stub">
-          <h3>Коммерческие данные 28 недели получены</h3>
-          <p>Из источника «Грин_Коммерция_28_неделя_2026.pdf» доступны: выполнение квот по каналам (МСП, фирменная и сетевая розница — общий факт 88% за неделю), выполнение июльского плана (14%), ожидания 29 недели, статусы переговоров с новыми сетями (Магнит, Самокат, ДА!, Лента, МЕТРО, ГиперГлобус, Азбука Вкуса, Ашан) и блок Перекрёстка.</p>
-          <div class="stub-teaser">
-            <div class="kpi-card">
-              <div class="kpi-label">Квоты 28 нед · итого</div>
-              <div class="kpi-value">88<span class="unit">%</span></div>
-              <div class="kpi-sub">факт 2 526 561 ₽ при квоте 2 876 220 ₽</div>
-              <div class="kpi-badges"><span class="badge badge--warn">−349 659 ₽</span></div>
-            </div>
-            <div class="kpi-card">
-              <div class="kpi-label">Июль · выполнение плана</div>
-              <div class="kpi-value">14<span class="unit">%</span></div>
-              <div class="kpi-sub">факт 4 350 539 ₽ при плане 37 711 654 ₽</div>
-              <div class="kpi-badges"><span class="badge badge--warn">требует ускорения</span></div>
-            </div>
-            <div class="kpi-card">
-              <div class="kpi-label">Сетевая розница · 28 нед</div>
-              <div class="kpi-value">134<span class="unit">%</span></div>
-              <div class="kpi-sub">икра: факт 1 577 216 ₽ при квоте 1 176 151 ₽</div>
-              <div class="kpi-badges"><span class="badge badge--good">+401 065 ₽</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <a class="eh-logo eh-logo--invert" href="#top" aria-label="EGGHEADS · Операционный дашборд ВРХ">
+      <a class="eh-logo eh-logo--invert" href="#top" aria-label="EGGHEADS · Операционные показатели 28 недели">
         <span class="eh-head" aria-hidden="true">
           <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
         </span>
@@ -598,101 +620,124 @@ table.data tbody tr:last-child td{border-bottom:none}
           <span class="eh-tag">ЦИФРОВЫЕ СОТРУДНИКИ</span>
         </span>
       </a>
-      <div class="footer-note">Волгореченское рыбное хозяйство · операционный дашборд, 28 неделя 2026 · источники: «Грин_28_неделя.pdf», «Грин_Коммерция_28_неделя_2026.pdf» · подготовлено 14.07.2026</div>
+      <div class="footer-note">Операционные показатели 28 недели · ВРХ · 14 июля 2026</div>
     </div>
   </footer>
 
   <script>
-(function(){
-  var root=document.documentElement;
-  var body=document.body;
-  var button=document.querySelector('.theme-toggle');
-  var icon=document.querySelector('.theme-toggle-icon');
-  var text=document.querySelector('.theme-toggle-text');
-  var currentTheme='light';
-  try{var savedTheme=localStorage.getItem('eggheads-theme');if(savedTheme==='dark'||savedTheme==='light')currentTheme=savedTheme}catch(error){}
-  function applyTheme(theme){
-    root.setAttribute('data-theme',theme);
-    body.setAttribute('data-theme',theme);
-    if(button)button.setAttribute('aria-pressed',String(theme==='dark'));
-    if(icon)icon.textContent=theme==='dark'?'☾':'☀';
-    if(text)text.textContent=theme==='dark'?'Тёмная':'Светлая';
-    try{localStorage.setItem('eggheads-theme',theme)}catch(error){}
-  }
-  applyTheme(currentTheme);
-  if(button)button.addEventListener('click',function(){var nextTheme=root.getAttribute('data-theme')==='dark'?'light':'dark';applyTheme(nextTheme)});
-})();
-  </script>
-  <script id="eh-logo-script">
-(function(){
-  function initLogo(logo){
-    var head=logo.querySelector('.eh-head');
-    if(!head)return;
-    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-    var count=0,last=0,busy=false;
-    head.addEventListener('mouseenter',function(){
-      if(busy)return;
-      var now=Date.now();
-      if(now-last>1500)count=0;
-      last=now;
-      count++;
-      if(count>=2){count=0;burnout()}
-    });
-    function puffs(){
-      for(var i=0;i<7;i++){
-        var s=document.createElement('span');
-        s.className='eh-smoke';
-        var sz=7+Math.random()*11;
-        s.style.width=sz+'px';
-        s.style.height=sz+'px';
-        s.style.left=(3+Math.random()*11)+'px';
-        s.style.bottom=(Math.random()*7)+'px';
-        s.style.animation='eh-smoke '+(0.8+Math.random()*0.4).toFixed(2)+'s ease-out forwards';
-        s.style.animationDelay=(i*55)+'ms';
-        logo.appendChild(s);
-        (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
+    (function(){
+      // Theme toggle
+      var root=document.documentElement;
+      var body=document.body;
+      var button=document.querySelector('.theme-toggle');
+      var icon=document.querySelector('.theme-toggle-icon');
+      var text=document.querySelector('.theme-toggle-text');
+      var currentTheme='light';
+      try{var savedTheme=localStorage.getItem('eggheads-theme');if(savedTheme==='dark'||savedTheme==='light')currentTheme=savedTheme}catch(error){}
+      function applyTheme(theme){
+        root.setAttribute('data-theme',theme);
+        body.setAttribute('data-theme',theme);
+        if(button)button.setAttribute('aria-pressed',String(theme==='dark'));
+        if(icon)icon.textContent=theme==='dark'?'☾':'☀';
+        if(text)text.textContent=theme==='dark'?'Тёмная':'Светлая';
+        try{localStorage.setItem('eggheads-theme',theme)}catch(error){}
       }
-    }
-    function burnout(){
-      busy=true;
-      head.classList.add('is-burnout');
-      puffs();
-      setTimeout(puffs,150);
-      var done=function(){head.classList.remove('is-burnout');busy=false;head.removeEventListener('animationend',done)};
-      head.addEventListener('animationend',done);
-      setTimeout(function(){if(busy){head.classList.remove('is-burnout');busy=false}},2200);
-    }
-  }
-  document.querySelectorAll('.eh-logo').forEach(initLogo);
-})();
-  </script>
-  <script>
-(function(){
-  var buttons=Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
-  var panels={};
-  buttons.forEach(function(btn){panels[btn.getAttribute('data-tab')]=document.getElementById('panel-'+btn.getAttribute('data-tab'))});
-  function activate(name,updateHash){
-    buttons.forEach(function(btn){
-      var on=btn.getAttribute('data-tab')===name;
-      btn.classList.toggle('is-active',on);
-      btn.setAttribute('aria-selected',String(on));
-    });
-    Object.keys(panels).forEach(function(key){
-      var panel=panels[key];
-      if(!panel)return;
-      var on=key===name;
-      panel.hidden=!on;
-      panel.classList.toggle('is-active',on);
-    });
-    if(updateHash){try{history.replaceState(null,'','#'+name)}catch(e){}}
-  }
-  buttons.forEach(function(btn){
-    btn.addEventListener('click',function(){activate(btn.getAttribute('data-tab'),true)});
-  });
-  var initial=(location.hash||'').replace('#','');
-  if(!panels[initial])initial='supergreen';
-  activate(initial,false);
-})();
+      applyTheme(currentTheme);
+      if(button)button.addEventListener('click',function(){var nextTheme=root.getAttribute('data-theme')==='dark'?'light':'dark';applyTheme(nextTheme)});
+
+      // Logo easter-egg
+      function initLogo(logo){
+        var head=logo.querySelector('.eh-head');
+        if(!head)return;
+        if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+        var count=0,last=0,busy=false;
+        head.addEventListener('mouseenter',function(){
+          if(busy)return;
+          var now=Date.now();
+          if(now-last>1500)count=0;
+          last=now;
+          count++;
+          if(count>=2){count=0;burnout()}
+        });
+        function puffs(){
+          for(var i=0;i<7;i++){
+            var s=document.createElement('span');
+            s.className='eh-smoke';
+            var sz=7+Math.random()*11;
+            s.style.width=sz+'px';
+            s.style.height=sz+'px';
+            s.style.left=(3+Math.random()*11)+'px';
+            s.style.bottom=(Math.random()*7)+'px';
+            s.style.animation='eh-smoke '+(0.8+Math.random()*0.4).toFixed(2)+'s ease-out forwards';
+            s.style.animationDelay=(i*55)+'ms';
+            logo.appendChild(s);
+            (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
+          }
+        }
+        function burnout(){
+          busy=true;
+          head.classList.add('is-burnout');
+          puffs();
+          setTimeout(puffs,150);
+          var done=function(){head.classList.remove('is-burnout');busy=false;head.removeEventListener('animationend',done)};
+          head.addEventListener('animationend',done);
+          setTimeout(function(){if(busy){head.classList.remove('is-burnout');busy=false}},2200);
+        }
+      }
+      document.querySelectorAll('.eh-logo').forEach(initLogo);
+
+      // Tabs
+      var tabs=document.querySelectorAll('.tab');
+      var pages=document.querySelectorAll('.page');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click',function(){
+          var target=tab.getAttribute('data-target');
+          tabs.forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false')});
+          tab.classList.add('active');tab.setAttribute('aria-selected','true');
+          pages.forEach(function(p){p.classList.remove('active')});
+          document.getElementById(target).classList.add('active');
+        });
+      });
+
+      // Accordions
+      var detailsHeaders=document.querySelectorAll('.details-header');
+      detailsHeaders.forEach(function(header){
+        header.addEventListener('click',function(){
+          var card=header.parentElement;
+          var open=card.classList.contains('open');
+          if(open){
+            card.classList.remove('open');
+            header.setAttribute('aria-expanded','false');
+          } else {
+            card.classList.add('open');
+            header.setAttribute('aria-expanded','true');
+          }
+        });
+      });
+
+      // Build DDS vertical chart
+      var ddsData=[
+        {week:'27',plan:3586685,fact:5029097},
+        {week:'28',plan:5025896,fact:6465628},
+        {week:'29',plan:5216057,fact:null},
+        {week:'30',plan:3509606,fact:null},
+        {week:'31',plan:2566009,fact:null}
+      ];
+      var maxVal=6465628;
+      var chart=document.getElementById('dds-chart');
+      if(chart){
+        ddsData.forEach(function(d){
+          var col=document.createElement('div');
+          col.className='v-col';
+          var factPct=d.fact?Math.round(d.fact/maxVal*100):0;
+          var planPct=Math.round(d.plan/maxVal*100);
+          var factBar=d.fact?'<div class="v-bar fact" style="height:'+factPct+'%"></div>':'';
+          var val=d.fact?(d.fact/1000000).toFixed(2)+' млн':(d.plan/1000000).toFixed(2)+' млн';
+          col.innerHTML='<div class="v-area"><div class="v-bar plan" style="height:'+planPct+'%"></div>'+factBar+'</div><span class="v-val">'+val+'</span><span class="v-lbl">'+d.week+' нед.</span>';
+          chart.appendChild(col);
+        });
+      }
+    })();
   </script>
 </body>
 </html>
