@@ -3,208 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Операционные показатели 28 недели · ВРХ</title>
+  <title>Статус проекта Супергрин в ОСП 3 квартала 2026 · EGGHEADS</title>
   <style id="eh-logo-style">
-    .eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:'Helvetica Neue',Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
-    .eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
-    .eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
-    .eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
-    .eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
-    @keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
-    .eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
-    .eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
-    @keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
-    @keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
-    .eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
-    .eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
-    @keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
-    @media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
-    .eh-text{display:flex;align-items:flex-end;min-width:0}
-    .eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
-    .eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
-    .eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
+
+.eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:'Helvetica Neue',Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
+.eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
+.eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
+.eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
+@keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
+.eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
+.eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
+@keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
+@keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
+.eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
+.eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
+@keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
+@media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
+.eh-text{display:flex;align-items:flex-end;min-width:0}
+.eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
+.eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
+.eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
+  
   </style>
   <style>
-    :root {
-      --page-bg: #f5f5f7;
-      --surface: #ffffff;
-      --card-bg: #ffffff;
-      --text: #1d1d1f;
-      --muted: #666;
-      --muted-light: #86868b;
-      --border: #e5e5e5;
-      --accent: #FF0000;
-      --dark: #1d1d1f;
-      --shadow: 0 4px 24px rgba(0,0,0,.06);
-      --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
-      --button-secondary: #f5f5f7;
-      --button-secondary-hover: #e8e8ed;
-      --good: #1a7f37;
-      --bad: #d1242f;
-      --warn: #9a6700;
-    }
-    [data-theme="dark"] {
-      --page-bg: #0f1014;
-      --surface: #181a20;
-      --card-bg: #181a20;
-      --text: #f5f5f7;
-      --muted: #c7c7cf;
-      --muted-light: #a6a6ad;
-      --border: rgba(255,255,255,.12);
-      --accent: #FF0000;
-      --dark: #f5f5f7;
-      --shadow: 0 4px 24px rgba(0,0,0,.28);
-      --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
-      --button-secondary: #23252d;
-      --button-secondary-hover: #2b2e38;
-      --good: #3fb950;
-      --bad: #f85149;
-      --warn: #d29922;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
-    a{color:inherit}
+:root {
+  --page-bg: #f5f5f7;
+  --surface: #ffffff;
+  --hero-from: #fafafa;
+  --hero-to: #f0f0f5;
+  --card-bg: #ffffff;
+  --text: #1d1d1f;
+  --muted: #666;
+  --muted-light: #86868b;
+  --border: #e5e5e5;
+  --accent: #FF0000;
+  --dark: #1d1d1f;
+  --shadow: 0 4px 24px rgba(0,0,0,.06);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
+  --button-secondary: #f5f5f7;
+  --button-secondary-hover: #e8e8ed;
+}
+[data-theme="dark"] {
+  --page-bg: #0f1014;
+  --surface: #181a20;
+  --hero-from: #181a20;
+  --hero-to: #111217;
+  --card-bg: #181a20;
+  --text: #f5f5f7;
+  --muted: #c7c7cf;
+  --muted-light: #a6a6ad;
+  --border: rgba(255,255,255,.12);
+  --accent: #FF0000;
+  --dark: #f5f5f7;
+  --shadow: 0 4px 24px rgba(0,0,0,.28);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
+  --button-secondary: #23252d;
+  --button-secondary-hover: #2b2e38;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
+a{color:inherit}
+.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
+.header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-header .eh-wordmark{height:22px}
+.site-header .eh-div{height:20px;margin:0 12px}
+.site-header .eh-tag{font-size:11px}
+[data-theme="dark"] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+.header-meta{text-align:right;min-width:0}
+.header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
+.header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
+.theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
+.theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
+.theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
+.theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
+.report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
+.report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
+.site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-footer .eh-wordmark{height:22px}
+.footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
 
-    .site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
-    .header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
-    .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
-    .site-header .eh-wordmark{height:22px}
-    .site-header .eh-div{height:20px;margin:0 12px}
-    .site-header .eh-tag{font-size:11px}
-    [data-theme="dark"] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
-    .header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
-    .header-meta{text-align:right;min-width:0}
-    .header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
-    .header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
-    .theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
-    .theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
-    .theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
-    .theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
+.hero{padding:36px 32px;background:linear-gradient(135deg,var(--hero-from),var(--hero-to));border:1px solid var(--border);border-radius:12px;margin-bottom:24px}
+.hero h1{margin:0 0 10px;font-size:32px;font-weight:800;line-height:1.15}
+.hero p{margin:0;color:var(--muted);font-size:16px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:var(--shadow);transition:box-shadow .2s ease,transform .2s ease}
+.kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.kpi-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-light);margin-bottom:8px}
+.kpi-value{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi-sub{margin-top:6px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.kpi-card.accent{border-left:4px solid var(--accent)}
+.kpi-card.ref{background:var(--button-secondary);border-style:dashed;opacity:.9}
+.kpi-card.ref .kpi-value{font-size:18px;font-weight:700}
+.kpi-card.ref .kpi-label{font-size:11px}
+.kpi-card.ref .kpi-sub{font-size:12px}
+.kpi-card.ref:hover{box-shadow:var(--shadow);transform:none}
 
-    .report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
-    .report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
-    .site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
-    .footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
-    .site-footer .eh-wordmark{height:22px}
-    .footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
+.section-title{font-size:20px;font-weight:800;margin:0 0 16px}
+.section-sub{margin:-12px 0 18px;color:var(--muted);font-size:14px}
+.chart-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:0 18px}
+.chart{display:flex;align-items:flex-end;gap:12px;height:180px;padding:12px 0;min-width:480px}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:140px}
+.bar{width:100%;background:var(--accent);border-radius:6px 6px 0 0;min-height:4px;opacity:.92;transition:opacity .2s ease}
+.bar-wrap:hover .bar{opacity:1}
+.bar-label{font-size:13px;font-weight:700;color:var(--text);text-transform:capitalize;white-space:nowrap}
+.bar-value{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 
-    /* Dashboard custom */
-    .dash-title{font-size:28px;font-weight:800;margin:0 0 8px;line-height:1.2}
-    .dash-subtitle{font-size:15px;color:var(--muted);margin:0 0 20px}
-    .message-block{background:linear-gradient(135deg,rgba(255,0,0,.06),rgba(255,0,0,.02));border-left:4px solid var(--accent);padding:18px 22px;border-radius:0 8px 8px 0;margin:0 0 24px}
-    .message-block p{margin:0;font-size:15px;line-height:1.55}
-    .message-block strong{color:var(--accent)}
+.manager-header{display:grid;grid-template-columns:1.4fr 1fr 1fr .8fr;gap:12px;align-items:center;padding:12px 0;border-bottom:2px solid var(--border);font-weight:700;color:var(--muted-light);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
 
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px;padding:6px;background:var(--button-secondary);border-radius:8px;border:1px solid var(--border)}
-    .tab{appearance:none;border:1px solid transparent;background:transparent;color:var(--text);border-radius:6px;padding:10px 16px;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background .2s,border-color .2s,transform .2s;white-space:nowrap}
-    .tab:hover{background:rgba(255,255,255,.5)}
-    .tab.active{background:var(--card-bg);border-color:var(--border);box-shadow:var(--shadow);transform:translateY(-1px)}
-    .tab:disabled{opacity:.5;cursor:not-allowed}
+.data-table{width:100%;border-collapse:collapse;font-size:14px}
+.data-table th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);font-weight:700;color:var(--muted-light);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--button-secondary)}
+.text-right{text-align:right}
+.muted{color:var(--muted)}
 
-    .page{display:none}
-    .page.active{display:block;animation:fadeIn .25s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.progress-bar{height:6px;background:var(--button-secondary);border-radius:999px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px;min-width:2px}
 
-    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:0 0 22px}
-    .kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;transition:box-shadow .2s,transform .2s}
-    .kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
-    .kpi-label{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
-    .kpi-value{font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
-    .kpi-delta{font-size:13px;font-weight:700}
-    .kpi-delta.pos{color:var(--good)}
-    .kpi-delta.neg{color:var(--bad)}
-    .kpi-delta.warn{color:var(--warn)}
-    .kpi-note{font-size:12px;color:var(--muted-light);margin-top:2px}
+.manager-row{display:grid;grid-template-columns:1.4fr 1fr 1fr .8fr;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.manager-row:last-child{border-bottom:none}
+.manager-name{font-weight:700}
+.manager-meta{font-size:12px;color:var(--muted);margin-top:2px}
 
-    .details-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:0 0 16px}
-    .details-header{width:100%;appearance:none;border:none;background:var(--button-secondary);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:15px;font-weight:700;color:var(--text);transition:background .2s}
-    .details-header:hover{background:var(--button-secondary-hover)}
-    .details-header::after{content:'+';font-size:20px;color:var(--accent);font-weight:400;transition:transform .2s}
-    .details-card.open .details-header::after{content:'−'}
-    .details-body{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
-    .details-card.open .details-body{max-height:1200px;padding:0 18px 18px}
-    .details-inner{padding-top:18px}
+.fact-card{background:var(--button-secondary);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.fact-card.done{border-left:4px solid #2f9a4c}
+.fact-card.inprogress{border-left:4px solid var(--accent)}
+.fact-title{font-weight:700;margin-bottom:4px}
+.fact-meta{font-size:13px;color:var(--muted)}
 
-    .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:0 0 14px}
-    table{width:100%;border-collapse:collapse;font-size:14px}
-    th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border)}
-    th{background:var(--button-secondary);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-    tr:last-child td{border-bottom:none}
-    td.num{font-variant-numeric:tabular-nums;text-align:right}
-    .num-val{font-weight:700}
-    .num-val.neg{color:var(--bad)}
-    .num-val.pos{color:var(--good)}
-    .num-val.warn{color:var(--warn)}
+.two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.half-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px}
 
-    .bar-row{display:grid;grid-template-columns:120px 1fr 100px;gap:12px;align-items:center;padding:8px 0;font-size:14px}
-    .bar-track{height:20px;background:var(--button-secondary);border-radius:4px;overflow:hidden}
-    .bar-fill{height:100%;background:var(--accent);border-radius:4px;min-width:2px}
-    .bar-fill.plan{background:transparent;border:2px solid var(--accent);box-sizing:border-box}
-    .bar-row .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .bar-row .value{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.note{font-size:13px;color:var(--muted);line-height:1.6;margin-top:12px;padding:14px;background:var(--button-secondary);border-radius:8px}
 
-    .bar-chart-vertical{display:flex;align-items:flex-end;gap:18px;height:220px;padding:14px 0 4px;border-bottom:1px solid var(--border);margin:0 0 12px}
-    .v-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end;min-width:44px}
-    .v-area{position:relative;width:55%;height:100%;display:flex;align-items:flex-end;justify-content:center}
-    .v-bar{position:absolute;bottom:0;left:0;width:100%;border-radius:4px 4px 0 0;min-height:2px}
-    .v-bar.plan{background:rgba(255,0,0,.08);border:2px solid var(--accent);box-sizing:border-box}
-    .v-bar.fact{background:var(--accent);z-index:2}
-    .v-val{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-    .v-lbl{font-size:12px;color:var(--muted);font-weight:600}
-
-    .mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:0 0 14px}
-    .mini-card{border:1px solid var(--border);border-radius:8px;padding:14px}
-    .mini-card h4{margin:0 0 8px;font-size:14px;font-weight:700}
-    .mini-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--muted)}
-    .mini-card li{margin:0 0 4px}
-
-    .placeholder-body{text-align:center;padding:48px 24px;color:var(--muted)}
-    .placeholder-body h3{margin:0 0 12px;font-size:20px;color:var(--text)}
-    .placeholder-body p{margin:0 0 18px;line-height:1.6;max-width:600px;margin-left:auto;margin-right:auto}
-
-    .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--button-secondary);color:var(--text);margin:0 4px 4px 0}
-    .tag.good{background:rgba(26,127,55,.1);color:var(--good)}
-    .tag.warn{background:rgba(154,103,0,.1);color:var(--warn)}
-    .tag.bad{background:rgba(209,36,47,.1);color:var(--bad)}
-
-    .source-note{font-size:12px;color:var(--muted-light);margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
-
-    @media (max-width:980px){
-      .site-header .eh-tag,.site-header .eh-div{display:none}
-      .header-sub{display:none}
-      .kpi-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width:640px){
-      .site-header{padding:14px 18px}
-      .header-inner{gap:14px;align-items:flex-start}
-      .site-header .eh-wordmark{height:21px;max-width:148px}
-      .header-right{gap:10px;flex-direction:column;align-items:flex-end}
-      .header-title{font-size:13px}
-      .theme-toggle{padding:7px 10px;font-size:12px}
-      .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
-      .report-section{padding:18px}
-      .dash-title{font-size:22px}
-      .tabs{gap:6px}
-      .tab{padding:9px 12px;font-size:12px}
-      .kpi-grid{grid-template-columns:1fr}
-      .bar-row{grid-template-columns:90px 1fr 80px;font-size:12px}
-      .bar-chart-vertical{gap:10px}
-      .v-val{font-size:11px}
-      .footer-inner{flex-direction:column;align-items:flex-start}
-      .site-footer .tag,.site-footer .eh-div{display:none}
-      .footer-note{text-align:left}
-    }
-    @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
-    }
+@media (max-width:980px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .site-header .eh-tag,.site-header .eh-div{display:none}
+  .header-sub{display:none}
+}
+@media (max-width:640px){
+  .site-header{padding:18px}
+  .header-inner{gap:14px;align-items:flex-start}
+  .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+  .site-header .eh-wordmark{height:21px;max-width:148px}
+  .header-right{gap:10px;flex-direction:column;align-items:flex-end}
+  .header-title{font-size:13px}
+  .theme-toggle{padding:7px 10px;font-size:12px}
+  .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
+  .report-section{padding:18px}
+  .hero h1{font-size:24px}
+  .kpi-grid{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+  .manager-row{grid-template-columns:1fr;gap:4px}
+  .manager-header{display:none}
+  .chart{min-width:480px;height:auto}
+  .bar-wrap{min-width:140px}
+  .bar-label{font-size:12px}
+  .bar-value{font-size:11px;white-space:normal}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .site-footer .eh-tag,.site-footer .eh-div{display:none}
+  .footer-note{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
+}
   </style>
 </head>
 <body data-theme="light" id="top">
   <header class="site-header">
     <div class="header-inner">
-      <a class="eh-logo" href="#top" aria-label="EGGHEADS · Операционные показатели 28 недели">
+      <a class="eh-logo" href="#report-main" aria-label="EGGHEADS · Статус проекта Супергрин в ОСП 3 квартала 2026">
         <span class="eh-head" aria-hidden="true">
           <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
         </span>
@@ -216,8 +192,8 @@
       </a>
       <div class="header-right">
         <div class="header-meta">
-          <div class="header-title">Операционные показатели 28 недели</div>
-          <div class="header-sub">ВРХ · 3 квартал 2026 · 06–12 июля</div>
+          <div class="header-title">Статус проекта Супергрин</div>
+          <div class="header-sub">ОСП 3 квартала 2026 · Bitrix24</div>
         </div>
         <button class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">
           <span class="theme-toggle-icon" aria-hidden="true">☀</span>
@@ -228,389 +204,196 @@
   </header>
 
   <main class="report-main" id="report-main">
+    <div class="hero">
+      <h1>Статус проекта Супергрин в ОСП 3 квартала 2026</h1>
+      <p>Источник: группа Bitrix24 «ОСП 3 квартала · Коммерческий результат» (102 задачи). Срез на 14 июля 2026.</p>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card accent "><div class="kpi-label">План Q3 отгрузки</div><div class="kpi-value">38 775 070 ₽</div><div class="kpi-sub">812,6 кг</div></div><div class="kpi-card  ref"><div class="kpi-label">Q4-задел · справочно</div><div class="kpi-value">5 663 875 ₽</div><div class="kpi-sub">118,8 кг</div></div><div class="kpi-card  "><div class="kpi-label">Корпоративные подарки и тендеры</div><div class="kpi-value">4 574 880 ₽</div><div class="kpi-sub">90 кг</div></div><div class="kpi-card  "><div class="kpi-label">Факт по завершённым</div><div class="kpi-value">478 325 ₽</div><div class="kpi-sub">10,2 кг</div></div><div class="kpi-card  "><div class="kpi-label">Исполнение Q3</div><div class="kpi-value">1.2%</div><div class="kpi-sub">от плана Q3</div></div>
+    </div>
+
     <section class="report-section">
-      <h1 class="dash-title">Операционные показатели 28 недели</h1>
-      <p class="dash-subtitle">06–12 июля 2026 · источники: ДДС, ЦПИ, отдел качества, HR · одна вкладка — одно направление</p>
-
-      <div class="tabs" role="tablist" aria-label="Направления">
-        <button class="tab active" role="tab" aria-selected="true" data-target="dds">ДДС и финансы</button>
-        <button class="tab" role="tab" aria-selected="false" data-target="caviar">Переработка икры</button>
-        <button class="tab" role="tab" aria-selected="false" data-target="quality">Качество</button>
-        <button class="tab" role="tab" aria-selected="false" data-target="hr">HR</button>
-        <button class="tab" role="tab" aria-selected="false" data-target="fish">Рыбоводство</button>
+      <h2 class="section-title">План отгрузок по месяцам, Q3</h2>
+      <div class="chart-scroll">
+        <div class="chart">
+          <div class="bar-wrap"><div class="bar" style="height:8px"></div><div class="bar-label">июль</div><div class="bar-value">1 086 010 ₽</div><div class="bar-value">24,1 кг · 6 задач</div></div><div class="bar-wrap"><div class="bar" style="height:140px"></div><div class="bar-label">август</div><div class="bar-value">19 867 755 ₽</div><div class="bar-value">411,4 кг · 23 задач</div></div><div class="bar-wrap"><div class="bar" style="height:126px"></div><div class="bar-label">сентябрь</div><div class="bar-value">17 821 305 ₽</div><div class="bar-value">377,1 кг · 38 задач</div></div>
+        </div>
       </div>
+    </section>
 
-      <!-- ДДС и финансы -->
-      <div class="page active" id="dds" role="tabpanel">
-        <div class="message-block">
-          <p><strong>Главное:</strong> 28 неделя — поступления превысили план на 29% (6,5 млн ₽ факт vs 5,0 млн ₽ план). Но до конца июля запланировано ещё 11,3 млн ₽, а факт пока только 11,5 млн за две недели — риск дефицита на 29–31 неделях. Просроченная дебиторская задолженность — 2,89 млн ₽.</p>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Поступления, 28 нед.</span>
-            <span class="kpi-value">6 465 628 ₽</span>
-            <span class="kpi-delta pos">+1 439 732 ₽ к плану</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Выполнение плана, 28 нед.</span>
-            <span class="kpi-value">129%</span>
-            <span class="kpi-delta pos">план 5 025 896 ₽</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Просроченная ДЗ</span>
-            <span class="kpi-value">2 892 588 ₽</span>
-            <span class="kpi-delta warn">7 дебиторов</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Профицит/дефицит, 29 нед.</span>
-            <span class="kpi-value">−10 965 869 ₽</span>
-            <span class="kpi-delta neg">при поступлениях 6 548 358 ₽</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Июль, факт / план</span>
-            <span class="kpi-value">11 494 725 ₽</span>
-            <span class="kpi-delta neg">58% от плана 19 904 252 ₽</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Остаток фондов на конец</span>
-            <span class="kpi-value">28 591 164 ₽</span>
-            <span class="kpi-delta">при распределении 1 333 890 ₽</span>
-          </div>
-        </div>
-
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">ДДС по неделям</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <p style="margin:0 0 8px;font-size:13px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;background:var(--accent);border-radius:2px;margin:0 6px -2px 0"></span>факт <span style="display:inline-block;width:12px;height:12px;background:rgba(255,0,0,.08);border:2px solid var(--accent);border-radius:2px;margin:0 6px -2px 14px"></span>план</p>
-              <div class="bar-chart-vertical" id="dds-chart">
-                <!-- JS will populate -->
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Неделя</th><th class="num">План, ₽</th><th class="num">Факт, ₽</th><th class="num">Отклонение, ₽</th><th class="num">%</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>27</td><td class="num">3 586 685</td><td class="num">5 029 097</td><td class="num pos">+1 442 412</td><td class="num pos">+40%</td></tr>
-                    <tr><td>28</td><td class="num">5 025 896</td><td class="num">6 465 628</td><td class="num pos">+1 439 732</td><td class="num pos">+29%</td></tr>
-                    <tr><td>29</td><td class="num">5 216 057</td><td class="num">—</td><td class="num neg">−5 216 057</td><td class="num neg">—</td></tr>
-                    <tr><td>30</td><td class="num">3 509 606</td><td class="num">—</td><td class="num neg">−3 509 606</td><td class="num neg">—</td></tr>
-                    <tr><td>31</td><td class="num">2 566 009</td><td class="num">—</td><td class="num neg">−2 566 009</td><td class="num neg">—</td></tr>
-                    <tr><td><strong>Всего</strong></td><td class="num"><strong>19 904 252</strong></td><td class="num"><strong>11 494 725</strong></td><td class="num neg"><strong>−8 409 527</strong></td><td class="num neg"><strong>−42%</strong></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Просроченная дебиторская задолженность</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Контрагент</th><th>Сумма, ₽</th><th>Действие</th><th>Срок</th><th>Менеджер</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>КАВИАР 65 ООО</td><td class="num">1 690 330</td><td>Исполнительное производство, запрет на изменения в ЕГРЮЛ</td><td>—</td><td>Комарова Т.С.</td></tr>
-                    <tr><td>БРИЗ ООО</td><td class="num">183 542</td><td>Исполнительное производство с 15.05.26</td><td>—</td><td>Комарова Т.С.</td></tr>
-                    <tr><td>Квельман Д.Н. ИП</td><td class="num">416 540</td><td>Исполнительное производство возбуждено 1 июля</td><td>—</td><td>Комарова Т.С.</td></tr>
-                    <tr><td>Красавцев М.В. ИП</td><td class="num">307 425</td><td>Исковое заявление принято к производству</td><td>10.08.2026</td><td>Комарова Т.С.</td></tr>
-                    <tr><td>ПЕРЕКРЕСТОК ТОРГОВЫЙ ДОМ АО</td><td class="num">182 121</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Фоменкова А.О.</td></tr>
-                    <tr><td>Земцов С.Ю.</td><td class="num">100 000</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Смолянинова Д.А.</td></tr>
-                    <tr><td>Рыльцова П.А. ИП</td><td class="num">12 630</td><td>Оплата до конца недели</td><td>17.07.2026</td><td>Хайлова Е.С.</td></tr>
-                    <tr><td><strong>Общий итог</strong></td><td class="num"><strong>2 892 588</strong></td><td colspan="3"></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Финансовое планирование 29 недели</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="mini-grid">
-                <div class="mini-card">
-                  <h4>Ожидаемые поступления</h4>
-                  <div class="bar-row"><span class="label">Поступления</span><div class="bar-track"><div class="bar-fill" style="width:37%"></div></div><span class="value">6 548 358 ₽</span></div>
-                  <div class="bar-row"><span class="label">Точка прибыльности</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="value">17 514 227 ₽</span></div>
-                  <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Дефицит: <span class="num-val neg">−10 965 869 ₽</span></p>
-                </div>
-                <div class="mini-card">
-                  <h4>Крупные фонды (заявки на 29 нед.)</h4>
-                  <ul>
-                    <li>ФОТ — 4 040 000 ₽ (62%)</li>
-                    <li>Налоги/проценты/лизинг — 894 000 ₽</li>
-                    <li>Энергоресурсы — 368 000 ₽</li>
-                    <li>Эксплуатация — 273 000 ₽</li>
-                    <li>Аренда/охрана/СО — 380 000 ₽</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="source-note">Источник: PDF «ДДС_финансы_28_неделя.pdf». Подготовлено: 14 июля 2026.</p>
+    <section class="report-section">
+      <h2 class="section-title">Распределение по менеджерам</h2>
+      <p class="section-sub">Только Q3, без Q4-задела. Сортировка по убыванию плана в рублях.</p>
+      <div class="manager-header">
+        <div>Менеджер</div>
+        <div class="text-right">План, ₽</div>
+        <div class="text-right">Кг</div>
+        <div class="text-right">Статусы</div>
       </div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Николай Алейников</div><div class="manager-meta">57.5% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">22 306 020 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">450,5 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="Ждёт">○ 24</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:57.526704658431306%"></div></div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Анна Фоменкова</div><div class="manager-meta">12.7% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">4 910 957 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">114,7 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="Ждёт">○ 9</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:12.665243415421301%"></div></div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Анастасия Левина</div><div class="manager-meta">11.8% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">4 574 880 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">90 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="В работе">● 2</span> 
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:11.798508680964341%"></div></div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Дарья Смолянинова</div><div class="manager-meta">10.5% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">4 061 712 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">86,9 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="Ждёт">○ 16</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:10.475060393185622%"></div></div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Александра Лезина</div><div class="manager-meta">6.5% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">2 527 885 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">62,7 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="Завершено">✓ 3</span> <span title="В работе">● 4</span> <span title="Ждёт">○ 7</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:6.5193563802721695%"></div></div>
+      
+        <div class="manager-row">
+          <div><div class="manager-name">Екатерина Хайлова</div><div class="manager-meta">1.0% от Q3-плана</div></div>
+          <div class="text-right" style="font-weight:700;font-variant-numeric:tabular-nums">393 616 ₽</div>
+          <div class="text-right" style="font-variant-numeric:tabular-nums">7,7 кг</div>
+          <div class="text-right" style="font-size:13px">
+            <span title="Ждёт">○ 2</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:1.0151264717252606%"></div></div>
+      
+    </section>
 
-      <!-- Переработка икры -->
-      <div class="page" id="caviar" role="tabpanel">
-        <div class="message-block">
-          <p><strong>Главное:</strong> Производство ГП — 57,0 кг на 2,86 млн ₽. Запасы сырья 2025-2026 гг. выросли до 6,72 т, что в 11 раз выше остатков 2024 г. (0,61 т). Рекомендация: сбалансировать загрузку сырья и отгрузку ГП, чтобы не накапливать избыточные запасы. Забойная икра за неделю не перерабатывалась — данные не заполнены.</p>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Произведено ГП</span>
-            <span class="kpi-value">56,99 кг</span>
-            <span class="kpi-delta">лидеры: Sterlet 17,65 кг, Selected 16,41 кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Стоимость ГП</span>
-            <span class="kpi-value">2 858 595 ₽</span>
-            <span class="kpi-delta">средняя 50 160 ₽/кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Переработано дойной икры</span>
-            <span class="kpi-value">11,30 кг</span>
-            <span class="kpi-delta">Premium 10,70 кг, Classic 0,60 кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Остатки ГП на конец недели</span>
-            <span class="kpi-value">44,80 кг</span>
-            <span class="kpi-delta">Sterlet 14,08 кг, Classic 11,50 кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Сырьё 2025-2026</span>
-            <span class="kpi-value">6 721,28 кг</span>
-            <span class="kpi-delta pos">vs 611,75 кг в 2024 г.</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Потери Selected</span>
-            <span class="kpi-value">0,13%</span>
-            <span class="kpi-delta pos">в пределах нормы</span>
-          </div>
-        </div>
+    <div class="two-col">
+      <section class="half-section">
+        <h2 class="section-title">Сетевые гипотезы</h2>
+        <p class="section-sub">Итого: 20 092 900 ₽ · 406,5 кг</p>
+        <table class="data-table">
+          <thead><tr><th>Сеть</th><th class="text-right">План, ₽</th><th class="text-right">Кг</th></tr></thead>
+          <tbody>
+            <tr><td>Метро</td><td class="text-right">13 053 750 ₽</td><td class="text-right">265,5 кг</td></tr><tr><td>МАГНИТ (расширение гео)</td><td class="text-right">5 734 930 ₽</td><td class="text-right">114 кг</td></tr><tr><td>Гиперглобус</td><td class="text-right">1 304 220 ₽</td><td class="text-right">27 кг</td></tr>
+          </tbody>
+        </table>
+      </section>
 
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Структура производства ГП</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="bar-row"><span class="label">Sterlet</span><div class="bar-track"><div class="bar-fill" style="width:31%"></div></div><span class="value">17,65 кг</span></div>
-              <div class="bar-row"><span class="label">Selected</span><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div><span class="value">16,41 кг</span></div>
-              <div class="bar-row"><span class="label">Прочие</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="value">22,93 кг</span></div>
-              <p class="source-note" style="margin-top:12px">Прочие — расчётная разница до итога 56,99 кг. Детальная структура по остальным позициям в PDF не раскрыта.</p>
-            </div>
-          </div>
-        </div>
+      <section class="half-section">
+        <h2 class="section-title">Q4-задел</h2>
+        <p class="section-sub">3 задачи · 5 663 875 ₽ · 118,8 кг</p>
+        <table class="data-table">
+          <thead><tr><th>Клиент</th><th class="text-right">План, ₽</th><th class="text-right">Кг</th></tr></thead>
+          <tbody>
+            <tr><td>Ашан</td><td class="text-right">2 620 125 ₽</td><td class="text-right">56,3 кг</td></tr><tr><td>Да</td><td class="text-right">1 217 500 ₽</td><td class="text-right">25 кг</td></tr><tr><td>ЛЕНТА</td><td class="text-right">1 826 250 ₽</td><td class="text-right">37,5 кг</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
 
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Остатки сырья по видам</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Вид сырья</th><th class="num">Остаток, кг</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Овулированный осётр (замороженный)</td><td class="num">2 587,54</td></tr>
-                    <tr><td>Premium</td><td class="num">1 752,55</td></tr>
-                    <tr><td>Selected</td><td class="num">815,05</td></tr>
-                    <tr><td>Classic</td><td class="num">907,38</td></tr>
-                    <tr><td>Стерлядь грязи расфасованная</td><td class="num">304,45</td></tr>
-                    <tr><td>Икра солёно-паюсная</td><td class="num">316,15</td></tr>
-                    <tr><td>Sterlet Альбинос</td><td class="num">15,50</td></tr>
-                    <tr><td>Белуга</td><td class="num">10,60</td></tr>
-                    <tr><td>Traditional</td><td class="num">8,00</td></tr>
-                    <tr><td>Забой стерляди замороженный</td><td class="num">2,35</td></tr>
-                    <tr><td>Забой осетра замороженный</td><td class="num">1,70</td></tr>
-                    <tr><td><strong>Итого</strong></td><td class="num"><strong>6 721,28</strong></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="source-note">Источник: PDF «переработка икры_28_неделя_2026_со_стоимостью.pdf». Подготовлено: 14 июля 2026.</p>
-      </div>
+    <section class="report-section">
+      <h2 class="section-title">Новые клиенты МСП (КАМ)</h2>
+      <p class="section-sub">9 клиентов, 21 задачи · 2 213 120 ₽ · 44 кг</p>
+      <table class="data-table">
+        <thead><tr><th>Клиент</th><th class="text-right">Задач</th><th class="text-right">План, ₽</th><th class="text-right">Кг</th></tr></thead>
+        <tbody>
+          <tr><td>ООО Вайнкап</td><td class="text-right">3</td><td class="text-right">629 960 ₽</td><td class="text-right">12 кг</td></tr><tr><td>ИП Юнисов</td><td class="text-right">2</td><td class="text-right">295 000 ₽</td><td class="text-right">6 кг</td></tr><tr><td>ООО Северный</td><td class="text-right">2</td><td class="text-right">295 000 ₽</td><td class="text-right">6 кг</td></tr><tr><td>ИП Зинковский</td><td class="text-right">2</td><td class="text-right">198 460 ₽</td><td class="text-right">4 кг</td></tr><tr><td>ИП Бекенева</td><td class="text-right">2</td><td class="text-right">198 460 ₽</td><td class="text-right">4 кг</td></tr><tr><td>ООО Новоком</td><td class="text-right">2</td><td class="text-right">193 080 ₽</td><td class="text-right">4 кг</td></tr><tr><td>ООО Рыбный</td><td class="text-right">3</td><td class="text-right">152 880 ₽</td><td class="text-right">3 кг</td></tr><tr><td>ИП Иванов</td><td class="text-right">3</td><td class="text-right">152 880 ₽</td><td class="text-right">3 кг</td></tr><tr><td>ООО Аквамарин</td><td class="text-right">2</td><td class="text-right">97 400 ₽</td><td class="text-right">2 кг</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-      <!-- Качество -->
-      <div class="page" id="quality" role="tabpanel">
-        <div class="message-block">
-          <p><strong>Главное:</strong> Внешних рекламаций по икре и рыбе за 28 неделю не поступало. На складе выявлено 24 несоответствия по икре (3,9% от 621 проверенной единицы) и 3 — по рыбе (2,0% от 150). Ключевой риск недели — маркировка и герметичность: этикетка, дата, развакуум. Икорное масло 100 г: совокупный возврат январь–май — 25,3%.</p>
+    <section class="report-section">
+      <h2 class="section-title">Факт и текущие статусы</h2>
+      <p class="section-sub">Завершено 3 из 67 Q3-задач. В работе 6, ожидают 58.</p>
+      <h3 style="font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted-light);margin:18px 0 10px">Завершённые задачи</h3>
+        <div class="fact-card done">
+          <div class="fact-title">ЦЕНТРУМ ООО</div>
+          <div class="fact-meta">Александра Лезина · 104 000 ₽ · 1,8 кг · Завершена</div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Рекламаций по икре</span>
-            <span class="kpi-value">0</span>
-            <span class="kpi-delta pos">0 шт. · 0 кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Рекламаций по рыбе</span>
-            <span class="kpi-value">0</span>
-            <span class="kpi-delta pos">0 шт. · 0 кг</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Проверено икры на складе</span>
-            <span class="kpi-value">621 ед.</span>
-            <span class="kpi-delta warn">24 несоответствия (3,9%)</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Проверено рыбы на складе</span>
-            <span class="kpi-value">150 ед.</span>
-            <span class="kpi-delta warn">3 несоответствия (2,0%)</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Возврат икорного масла, янв–май</span>
-            <span class="kpi-value">25,3%</span>
-            <span class="kpi-delta neg">снижение с 30,2% до 17,0%</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Критичные сигналы ХАССП</span>
-            <span class="kpi-value">не выявлено</span>
-            <span class="kpi-delta pos">28 неделя</span>
-          </div>
+      
+        <div class="fact-card done">
+          <div class="fact-title">Шевченко Владимир Олегович ИП</div>
+          <div class="fact-meta">Александра Лезина · 155 446 ₽ · 3 кг · Завершена</div>
         </div>
+      
+        <div class="fact-card done">
+          <div class="fact-title">Шаргородская Кристина Сергеевна ИП</div>
+          <div class="fact-meta">Александра Лезина · 218 879 ₽ · 5,4 кг · Завершена</div>
+        </div>
+      
+      <h3 style="font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted-light);margin:18px 0 10px">В работе</h3>
+        <div class="fact-card inprogress">
+          <div class="fact-title">[Q3-COM-CORP-GIFTS-TENDERS] Корпоративные подарки и тендеры · запуск канала продаж</div>
+          <div class="fact-meta">Анастасия Левина · 2 287 440 ₽ · 45 кг · Выполняется</div>
+        </div>
+      
+        <div class="fact-card inprogress">
+          <div class="fact-title">[Q3-COM-CORP-GIFTS-TENDERS] Корпоративные подарки и тендеры · запуск канала продаж</div>
+          <div class="fact-meta">Анастасия Левина · 2 287 440 ₽ · 45 кг · Выполняется</div>
+        </div>
+      
+        <div class="fact-card inprogress">
+          <div class="fact-title">АСТОРИЯ ООО_9701028970</div>
+          <div class="fact-meta">Александра Лезина · 185 398 ₽ · 6,5 кг · Выполняется</div>
+        </div>
+      
+        <div class="fact-card inprogress">
+          <div class="fact-title">СЕГМЕНТ ООО</div>
+          <div class="fact-meta">Александра Лезина · 156 331 ₽ · 4,5 кг · Выполняется</div>
+        </div>
+      
+        <div class="fact-card inprogress">
+          <div class="fact-title">МИР ФАНТАЗИЙ ООО</div>
+          <div class="fact-meta">Александра Лезина · 116 056 ₽ · 2,7 кг · Выполняется</div>
+        </div>
+      
+        <div class="fact-card inprogress">
+          <div class="fact-title">Н. ПАРК ЗАО</div>
+          <div class="fact-meta">Александра Лезина · 212 499 ₽ · 4,9 кг · Выполняется</div>
+        </div>
+      
+    </section>
 
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Несоответствия по икре</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <p style="margin:0 0 14px;font-size:14px">Структура по категориям (всего 24 единицы). Точные количества по каждой категории в PDF не раскрыты — показаны направления для фокуса проверки:</p>
-              <div class="mini-grid">
-                <div class="mini-card">
-                  <h4>Категории несоответствий</h4>
-                  <ul>
-                    <li>Этикетка</li>
-                    <li>Стирание даты</li>
-                    <li>Развакуум</li>
-                    <li>QR</li>
-                    <li>Брак крышки</li>
-                  </ul>
-                </div>
-                <div class="mini-card">
-                  <h4>Фокус проверки на следующую неделю</h4>
-                  <ul>
-                    <li>Читаемость маркировки</li>
-                    <li>Наличие вакуума</li>
-                    <li>Состояние крышки</li>
-                    <li>Читаемость QR</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Возвраты икорного масла 100 г, янв–май 2026</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Месяц</th><th class="num">Отгрузка, кг</th><th class="num">Возврат, кг</th><th class="num">%</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Январь</td><td class="num">9,6</td><td class="num">2,9</td><td class="num neg">30,2%</td></tr>
-                    <tr><td>Февраль</td><td class="num">11,4</td><td class="num">3,0</td><td class="num neg">26,3%</td></tr>
-                    <tr><td>Март</td><td class="num">13,8</td><td class="num">3,9</td><td class="num neg">28,3%</td></tr>
-                    <tr><td>Апрель</td><td class="num">11,2</td><td class="num">2,7</td><td class="num neg">24,1%</td></tr>
-                    <tr><td>Май</td><td class="num">10,6</td><td class="num">1,8</td><td class="num neg">17,0%</td></tr>
-                    <tr><td><strong>Итого</strong></td><td class="num"><strong>56,6</strong></td><td class="num"><strong>14,3</strong></td><td class="num neg"><strong>25,3%</strong></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="source-note">Источник: PDF «Качество_28_неделя_2026.pdf». Подготовлено: 14 июля 2026.</p>
-      </div>
-
-      <!-- HR -->
-      <div class="page" id="hr" role="tabpanel">
-        <div class="message-block">
-          <p><strong>Главное:</strong> 28 неделя — закрыта 1 вакансия (Специалист по благоустройству). В активной работе Главный бухгалтер и Логист (2 финалиста). Поиск трёх рыбоводов продолжается. Дополнительно ведётся холодный поиск Шоколатье и менеджера по корпоративным подаркам. Проведён День рыбака — награждено 55 сотрудников.</p>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Найм за неделю</span>
-            <span class="kpi-value">1</span>
-            <span class="kpi-delta pos">Специалист по благоустройству</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Вакансии в работе</span>
-            <span class="kpi-value">4</span>
-            <span class="kpi-delta">главбух, логист, 3×рыбовод</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Финалисты на этапе</span>
-            <span class="kpi-value">2</span>
-            <span class="kpi-delta">по вакансии Логист</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Холодный поиск</span>
-            <span class="kpi-value">3</span>
-            <span class="kpi-delta">Шоколатье + корп. подарки</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">События недели</span>
-            <span class="kpi-value">День рыбака</span>
-            <span class="kpi-delta">55 сотрудников награждены</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Самый длительный подбор</span>
-            <span class="kpi-value">Главбух</span>
-            <span class="kpi-delta">19 телефонных звонков с момента старта</span>
-          </div>
-        </div>
-
-        <div class="details-card">
-          <button class="details-header" type="button" aria-expanded="false">Воронка по позициям</button>
-          <div class="details-body">
-            <div class="details-inner">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Позиция</th><th class="num">Отклики</th><th class="num">Скрининг</th><th class="num">Звонки</th><th class="num">Отказы</th><th class="num">Думают</th><th class="num">Интервью</th><th class="num">Найм</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Главный бухгалтер</td><td class="num">2</td><td class="num">2</td><td class="num">8</td><td class="num">5 / 1</td><td class="num">1</td><td class="num">1</td><td class="num">—</td></tr>
-                    <tr><td>Логист</td><td class="num">2</td><td class="num">2</td><td class="num">5</td><td class="num">5 / 1</td><td class="num">—</td><td class="num">2</td><td class="num">—</td></tr>
-                    <tr><td>Специалист по благоустройству</td><td class="num">5</td><td class="num">1</td><td class="num">6</td><td class="num">2 / 1</td><td class="num">—</td><td class="num">1</td><td class="num">1</td></tr>
-                    <tr><td>Рыбовод ×3</td><td class="num">3</td><td class="num">2</td><td class="num">4</td><td class="num">— / 1</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="source-note" style="margin-top:12px">Отказы: «нам отказали / мы отказали». Данные за 28 неделю.</p>
-            </div>
-          </div>
-        </div>
-        <p class="source-note">Источник: PDF «HR_ВРХ 28 неделя.pdf». Подготовлено: 14 июля 2026.</p>
-      </div>
-
-      <!-- Рыбоводство (placeholder) -->
-      <div class="page" id="fish" role="tabpanel">
-        <div class="message-block">
-          <p><strong>Главное:</strong> Отчёт по рыбоводству за 28 неделю был предоставлен в виде PDF-скана, текст из которого автоматически не извлекается. Чтобы встроить эту вкладку, пришлите, пожалуйста, HTML-версию или таблицу с показателями.</p>
-        </div>
-        <div class="placeholder-body">
-          <h3>Рыбоводство · 28 неделя</h3>
-          <p>Здесь появятся ключевые показатели рыбоводства (поголовье, вес, кормление, потери, биометрия и т.д.) после получения данных в текстовом или HTML-формате.</p>
-          <span class="tag warn">Ожидается HTML-версия отчёта</span>
-        </div>
+    <section class="report-section">
+      <h2 class="section-title">Качество данных и ограничения</h2>
+      <div class="note">
+        <p><strong>Как собрано:</strong> плановые показатели извлечены из поля «Описание» задач регулярными выражениями (сумма и вес). Все расчёты ведутся только по Q3; Q4-задел показан справочно и не входит в итоги по менеджерам и в проценты исполнения. Периодные задачи с полем «Месяц:» отнесены к Q3; задачи с «Задел на отгрузку в 4 квартал» — в Q4-задел. Задача [Q3-COM-CORP-GIFTS-TENDERS] учтена по обновлённому описанию: 90 кг икры (август 45 кг · сентябрь 45 кг) ≈ 4 574 880 ₽ без НДС.</p>
+        <p><strong>Факт:</strong> принят равным плановым показателям задач со статусом «Завершена». Комментарии задач пустые; чаты через текущий webhook недоступны (метод im.dialog.messages.list не найден).</p>
+        <p><strong>Риск:</strong> сетевые гипотезы (METRO, МАГНИТ, Гиперглобус) — 51.8% Q3-плана. Канал «Корпоративные подарки и тендеры» — 11.8% Q3-плана. Исполнение этих направлений критично для достижения квартала.</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <a class="eh-logo eh-logo--invert" href="#top" aria-label="EGGHEADS · Операционные показатели 28 недели">
+      <a class="eh-logo eh-logo--invert" href="#top" aria-label="EGGHEADS · Статус проекта Супергрин в ОСП 3 квартала 2026">
         <span class="eh-head" aria-hidden="true">
           <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
         </span>
@@ -620,124 +403,73 @@
           <span class="eh-tag">ЦИФРОВЫЕ СОТРУДНИКИ</span>
         </span>
       </a>
-      <div class="footer-note">Операционные показатели 28 недели · ВРХ · 14 июля 2026</div>
+      <div class="footer-note">Сформировано Алисой Селезнёвой · EGGHEADS · 14 июля 2026</div>
     </div>
   </footer>
 
   <script>
-    (function(){
-      // Theme toggle
-      var root=document.documentElement;
-      var body=document.body;
-      var button=document.querySelector('.theme-toggle');
-      var icon=document.querySelector('.theme-toggle-icon');
-      var text=document.querySelector('.theme-toggle-text');
-      var currentTheme='light';
-      try{var savedTheme=localStorage.getItem('eggheads-theme');if(savedTheme==='dark'||savedTheme==='light')currentTheme=savedTheme}catch(error){}
-      function applyTheme(theme){
-        root.setAttribute('data-theme',theme);
-        body.setAttribute('data-theme',theme);
-        if(button)button.setAttribute('aria-pressed',String(theme==='dark'));
-        if(icon)icon.textContent=theme==='dark'?'☾':'☀';
-        if(text)text.textContent=theme==='dark'?'Тёмная':'Светлая';
-        try{localStorage.setItem('eggheads-theme',theme)}catch(error){}
+(function(){
+  var root=document.documentElement;
+  var body=document.body;
+  var button=document.querySelector('.theme-toggle');
+  var icon=document.querySelector('.theme-toggle-icon');
+  var text=document.querySelector('.theme-toggle-text');
+  var currentTheme='light';
+  try{var savedTheme=localStorage.getItem('eggheads-theme');if(savedTheme==='dark'||savedTheme==='light')currentTheme=savedTheme}catch(error){}
+  function applyTheme(theme){
+    root.setAttribute('data-theme',theme);
+    body.setAttribute('data-theme',theme);
+    if(button)button.setAttribute('aria-pressed',String(theme==='dark'));
+    if(icon)icon.textContent=theme==='dark'?'☾':'☀';
+    if(text)text.textContent=theme==='dark'?'Тёмная':'Светлая';
+    try{localStorage.setItem('eggheads-theme',theme)}catch(error){}
+  }
+  applyTheme(currentTheme);
+  if(button)button.addEventListener('click',function(){var nextTheme=root.getAttribute('data-theme')==='dark'?'light':'dark';applyTheme(nextTheme)});
+})();
+  </script>
+  <script id="eh-logo-script">
+(function(){
+  function initLogo(logo){
+    var head=logo.querySelector('.eh-head');
+    if(!head)return;
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    var count=0,last=0,busy=false;
+    head.addEventListener('mouseenter',function(){
+      if(busy)return;
+      var now=Date.now();
+      if(now-last>1500)count=0;
+      last=now;
+      count++;
+      if(count>=2){count=0;burnout()}
+    });
+    function puffs(){
+      for(var i=0;i<7;i++){
+        var s=document.createElement('span');
+        s.className='eh-smoke';
+        var sz=7+Math.random()*11;
+        s.style.width=sz+'px';
+        s.style.height=sz+'px';
+        s.style.left=(3+Math.random()*11)+'px';
+        s.style.bottom=(Math.random()*7)+'px';
+        s.style.animation='eh-smoke '+(0.8+Math.random()*0.4).toFixed(2)+'s ease-out forwards';
+        s.style.animationDelay=(i*55)+'ms';
+        logo.appendChild(s);
+        (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
       }
-      applyTheme(currentTheme);
-      if(button)button.addEventListener('click',function(){var nextTheme=root.getAttribute('data-theme')==='dark'?'light':'dark';applyTheme(nextTheme)});
-
-      // Logo easter-egg
-      function initLogo(logo){
-        var head=logo.querySelector('.eh-head');
-        if(!head)return;
-        if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-        var count=0,last=0,busy=false;
-        head.addEventListener('mouseenter',function(){
-          if(busy)return;
-          var now=Date.now();
-          if(now-last>1500)count=0;
-          last=now;
-          count++;
-          if(count>=2){count=0;burnout()}
-        });
-        function puffs(){
-          for(var i=0;i<7;i++){
-            var s=document.createElement('span');
-            s.className='eh-smoke';
-            var sz=7+Math.random()*11;
-            s.style.width=sz+'px';
-            s.style.height=sz+'px';
-            s.style.left=(3+Math.random()*11)+'px';
-            s.style.bottom=(Math.random()*7)+'px';
-            s.style.animation='eh-smoke '+(0.8+Math.random()*0.4).toFixed(2)+'s ease-out forwards';
-            s.style.animationDelay=(i*55)+'ms';
-            logo.appendChild(s);
-            (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
-          }
-        }
-        function burnout(){
-          busy=true;
-          head.classList.add('is-burnout');
-          puffs();
-          setTimeout(puffs,150);
-          var done=function(){head.classList.remove('is-burnout');busy=false;head.removeEventListener('animationend',done)};
-          head.addEventListener('animationend',done);
-          setTimeout(function(){if(busy){head.classList.remove('is-burnout');busy=false}},2200);
-        }
-      }
-      document.querySelectorAll('.eh-logo').forEach(initLogo);
-
-      // Tabs
-      var tabs=document.querySelectorAll('.tab');
-      var pages=document.querySelectorAll('.page');
-      tabs.forEach(function(tab){
-        tab.addEventListener('click',function(){
-          var target=tab.getAttribute('data-target');
-          tabs.forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false')});
-          tab.classList.add('active');tab.setAttribute('aria-selected','true');
-          pages.forEach(function(p){p.classList.remove('active')});
-          document.getElementById(target).classList.add('active');
-        });
-      });
-
-      // Accordions
-      var detailsHeaders=document.querySelectorAll('.details-header');
-      detailsHeaders.forEach(function(header){
-        header.addEventListener('click',function(){
-          var card=header.parentElement;
-          var open=card.classList.contains('open');
-          if(open){
-            card.classList.remove('open');
-            header.setAttribute('aria-expanded','false');
-          } else {
-            card.classList.add('open');
-            header.setAttribute('aria-expanded','true');
-          }
-        });
-      });
-
-      // Build DDS vertical chart
-      var ddsData=[
-        {week:'27',plan:3586685,fact:5029097},
-        {week:'28',plan:5025896,fact:6465628},
-        {week:'29',plan:5216057,fact:null},
-        {week:'30',plan:3509606,fact:null},
-        {week:'31',plan:2566009,fact:null}
-      ];
-      var maxVal=6465628;
-      var chart=document.getElementById('dds-chart');
-      if(chart){
-        ddsData.forEach(function(d){
-          var col=document.createElement('div');
-          col.className='v-col';
-          var factPct=d.fact?Math.round(d.fact/maxVal*100):0;
-          var planPct=Math.round(d.plan/maxVal*100);
-          var factBar=d.fact?'<div class="v-bar fact" style="height:'+factPct+'%"></div>':'';
-          var val=d.fact?(d.fact/1000000).toFixed(2)+' млн':(d.plan/1000000).toFixed(2)+' млн';
-          col.innerHTML='<div class="v-area"><div class="v-bar plan" style="height:'+planPct+'%"></div>'+factBar+'</div><span class="v-val">'+val+'</span><span class="v-lbl">'+d.week+' нед.</span>';
-          chart.appendChild(col);
-        });
-      }
-    })();
+    }
+    function burnout(){
+      busy=true;
+      head.classList.add('is-burnout');
+      puffs();
+      setTimeout(puffs,150);
+      var done=function(){head.classList.remove('is-burnout');busy=false;head.removeEventListener('animationend',done)};
+      head.addEventListener('animationend',done);
+      setTimeout(function(){if(busy){head.classList.remove('is-burnout');busy=false}},2200);
+    }
+  }
+  document.querySelectorAll('.eh-logo').forEach(initLogo);
+})();
   </script>
 </body>
 </html>
