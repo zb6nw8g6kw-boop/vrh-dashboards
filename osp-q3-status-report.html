@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Отчет о статусах задач · ОСП 3 квартала</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --panel-light: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    header { border-bottom: 1px solid var(--panel-light); padding-bottom: 16px; margin-bottom: 24px; }
+    h1 { margin: 0 0 8px; font-size: 28px; font-weight: 700; }
+    .subtitle { color: var(--text-muted); font-size: 15px; }
+    .intro {
+      background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(167,139,250,0.12));
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .kpi-card.accent {
+      border: 1px solid var(--accent);
+      background: rgba(56,189,248,0.08);
+    }
+    .kpi-label { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .kpi-value { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+    .kpi-note { font-size: 12px; color: var(--text-muted); }
+    .card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .block {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    h2 { margin: 0 0 16px; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); }
+    h3 { margin: 20px 0 12px; font-size: 15px; font-weight: 600; color: var(--text); }
+    h4.month-title { margin: 16px 0 8px; font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+    .block-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--panel-light);
+      border-radius: 8px;
+    }
+    .metric { font-size: 14px; color: var(--text-muted); }
+    .metric strong { color: var(--text); font-size: 16px; }
+    .note { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--panel-light); }
+    th { color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    td.num, th.num { text-align: right; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.03); }
+    .total td { background: rgba(56,189,248,0.08); font-weight: 600; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .badge.done { background: rgba(16,185,129,0.15); color: var(--success); }
+    .badge.progress { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .badge.pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+    .badge.missing { background: rgba(248,113,113,0.15); color: var(--danger); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--panel-light); border-radius: 8px; margin-bottom: 16px; }
+    .capitalize { text-transform: capitalize; }
+    .checklist { list-style: none; padding: 0; margin: 0 0 16px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; background: var(--panel-light); border-radius: 8px; margin-bottom: 8px; }
+    .checkbox { flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--text-muted); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 14px; font-weight: 700; }
+    .checkbox.checked { background: var(--success); border-color: var(--success); }
+    .check-label { font-size: 14px; line-height: 1.4; padding-top: 1px; }
+    .q4-network { margin-bottom: 20px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; }
+    .q4-network h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; color: var(--text); }
+    .q4-network .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+    .q4-network .meta .badge { margin-right: 8px; }
+    .collapsible { margin-bottom: 12px; }
+    .collapse-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--panel-light);
+      border: 1px solid var(--panel-light);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+    }
+    .collapse-toggle:hover { background: #475569; }
+    .toggle-icon { font-size: 12px; transition: transform 0.15s ease; }
+    .collapse-toggle.expanded .toggle-icon { transform: rotate(90deg); }
+    .toggle-label { flex: 1; }
+    .toggle-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--panel);
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+    .collapse-content {
+      display: none;
+      margin-top: 8px;
+      animation: fadeIn 0.2s ease;
+    }
+    .collapse-content.expanded { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--panel-light); color: var(--text-muted); font-size: 12px; text-align: center; }
+    @media (max-width: 640px) {
+      .container { padding: 16px; }
+      h1 { font-size: 22px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .kpi-value { font-size: 20px; }
+      .block-summary { flex-direction: column; gap: 8px; }
+      .collapse-toggle { padding: 10px 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Отчет о статусах задач</h1>
+      <div class="subtitle">ОСП 3 квартала · Коммерческий результат · группа Bitrix24 179 · актуально на 20.07.2026</div>
+    </header>
+
+    <div class="intro">
+      <strong>Плановые показатели проекта.</strong> Исправленный план Q3 по запрошенным блокам — <strong>38 775 071 ₽ без НДС</strong> и <strong>812.6 кг икры</strong>. МСП на понятные гипотезы — <strong>14 107 290 ₽</strong> и <strong>316.1 кг</strong>. Задел на Q4 по сетям — <strong>5 663 875 ₽</strong> и <strong>118.8 кг</strong>.
+    </div>
+
+    
+    <div class="kpi-grid">
+      <div class="kpi-card accent">
+        <div class="kpi-label">План Q3 по запрошенным блокам</div>
+        <div class="kpi-value">38 775 071 ₽</div>
+        <div class="kpi-note">812.6 кг без НДС</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">МСП на понятные гипотезы</div>
+        <div class="kpi-value">14 107 290 ₽</div>
+        <div class="kpi-note">316.1 кг без НДС</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Задел на Q4 (сети)</div>
+        <div class="kpi-value">5 663 875 ₽</div>
+        <div class="kpi-note">118.8 кг без НДС</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Июль</div>
+        <div class="kpi-value">1 086 010 ₽</div>
+        <div class="kpi-note">24.1 кг</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Август</div>
+        <div class="kpi-value">19 867 755 ₽</div>
+        <div class="kpi-note">411.4 кг</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Сентябрь</div>
+        <div class="kpi-value">17 821 306 ₽</div>
+        <div class="kpi-note">377.1 кг</div>
+      </div>
+    </div>
+  
+
+    <div class="card">
+      <h2>Плановые показатели Q3 по месяцам</h2>
+      
+    <table>
+      <thead><tr><th>Месяц</th><th class="num">План, ₽ без НДС</th><th class="num">План, кг</th></tr></thead>
+      <tbody>
+        <tr><td class="capitalize">июль</td><td class="num">1 086 010 ₽</td><td class="num">24.1 кг</td></tr><tr><td class="capitalize">август</td><td class="num">19 867 755 ₽</td><td class="num">411.4 кг</td></tr><tr><td class="capitalize">сентябрь</td><td class="num">17 821 306 ₽</td><td class="num">377.1 кг</td></tr>
+        <tr class="total"><td><strong>Итого</strong></td><td class="num"><strong>38 775 071 ₽</strong></td><td class="num"><strong>812.6 кг</strong></td></tr>
+      </tbody>
+    </table>
+  
+    </div>
+
+    
+      <section class="block" id="block-0">
+        <h2>1. Сети Q3</h2>
+        <div class="block-summary"><div class="metric"><strong>10</strong> задач</div><div class="metric"><strong>20 092 900</strong> ₽ план</div><div class="metric"><strong>406.5</strong> кг план</div></div>
+        <p class="note">Включают только сети с плановой отгрузкой в августе–сентябре 2026 по файлу АМБИЦИИ.</p>
+        
+    <table>
+      <thead><tr><th>Месяц</th><th class="num">План, ₽ без НДС</th><th class="num">План, кг</th></tr></thead>
+      <tbody>
+        <tr><td class="capitalize">июль</td><td class="num">0 ₽</td><td class="num">0.0 кг</td></tr><tr><td class="capitalize">август</td><td class="num">13 053 750 ₽</td><td class="num">265.5 кг</td></tr><tr><td class="capitalize">сентябрь</td><td class="num">7 039 150 ₽</td><td class="num">141.0 кг</td></tr>
+        <tr class="total"><td><strong>Итого</strong></td><td class="num"><strong>20 092 900 ₽</strong></td><td class="num"><strong>406.5 кг</strong></td></tr>
+      </tbody>
+    </table>
+  
+        
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-0-tasks">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Задачи по месяцам</span>
+        <span class="toggle-count">10</span>
+      </button>
+      <div class="collapse-content" id="block-0-tasks" style="display:none;">
+        
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Задача</th><th>Статус</th><th>Ответственный</th><th>Месяц</th><th class="num">План, ₽</th><th class="num">План, кг</th><th class="num">Дедлайн</th></tr></thead>
+            <tbody>
+        <tr>
+          <td>9845</td>
+          <td>[Q3-COM-NET-AUCHAN-W35] Сети · Ашан · переговоры и подготовка входа · неделя 35</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9847</td>
+          <td>[Q3-COM-NET-DA-W35] Сети · Да · переговоры и подготовка входа · неделя 35</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9849</td>
+          <td>[Q3-COM-NET-GLOBUS-W33] Сети · Гипер Глобус · переговоры и подготовка входа · неделя 33</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9851</td>
+          <td>[Q3-COM-NET-LENTA-W36] Сети · Лента · переговоры и подготовка входа · неделя 36</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9853</td>
+          <td>[Q3-COM-NET-MAGNIT-W30] Сети · Магнит · переговоры и подготовка входа · неделя 30</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9855</td>
+          <td>[Q3-COM-NET-METRO-W34] Сети · METRO Cash & Carry · переговоры и подготовка входа · неделя 34</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>9857</td>
+          <td>[Q3-COM-NET-SAMOKAT-W29] Сети · Самокат · переговоры и подготовка входа · неделя 29</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>10003</td>
+          <td>[Q3-COM-NET-HYP-GLOBUS] Гипотеза по входу в новые сети и расширения географии текущих сетей · Гиперглобус</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">1 304 220 ₽</td>
+          <td class="num">27.0 кг</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>10005</td>
+          <td>[Q3-COM-NET-HYP-MAGNIT-GEO] Гипотеза по входу в новые сети и расширения географии текущих сетей · МАГНИТ (расширение гео)</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">5 734 930 ₽</td>
+          <td class="num">114.0 кг</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      
+        <tr>
+          <td>10007</td>
+          <td>[Q3-COM-NET-HYP-METRO] Гипотеза по входу в новые сети и расширения географии текущих сетей · Метро</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Алейников Николай</td>
+          <td class="capitalize">август</td>
+          <td class="num">13 053 750 ₽</td>
+          <td class="num">265.5 кг</td>
+          <td class="num">31.08.2026</td>
+        </tr>
+      </tbody>
+          </table>
+        </div>
+      
+      </div>
+    </div>
+  
+      </section>
+    
+      <section class="block" id="block-1">
+        <h2>2. Сети — задел на 4 квартал</h2>
+        <div class="block-summary"><div class="metric"><strong>3</strong> сети</div></div>
+        <p class="note">Задел на Q4 (ЛЕНТА, Да, Ашан). В сводку Q3 не входит, но отражается для контроля переговоров и ЛПР.</p>
+        
+        
+          <div class="q4-network">
+            <h3>Задел на отгрузку в 4 квартал · Ашан</h3>
+            <div class="meta"><span class="badge pending">Ждёт выполнения</span> · Левина Анастасия · до 30.09.2026</div>
+            <ul class="checklist">
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Переговоры с ЛПР</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Процедуры входа</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Условия</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Гарантированные отгрузки</span>
+      </li>
+    </ul>
+          </div>
+        
+          <div class="q4-network">
+            <h3>Задел на отгрузку в 4 квартал · Да</h3>
+            <div class="meta"><span class="badge pending">Ждёт выполнения</span> · Левина Анастасия · до 30.09.2026</div>
+            <ul class="checklist">
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Переговоры с ЛПР</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Процедуры входа</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Условия</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Гарантированные отгрузки</span>
+      </li>
+    </ul>
+          </div>
+        
+          <div class="q4-network">
+            <h3>Задел на отгрузку в 4 квартал · ЛЕНТА</h3>
+            <div class="meta"><span class="badge pending">Ждёт выполнения</span> · Левина Анастасия · до 30.09.2026</div>
+            <ul class="checklist">
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Переговоры с ЛПР</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Процедуры входа</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Условия</span>
+      </li>
+    
+      <li class="check-item">
+        <span class="checkbox "></span>
+        <span class="check-label">Гарантированные отгрузки</span>
+      </li>
+    </ul>
+          </div>
+        
+      </section>
+    
+      <section class="block" id="block-2">
+        <h2>3. Разбудить не менее 27 клиентов МСП</h2>
+        <div class="block-summary"><div class="metric"><strong>27</strong> клиентов</div><div class="metric"><strong>11 894 171</strong> ₽ план</div><div class="metric"><strong>272.1</strong> кг план</div><div class="metric"><strong>26/27</strong> в Bitrix24</div></div>
+        <p class="note">27 клиентов из файла АМБИЦИИ. Статусы показаны для клиентов, заведённых в Bitrix24; остальные требуют создания карточек.</p>
+        
+    <table>
+      <thead><tr><th>Месяц</th><th class="num">План, ₽ без НДС</th><th class="num">План, кг</th></tr></thead>
+      <tbody>
+        <tr><td class="capitalize">июль</td><td class="num">826 600 ₽</td><td class="num">19.1 кг</td></tr><tr><td class="capitalize">август</td><td class="num">3 628 455 ₽</td><td class="num">82.9 кг</td></tr><tr><td class="capitalize">сентябрь</td><td class="num">7 439 116 ₽</td><td class="num">170.1 кг</td></tr>
+        <tr class="total"><td><strong>Итого</strong></td><td class="num"><strong>11 894 171 ₽</strong></td><td class="num"><strong>272.1 кг</strong></td></tr>
+      </tbody>
+    </table>
+  
+        
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-2-clients">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Клиенты и статусы</span>
+        <span class="toggle-count">26/27 в Bitrix24</span>
+      </button>
+      <div class="collapse-content" id="block-2-clients" style="display:none;">
+        
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Клиент</th><th>ID задачи</th><th>Статус</th><th>Ответственный</th><th>Месяцы</th><th class="num">План, ₽</th><th class="num">План, кг</th></tr></thead>
+            <tbody>
+        <tr>
+          <td>КРЫМФРУКТ</td>
+          <td>9791</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Фоменкова Анна Олеговна</td>
+          <td class="capitalize">июль, август, сентябрь</td>
+          <td class="num">1 662 639 ₽</td>
+          <td class="num">35.7 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ПРИЯТНОГО АППЕТИТА</td>
+          <td>9793</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Фоменкова Анна Олеговна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">1 404 536 ₽</td>
+          <td class="num">28.6 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ИКОРНЫЙ ООО</td>
+          <td>9795</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Фоменкова Анна Олеговна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">1 068 682 ₽</td>
+          <td class="num">33.4 кг</td>
+        </tr>
+      
+        <tr>
+          <td>АСТОРИЯ ООО_9701028970</td>
+          <td>9801</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">185 398 ₽</td>
+          <td class="num">6.5 кг</td>
+        </tr>
+      
+        <tr>
+          <td>СЕГМЕНТ ООО</td>
+          <td>9803</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">июль, сентябрь</td>
+          <td class="num">312 662 ₽</td>
+          <td class="num">8.9 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Оконечникова Татьяна Геннадьевна ИП</td>
+          <td>9805</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">163 232 ₽</td>
+          <td class="num">6.1 кг</td>
+        </tr>
+      
+        <tr>
+          <td>МИР ФАНТАЗИЙ ООО</td>
+          <td>9807</td>
+          <td><span class="badge done">Завершена</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">июль, сентябрь</td>
+          <td class="num">232 112 ₽</td>
+          <td class="num">5.4 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ЦЕНТРУМ ООО</td>
+          <td>9809</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Хайлова Екатерина Сергеевна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">104 000 ₽</td>
+          <td class="num">1.8 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Мартынов Андрей Анатольевич ИП</td>
+          <td>9821</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">1 232 400 ₽</td>
+          <td class="num">26.0 кг</td>
+        </tr>
+      
+        <tr>
+          <td>МОЛОЧНАЯ ДОСТАВКА ООО</td>
+          <td>9823</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">611 213 ₽</td>
+          <td class="num">12.3 кг</td>
+        </tr>
+      
+        <tr>
+          <td>АМСАР ООО ТД</td>
+          <td>9811</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">402 850 ₽</td>
+          <td class="num">7.5 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Зайцев Никита Олегович ИП</td>
+          <td>9799</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Хайлова Екатерина Сергеевна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">393 616 ₽</td>
+          <td class="num">7.7 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Шаргородская Кристина Сергеевна ИП</td>
+          <td>9813</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">437 759 ₽</td>
+          <td class="num">10.9 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Н. ПАРК ЗАО</td>
+          <td>9815</td>
+          <td><span class="badge done">Завершена</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">424 998 ₽</td>
+          <td class="num">9.8 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ОКЕАН ООО</td>
+          <td>9797</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Фоменкова Анна Олеговна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">775 100 ₽</td>
+          <td class="num">17.0 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Шевченко Владимир Олегович ИП</td>
+          <td>9817</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">155 446 ₽</td>
+          <td class="num">3.0 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Мартьянов Даниил Евгеньевич</td>
+          <td>9819</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Лезина Александра Сергеевна</td>
+          <td class="capitalize">август</td>
+          <td class="num">109 429 ₽</td>
+          <td class="num">2.8 кг</td>
+        </tr>
+      
+        <tr>
+          <td>МОРСКИЕ РЕСУРСЫ ООО</td>
+          <td>9825</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">319 132 ₽</td>
+          <td class="num">5.4 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Тимофеев Евгений Юрьевич ИП</td>
+          <td>9827</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">210 135 ₽</td>
+          <td class="num">4.9 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ТАЁЖНОЕ ЗИМОВЬЕ ООО</td>
+          <td>9829</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">292 584 ₽</td>
+          <td class="num">5.1 кг</td>
+        </tr>
+      
+        <tr>
+          <td>СОЛОВЬЕВА ЛЮДМИЛА ЕВГЕНЬЕВНА (ИП)</td>
+          <td>9831</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">346 854 ₽</td>
+          <td class="num">10.6 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Подъячева Елена Борисовна ИП</td>
+          <td>9833</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">226 882 ₽</td>
+          <td class="num">4.7 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Панарина Татьяна Валерьевна ИП</td>
+          <td>9835</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">102 147 ₽</td>
+          <td class="num">2.5 кг</td>
+        </tr>
+      
+        <tr>
+          <td>ИП Воят / ИП Марочкин/ ИП Доценко</td>
+          <td>—</td>
+          <td><span class="badge missing">Не заведён в Bitrix24</span></td>
+          <td>Смолянинова</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">242 723 ₽</td>
+          <td class="num">5.0 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Сушун Надежда Тимофеевна ИП</td>
+          <td>9839</td>
+          <td><span class="badge pending">Ждёт выполнения</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">107 972 ₽</td>
+          <td class="num">2.1 кг</td>
+        </tr>
+      
+        <tr>
+          <td>Кипоренко Ольга Борисовна</td>
+          <td>9841</td>
+          <td><span class="badge done">Завершена</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">сентябрь</td>
+          <td class="num">91 254 ₽</td>
+          <td class="num">1.9 кг</td>
+        </tr>
+      
+        <tr>
+          <td>КМ20 ФУД ООО</td>
+          <td>9843</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Смолянинова Дарья Александровна</td>
+          <td class="capitalize">август, сентябрь</td>
+          <td class="num">278 417 ₽</td>
+          <td class="num">6.5 кг</td>
+        </tr>
+      </tbody>
+          </table>
+        </div>
+      
+      </div>
+    </div>
+  
+      </section>
+    
+      <section class="block" id="block-3">
+        <h2>4. Тендерные закупки и корпоративные подарки</h2>
+        <div class="block-summary"><div class="metric"><strong>1</strong> задач</div><div class="metric"><strong>4 574 880</strong> ₽ план</div><div class="metric"><strong>90.0</strong> кг план</div></div>
+        
+        
+    <table>
+      <thead><tr><th>Месяц</th><th class="num">План, ₽ без НДС</th><th class="num">План, кг</th></tr></thead>
+      <tbody>
+        <tr><td class="capitalize">июль</td><td class="num">0 ₽</td><td class="num">0.0 кг</td></tr><tr><td class="capitalize">август</td><td class="num">2 287 440 ₽</td><td class="num">45.0 кг</td></tr><tr><td class="capitalize">сентябрь</td><td class="num">2 287 440 ₽</td><td class="num">45.0 кг</td></tr>
+        <tr class="total"><td><strong>Итого</strong></td><td class="num"><strong>4 574 880 ₽</strong></td><td class="num"><strong>90.0 кг</strong></td></tr>
+      </tbody>
+    </table>
+  
+        
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-3-tasks">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Задача</span>
+        <span class="toggle-count">1</span>
+      </button>
+      <div class="collapse-content" id="block-3-tasks" style="display:none;">
+        
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Задача</th><th>Статус</th><th>Ответственный</th><th class="num">Дедлайн</th></tr></thead>
+            <tbody>
+        <tr>
+          <td>9781</td>
+          <td>[Q3-COM-CORP-GIFTS-TENDERS] Корпоративные подарки и тендеры · запуск канала продаж</td>
+          <td><span class="badge progress">В работе</span></td>
+          <td>Левина Анастасия</td>
+          <td class="num">30.09.2026</td>
+        </tr>
+      </tbody>
+          </table>
+        </div>
+      
+      </div>
+    </div>
+  
+      </section>
+    
+      <section class="block" id="block-4">
+        <h2>5. Новые клиенты МСП от КАМа</h2>
+        <div class="block-summary"><div class="metric"><strong>9</strong> клиентов</div><div class="metric"><strong>21</strong> задач</div><div class="metric"><strong>2 213 120</strong> ₽ план</div><div class="metric"><strong>44.0</strong> кг план</div></div>
+        <p class="note">9 новых клиентов от КАМа, 21 помесячная задача.</p>
+        
+    <table>
+      <thead><tr><th>Месяц</th><th class="num">План, ₽ без НДС</th><th class="num">План, кг</th></tr></thead>
+      <tbody>
+        <tr><td class="capitalize">июль</td><td class="num">259 410 ₽</td><td class="num">5.0 кг</td></tr><tr><td class="capitalize">август</td><td class="num">898 110 ₽</td><td class="num">18.0 кг</td></tr><tr><td class="capitalize">сентябрь</td><td class="num">1 055 600 ₽</td><td class="num">21.0 кг</td></tr>
+        <tr class="total"><td><strong>Итого</strong></td><td class="num"><strong>2 213 120 ₽</strong></td><td class="num"><strong>44.0 кг</strong></td></tr>
+      </tbody>
+    </table>
+  
+        <h4 class="month-title">июль — 259 410 ₽ / 5.0 кг</h4>
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-4-июль">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Задачи июль</span>
+        <span class="toggle-count">3</span>
+      </button>
+      <div class="collapse-content" id="block-4-июль" style="display:none;">
+        
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Задача</th><th>Статус</th><th>Ответственный</th><th class="num">План, ₽</th><th class="num">План, кг</th><th class="num">Дедлайн</th></tr></thead>
+              <tbody>
+          <tr>
+            <td>9961</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-07.2026] МСП · новый клиент · ООО Вайнкап · июль 2026</td>
+            <td><span class="badge done">Завершена</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">157 490 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">31.07.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9971</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-07.2026] МСП · новый клиент · ООО Рыбный · июль 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">31.07.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9977</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-07.2026] МСП · новый клиент · ИП Иванов · июль 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">31.07.2026</td>
+          </tr>
+        </tbody>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  <h4 class="month-title">август — 898 110 ₽ / 18.0 кг</h4>
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-4-август">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Задачи август</span>
+        <span class="toggle-count">9</span>
+      </button>
+      <div class="collapse-content" id="block-4-август" style="display:none;">
+        
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Задача</th><th>Статус</th><th>Ответственный</th><th class="num">План, ₽</th><th class="num">План, кг</th><th class="num">Дедлайн</th></tr></thead>
+              <tbody>
+          <tr>
+            <td>9963</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-08.2026] МСП · новый клиент · ООО Вайнкап · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">157 490 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9967</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-02-08.2026] МСП · новый клиент · ООО Новоком · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">96 540 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9973</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-08.2026] МСП · новый клиент · ООО Рыбный · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9979</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-08.2026] МСП · новый клиент · ИП Иванов · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9983</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-05-08.2026] МСП · новый клиент · ИП Зинковский · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">99 230 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9987</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-06-08.2026] МСП · новый клиент · ООО Аквамарин · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">48 700 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9991</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-07-08.2026] МСП · новый клиент · ООО Северный · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">147 500 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9995</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-08-08.2026] МСП · новый клиент · ИП Бекенева · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">99 230 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9999</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-09-08.2026] МСП · новый клиент · ИП Юнисов · август 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">147 500 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">31.08.2026</td>
+          </tr>
+        </tbody>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  <h4 class="month-title">сентябрь — 1 055 600 ₽ / 21.0 кг</h4>
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="block-4-сентябрь">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Задачи сентябрь</span>
+        <span class="toggle-count">9</span>
+      </button>
+      <div class="collapse-content" id="block-4-сентябрь" style="display:none;">
+        
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Задача</th><th>Статус</th><th>Ответственный</th><th class="num">План, ₽</th><th class="num">План, кг</th><th class="num">Дедлайн</th></tr></thead>
+              <tbody>
+          <tr>
+            <td>9965</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-09.2026] МСП · новый клиент · ООО Вайнкап · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">314 980 ₽</td>
+            <td class="num">6.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9969</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-02-09.2026] МСП · новый клиент · ООО Новоком · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">96 540 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9975</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-09.2026] МСП · новый клиент · ООО Рыбный · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9981</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-09.2026] МСП · новый клиент · ИП Иванов · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">50 960 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9985</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-05-09.2026] МСП · новый клиент · ИП Зинковский · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">99 230 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9989</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-06-09.2026] МСП · новый клиент · ООО Аквамарин · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">48 700 ₽</td>
+            <td class="num">1.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9993</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-07-09.2026] МСП · новый клиент · ООО Северный · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">147 500 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>9997</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-08-09.2026] МСП · новый клиент · ИП Бекенева · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">99 230 ₽</td>
+            <td class="num">2.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        
+          <tr>
+            <td>10001</td>
+            <td>[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-09-09.2026] МСП · новый клиент · ИП Юнисов · сентябрь 2026</td>
+            <td><span class="badge pending">Ждёт выполнения</span></td>
+            <td>Алейников Николай</td>
+            <td class="num">147 500 ₽</td>
+            <td class="num">3.0 кг</td>
+            <td class="num">30.09.2026</td>
+          </tr>
+        </tbody>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  
+      </section>
+    
+    
+    <section class="block" id="block-nikolai">
+      <h2>Активности Николая Алейникова по сетям</h2>
+      <p class="note">Последние статус-обновления из чатов задач по сетям: встречи и переговоры с ЛПР, текущий статус и следующие шаги с датами.</p>
+      
+    <div class="collapsible">
+      <button class="collapse-toggle" data-target="nikolai-activity">
+        <span class="toggle-icon">▶</span>
+        <span class="toggle-label">Показать активности по сетям</span>
+        <span class="toggle-count">10</span>
+      </button>
+      <div class="collapse-content" id="nikolai-activity" style="display:none;">
+        
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Сеть</th><th>Статус задачи</th><th>Сделано</th><th>Следующий шаг</th><th class="num">Дата шага</th><th class="num">Дата обновления</th></tr></thead>
+            <tbody>
+      <tr>
+        <td>Ашан</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Провести переговоры с ЛПР по возможности сотрудничества - 02.09.2026</td>
+        <td class="num">02.09.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>Да</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>отправить договор на согласование клиенту - 20.07.2026</td>
+        <td class="num">20.07.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>Гипер Глобус</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Связаться с ЛПР - 09.09.2026</td>
+        <td class="num">09.09.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>Лента</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Приступить к рассмотрению договора на портале поставщика - 01.09.2026</td>
+        <td class="num">01.09.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>Магнит</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>Согласованы переговоры по вопросу сотрудничества.</td>
+        <td>Провести переговоры с сетью в Краснодаре - 27.07.2026</td>
+        <td class="num">27.07.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>METRO Cash & Carry</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Связаться с ЛПР - 18.08.2026</td>
+        <td class="num">18.08.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>Самокат</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Связаться с ЛПР - 20.07.2026</td>
+        <td class="num">20.07.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>[Q3-COM-NET-HYP-GLOBUS] Гипотеза по входу в новые сети и расширения географии текущих сетей</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Провести переговоры с ЛПР по вопросу сотрудничества  - 21.07.2026</td>
+        <td class="num">21.07.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>[Q3-COM-NET-HYP-MAGNIT-GEO] Гипотеза по входу в новые сети и расширения географии текущих сетей</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>—</td>
+        <td>Запланированы переговоры на 27.07</td>
+        <td class="num">—</td>
+        <td class="num">14.07.2026</td>
+      </tr>
+    
+      <tr>
+        <td>[Q3-COM-NET-HYP-METRO] Гипотеза по входу в новые сети и расширения географии текущих сетей</td>
+        <td><span class="badge pending">Ждёт выполнения</span></td>
+        <td>проведены переговоры с ЛПР</td>
+        <td>Провести переговоры с ЛПР по вопросу сотрудничества - 30.07.2026</td>
+        <td class="num">30.07.2026</td>
+        <td class="num">17.07.2026</td>
+      </tr>
+    </tbody>
+          </table>
+        </div>
+      
+      </div>
+    </div>
+  
+    </section>
+  
+
+    <footer>
+      Источник: Bitrix24 группа 179 (read-only), чат-активность задач и файл «АМБИЦИИ осп 3кв.xlsx» из ВРХ Облака. Плановые суммы — декларации из описаний задач, не факт отгрузки. Для управленческих решений требуется сверка с 1С ERP.
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('.collapse-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (target) {
+          const expanded = target.classList.toggle('expanded');
+          btn.classList.toggle('expanded');
+          target.style.display = expanded ? 'block' : 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
