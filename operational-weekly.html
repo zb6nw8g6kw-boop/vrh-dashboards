@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сводный операционный отчёт · 2026-W29 · EGGHEADS</title>
+  <style id="eh-logo-style">
+.eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:'Helvetica Neue',Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
+.eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
+.eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
+.eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
+@keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
+.eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
+.eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
+@keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
+@keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
+.eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
+.eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
+@keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
+@media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
+.eh-text{display:flex;align-items:flex-end;min-width:0}
+.eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
+.eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
+.eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
+  </style>
+  <style>
+:root {
+  --page-bg: #f5f5f7;
+  --surface: #ffffff;
+  --hero-from: #fafafa;
+  --hero-to: #f0f0f5;
+  --card-bg: #ffffff;
+  --text: #1d1d1f;
+  --muted: #666;
+  --muted-light: #86868b;
+  --border: #e5e5e5;
+  --accent: #FF0000;
+  --dark: #1d1d1f;
+  --shadow: 0 4px 24px rgba(0,0,0,.06);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
+  --button-secondary: #f5f5f7;
+  --button-secondary-hover: #e8e8ed;
+  --good: #0a8f5e;
+  --warn: #c2870a;
+  --bad: #d13b3b;
+  --info: #2563eb;
+}
+[data-theme="dark"] {
+  --page-bg: #0f1014;
+  --surface: #181a20;
+  --hero-from: #181a20;
+  --hero-to: #111217;
+  --card-bg: #181a20;
+  --text: #f5f5f7;
+  --muted: #c7c7cf;
+  --muted-light: #a6a6ad;
+  --border: rgba(255,255,255,.12);
+  --accent: #FF0000;
+  --dark: #f5f5f7;
+  --shadow: 0 4px 24px rgba(0,0,0,.28);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
+  --button-secondary: #23252d;
+  --button-secondary-hover: #2b2e38;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  --info: #60a5fa;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
+a{color:inherit}
+.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
+.header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-header .eh-wordmark{height:22px}
+.site-header .eh-div{height:20px;margin:0 12px}
+.site-header .eh-tag{font-size:11px}
+[data-theme="dark"] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+.header-meta{text-align:right;min-width:0}
+.header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
+.header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
+.theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
+.theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
+.theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
+.theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
+.report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
+.report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-to) 100%);text-align:center}
+.hero h1{margin:0 0 12px;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.02em}
+.hero .period{margin:0 0 18px;color:var(--muted);font-size:15px;font-weight:600}
+.hero .lead{margin:0 auto;max-width:760px;font-size:17px;line-height:1.55;color:var(--text)}
+.section-title{font-size:20px;font-weight:800;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.detail-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.detail-card h3{margin:0 0 12px;font-size:17px;font-weight:800}
+.detail-card ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:var(--text)}
+.detail-card li{margin-bottom:6px}
+.detail-card p{margin:0 0 10px;font-size:14px;line-height:1.55}
+.detail-card.empty{border-style:dashed;background:transparent;opacity:0.6}
+.detail-card.empty h3{color:var(--muted)}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;font-size:13px;color:var(--muted)}
+.meta-grid strong{color:var(--text)}
+.site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-footer .eh-wordmark{height:22px}
+.footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
+@media (max-width:980px){
+  .site-header .eh-tag,.site-header .eh-div{display:none}
+  .header-sub{display:none}
+  .two-col{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .site-header{padding:18px}
+  .header-inner{gap:14px;align-items:flex-start}
+  .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+  .site-header .eh-wordmark{height:21px;max-width:148px}
+  .header-right{gap:10px;flex-direction:column;align-items:flex-end}
+  .header-title{font-size:13px}
+  .theme-toggle{padding:7px 10px;font-size:12px}
+  .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
+  .report-section{padding:18px}
+  .hero h1{font-size:24px}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .site-footer .eh-tag,.site-footer .eh-div{display:none}
+  .footer-note{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
+}
+  </style>
+</head>
+<body data-theme="dark" id="top">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="eh-logo" href="#report-main" aria-label="EGGHEADS · Сводный отчёт">
+        <span class="eh-head" aria-hidden="true">
+          <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
+        </span>
+        <span class="eh-text">
+          <svg class="eh-wordmark" viewBox="21.69 95.83 1008.52 129.2" role="img" aria-label="EGGHEADS"><path d="M119.46,221.54H21.69V99.33H117.02v28.98H55.74v17.46h57.79v28.11H55.74v18.51h63.73v29.16Zm106.32-86.08c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm131.98,0c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm122.55,86.25v-46.27h-44v46.27h-34.57V99.5h34.57v46.44h44v-46.44h34.22v122.22h-34.22Zm143.68-.18h-84.69V99.33h95.33v28.98h-61.29v17.46h57.79v28.11h-57.79v18.51h63.73l-13.08,29.16Zm116.95-20.08h-54.65l-8.03,20.08h-36.67l54.82-122.22h34.92l54.65,122.22h-37.01l-8.03-20.08Zm-27.23-67.92l-15.71,38.93h31.25l-15.54-38.93Zm134.42-34.22c43.12,0,63.9,26.54,63.9,60.23s-20.08,61.98-63.9,61.98h-52.38V99.33h52.38Zm-18.16,93.06h18.16c22,0,29.68-16.41,29.68-33.17s-8.55-31.08-29.68-31.08h-18.16v64.25Zm175.63-59.19c-8.38-6.29-17.98-8.38-28.64-8.38-8.38,0-16.59,2.62-16.59,9.08,0,8.38,8.21,9.6,20.25,10.83,24.27,2.62,49.59,12.39,49.59,40.5s-26.19,39.63-53.61,39.81c-22,.17-37.71-3.67-54.65-21.48l19.03-21.82c12.05,11.7,25.49,13.79,35.79,13.79,11.35,0,19.21-4.02,19.21-10.83,0-6.11-6.98-9.95-20.43-11.17-26.71-2.45-49.76-9.25-49.76-39.63,0-25.84,25.31-37.01,51.16-37.01,18.33,0,32.65,4.19,45.74,14.49l-17.11,21.82Z"/></svg>
+        </span>
+        <span class="eh-text">
+          <span class="eh-div" aria-hidden="true"></span>
+          <span class="eh-tag">ЦИФРОВЫЕ СОТРУДНИКИ</span>
+        </span>
+      </a>
+      <div class="header-right">
+        <div class="header-meta">
+          <div class="header-title">Сводный отчёт</div>
+          <div class="header-sub">Дашборд №1 · 2026-W29</div>
+        </div>
+        <button class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          <span class="theme-toggle-text">Светлая</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="report-main" id="report-main">
+    <section class="report-section hero">
+      <h1>Сводный операционный отчёт по отчётам сотрудников</h1>
+      <p class="period">2026-W29 (29 неделя) · отчёт подготовлен 20.07.2026</p>
+    </section>
+
+    <section class="report-section">
+      <h2 class="section-title">Детализация по блокам</h2>
+      <div class="two-col">
+        <div class="detail-card">
+          <h3>Коммерция · Анастасия Левина</h3>
+          <p><strong>29 неделя:</strong> квота выполнена на 167% (4,25 млн ₽ при квоте 2,68 млн ₽). Сетевой канал перевыполнил план, МСП по икре — единственный недобор. Сетевой излишек полностью перекрыл недобор МСП.</p>
+          <ul>
+            <li><strong>МСП по икре:</strong> 84% квоты (недобор 133 тыс. ₽) — единственный недобор.</li>
+            <li><strong>Фирменная розница:</strong> 118% квоты.</li>
+            <li><strong>Новые сети:</strong> Магнит — договор на подписи у клиента, переговоры 27.07; Самокат — переговоры 21.07; ГиперГлобус, ДА!, Перекресток — согласованы/в работе; МЕТРО — произведена залповая отгрузка 46,5 кг.</li>
+            <li><strong>30 неделя:</strong> план отгрузки покрывает 37% квоты (989 тыс. ₽), требуется удержать сетевые заявки и добрать МСП/розницу.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card">
+          <h3>Артем Соколов Карповое выращивание</h3>
+          <p><strong>29 неделя:</strong> реализация карпа на неделе 0 кг, отход — 31 шт. / 13,8 кг. Товарная рыба от 1 кг — 1 466 шт. / 1 466,0 кг, это около 3,9% от общей биомассы карпа 37 930,4 кг.</p>
+          <ul>
+            <li><strong>Реализация за 10 недель:</strong> 2 087 шт. / 2 436,7 кг, средний вес 1,168 кг.</li>
+            <li><strong>Структура стада:</strong> основная биомасса сосредоточена в группах 2023 года (22 122,7 кг, 58,3%) и 2024 года (9 300,0 кг, 24,5%).</li>
+            <li><strong>Остаток корма:</strong> 11 500,6 кг, общий горизонт 21,2 дня.</li>
+            <li><strong>Критичная фракция:</strong> 4–4,5 мм — 6 983,8 кг при расходе 405,2 кг/день, горизонт 17,2 дня.</li>
+            <li><strong>Денежный расход корма:</strong> 2,84 млн ₽ с НДС за недели 19–28, цена прихода партии 75,24 ₽/кг.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card">
+          <h3>Артем Соколов Осетровое выращивание</h3>
+          <p><strong>29 неделя:</strong> отгрузка осетра и стерляди отсутствует (0 кг), отход — 118 шт. / 62,7 кг, из них осетр 76 шт. / 48,1 кг и стерлядь 42 шт. / 14,6 кг.</p>
+          <ul>
+            <li><strong>Товарная рыба:</strong> осетр 2 225,8 кг, стерлядь 2 556,8 кг; всего 4 782,6 кг (3 108 шт.) к реализации.</li>
+            <li><strong>Остаток корма:</strong> 24 520,6 кг, хватает примерно на 58 дней при расходе 422,4 кг/день.</li>
+            <li><strong>Критичные разрывы:</strong> по кормам 10 мм и 8 мм нулевой остаток при наличии расхода; требуется срочная закупка.</li>
+            <li><strong>Все стадо в садках:</strong> 89 879 шт. / 188 956,9 кг.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card">
+          <h3>HR · Ирина Харлукова</h3>
+          <p><strong>Вакансии в активном подборе:</strong> Главный бухгалтер, Логист, Специалист по благоустройству, Рыбоводы (×3), Подсобный рабочий.</p>
+          <ul>
+            <li><strong>Главный бухгалтер:</strong> 2 финалиста на неделе, 8 финалистов накопленно на этапе интервью с заказчиком.</li>
+            <li><strong>Логист:</strong> 2 финалиста на неделе, 1 найм.</li>
+            <li><strong>Подсобный рабочий:</strong> 1 найм на неделе.</li>
+            <li><strong>Холодный поиск:</strong> прозвонено 5 сварщиков, 1 кандидат приезжает 20.07; проведен скрининг по шоколатье и специалисту СБ.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card">
+          <h3>Переработка икры · Марина Москвина</h3>
+          <p><strong>29 неделя:</strong> производство готовой продукции выросло до 72,81 кг (+15,82 кг, или +27,8% к 28 неделе).</p>
+          <ul>
+            <li><strong>Драйвер роста:</strong> линейка Premium — 50,85 кг (69,8% объёма); Classic — 8,12 кг, Selected — 7,95 кг.</li>
+            <li><strong>Переработка дойной икры:</strong> 2,56 кг; потери по Selected — 0,15%.</li>
+            <li><strong>Остатки на конец недели:</strong> ГП — 40,87 кг; сырьё 2025–2026 гг. — 6 654,11 кг.</li>
+            <li><strong>Сравнение с 2024 годом:</strong> остатки сырья в 10,9 раза выше уровня прошлого периода.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card empty">
+          <h3>Переработка деликатесов · Максим Таволжанский</h3>
+          <p>Отчёт не предоставлен за 29 неделю.</p>
+        </div>
+
+        <div class="detail-card empty">
+          <h3>Производство · Максим Харлуков</h3>
+          <p>Отчёт не предоставлен за 29 неделю.</p>
+        </div>
+
+        <div class="detail-card">
+          <h3>Экономика и финансы · Тимофей Чернасов</h3>
+          <p><strong>ДДС 27–29 недели:</strong> факт 15,19 млн ₽ при плане 19,90 млн ₽, недобор 4,71 млн ₽ (-24%). Подтверждённый провал завершённого периода — 29 неделя: минус 1,52 млн ₽ к плану.</p>
+          <ul>
+            <li><strong>27–28 недели:</strong> перевыполнение плана на +1,44 млн ₽ каждая (+40% и +29%).</li>
+            <li><strong>29 неделя:</strong> поступления 3,69 млн ₽ при плане 5,22 млн ₽, недобор 1,52 млн ₽ (-29%).</li>
+            <li><strong>Будущие недели 30–31:</strong> факт в источнике не указан, поэтому -100% нельзя считать подтвержденным недобором без уточнения статуса периода.</li>
+            <li><strong>Просроченная ДЗ:</strong> 4,74 млн ₽; три крупнейших должника — 3,55 млн ₽ (75%), пять крупнейших — 4,28 млн ₽ (90%).</li>
+            <li><strong>Ключевой риск:</strong> КАВИАР 65 ООО — 1,69 млн ₽, исполнительное производство и высокий риск возврата; до 24.07 нужно ежедневно контролировать обещанные оплаты на 2,14 млн ₽.</li>
+          </ul>
+        </div>
+
+        <div class="detail-card">
+          <h3>Качество · Юлия Раскатова</h3>
+          <p><strong>29 неделя (13–17.07.2026):</strong> 3 рекламации от ИП Яцкевич ЕН по осетру холодного/горячего копчения, общий вес рекламаций — 5,16 кг. Основные дефекты: не жуется, кислый вкус, жидкость в упаковке. Критичных сигналов по ХАССП не выявлено.</p>
+          <ul>
+            <li><strong>Складской контроль икры:</strong> проверено 898 шт., несоответствий 23 шт. (2,56%). Основные дефекты: этикетка (11), стирание даты (5), развакуум (3), брак крышки (2), пустоты (1), жидкость (1).</li>
+            <li><strong>Рыбная готовая продукция:</strong> проверено 127 шт., несоответствий 7 шт. (5,51%): отсутствие вакуума (4), брак крышки (3).</li>
+            <li><strong>Мониторинг отзывов:</strong> ВкусВилл — икра Classic/Premium стабильно 4,5–4,7; Перекресток — Premium зернистая 100 г на уровне 1,00 и требует немедленного внимания; Деликатеска — сильные SKU 4,83–5,00, СТМ 50 г ниже.</li>
+            <li><strong>Корректирующие действия:</strong> внеплановая проверка партий х/к и г/к, усиленный контроль герметичности, вакуума, маркировки и предотгрузочный контроль партий повышенного риска.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2 class="section-title">Источники и примечания</h2>
+      <div class="meta-grid">
+        <div><strong>Источник:</strong> файлы из ВРХ Облака (NextCloud) в SMB/Оперативная отчётность предприятия/понедельник/</div>
+        <div><strong>Критерий отбора:</strong> имена файлов содержат «29 неделя»</div>
+        <div><strong>Найдено файлов:</strong> 6 из 8 папок (7 файлов, включая два направления выращивания)</div>
+        <div><strong>Папки без файлов:</strong> Максим Таволжанский Переработка деликатесов, Максим Харлуков Производство</div>
+        <div><strong>Дата подготовки сводки:</strong> 20.07.2026</div>
+        <div><strong>Ограничение:</strong> внутри отчётов заявлены данные 29-й недели (13–19.07.2026). Сверка с первичными источниками рекомендуется.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="eh-logo eh-logo--invert" href="#top" aria-label="EGGHEADS · Сводный отчёт">
+        <span class="eh-head" aria-hidden="true">
+          <svg viewBox="0 0 512 512" focusable="false"><path d="M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z"/><path d="M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z"/></svg>
+        </span>
+        <span class="eh-text">
+          <svg class="eh-wordmark" viewBox="21.69 95.83 1008.52 129.2" role="img" aria-label="EGGHEADS"><path d="M119.46,221.54H21.69V99.33H117.02v28.98H55.74v17.46h57.79v28.11H55.74v18.51h63.73v29.16Zm106.32-86.08c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm131.98,0c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm122.55,86.25v-46.27h-44v46.27h-34.57V99.5h34.57v46.44h44v-46.44h34.22v122.22h-34.22Zm143.68-.18h-84.69V99.33h95.33v28.98h-61.29v17.46h57.79v28.11h-57.79v18.51h63.73l-13.08,29.16Zm116.95-20.08h-54.65l-8.03,20.08h-36.67l54.82-122.22h34.92l54.65,122.22h-37.01l-8.03-20.08Zm-27.23-67.92l-15.71,38.93h31.25l-15.54-38.93Zm134.42-34.22c43.12,0,63.9,26.54,63.9,60.23s-20.08,61.98-63.9,61.98h-52.38V99.33h52.38Zm-18.16,93.06h18.16c22,0,29.68-16.41,29.68-33.17s-8.55-31.08-29.68-31.08h-18.16v64.25Zm175.63-59.19c-8.38-6.29-17.98-8.38-28.64-8.38-8.38,0-16.59,2.62-16.59,9.08,0,8.38,8.21,9.6,20.25,10.83,24.27,2.62,49.59,12.39,49.59,40.5s-26.19,39.63-53.61,39.81c-22,.17-37.71-3.67-54.65-21.48l19.03-21.82c12.05,11.7,25.49,13.79,35.79,13.79,11.35,0,19.21-4.02,19.21-10.83,0-6.11-6.98-9.95-20.43-11.17-26.71-2.45-49.76-9.25-49.76-39.63,0-25.84,25.31-37.01,51.16-37.01,18.33,0,32.65,4.19,45.74,14.49l-17.11,21.82Z"/></svg>
+        </span>
+        <span class="eh-text">
+          <span class="eh-div" aria-hidden="true"></span>
+          <span class="eh-tag">ЦИФРОВЫЕ СОТРУДНИКИ</span>
+        </span>
+      </a>
+      <div class="footer-note">Сводный управленческий отчёт для дашборда №1 · ВРХ · 20.07.2026</div>
+    </div>
+  </footer>
+
+  <script>
+(function(){
+  var root=document.documentElement;
+  var body=document.body;
+  var button=document.querySelector('.theme-toggle');
+  var icon=document.querySelector('.theme-toggle-icon');
+  var text=document.querySelector('.theme-toggle-text');
+  var currentTheme='dark';
+  try{var savedTheme=localStorage.getItem('eggheads-theme');if(savedTheme==='dark'||savedTheme==='light')currentTheme=savedTheme}catch(error){}
+  function applyTheme(theme){
+    root.setAttribute('data-theme',theme);
+    body.setAttribute('data-theme',theme);
+    if(button)button.setAttribute('aria-pressed',String(theme==='dark'));
+    if(icon)icon.textContent=theme==='dark'?'☾':'☀';
+    if(text)text.textContent=theme==='dark'?'Тёмная':'Светлая';
+    try{localStorage.setItem('eggheads-theme',theme)}catch(error){}
+  }
+  applyTheme(currentTheme);
+  if(button)button.addEventListener('click',function(){var nextTheme=root.getAttribute('data-theme')==='dark'?'light':'dark';applyTheme(nextTheme)});
+})();
+  </script>
+  <script id="eh-logo-script">
+(function(){
+  function initLogo(logo){
+    var head=logo.querySelector('.eh-head');
+    if(!head)return;
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    var count=0,last=0,busy=false;
+    head.addEventListener('mouseenter',function(){
+      if(busy)return;
+      var now=Date.now();
+      if(now-last>1500)count=0;
+      last=now;
+      count++;
+      if(count>=2){count=0;burnout()}
+    });
+    function puffs(){
+      for(var i=0;i<7;i++){
+        var s=document.createElement('span');
+        s.className='eh-smoke';
+        var sz=7+Math.random()*11;
+        s.style.width=sz+'px';
+        s.style.height=sz+'px';
+        s.style.left=(3+Math.random()*11)+'px';
+        s.style.bottom=(Math.random()*7)+'px';
+        s.style.animation='eh-smoke '+(0.8+Math.random()*0.4).toFixed(2)+'s ease-out forwards';
+        s.style.animationDelay=(i*55)+'ms';
+        logo.appendChild(s);
+        (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
+      }
+    }
+    function burnout(){
+      busy=true;
+      head.classList.add('is-burnout');
+      puffs();
+      setTimeout(puffs,150);
+      var done=function(){head.classList.remove('is-burnout');busy=false;head.removeEventListener('animationend',done)};
+      head.addEventListener('animationend',done);
+      setTimeout(function(){if(busy){head.classList.remove('is-burnout');busy=false}},2200);
+    }
+  }
+  document.querySelectorAll('.eh-logo').forEach(initLogo);
+})();
+  </script>
+</body>
+</html>
