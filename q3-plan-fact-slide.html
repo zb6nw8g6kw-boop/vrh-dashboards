@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>3 квартал 2026 · План-факт трекинг</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- CSS-переменные (Темная тема по умолчанию, оптимизировано для macOS) ---------- */
+  :root {
+    --bg-slide: #090B0E;
+    --bg-card: rgba(18, 22, 26, 0.75);
+    --bg-panel: rgba(26, 32, 38, 0.5);
+    --border-color: rgba(36, 45, 53, 0.65);
+    --border-color-soft: rgba(30, 37, 44, 0.4);
+    
+    --text-main: #F8F9FA;
+    --text-muted: #A5B0BC;
+    --text-faint: #6C7A87;
+    
+    --color-fact: #0F62FE; /* Кобальтовый синий для факта */
+    --color-plan: #9AC15D; /* грин (салатовый) */
+    --color-sup: #56A35B;  /* супергрин (темно-зеленый) */
+    --color-grid: rgba(29, 37, 44, 0.5);
+    --color-axis: #8695A4;
+    --color-zero: #ADB5BD;
+    
+    --color-bad: #FDA29B;
+    --color-bad-bg: rgba(44, 26, 26, 0.4);
+    --color-bad-border: rgba(97, 32, 32, 0.6);
+    
+    --color-good: #6EE7B7;
+    --color-good-bg: rgba(6, 78, 59, 0.4);
+    --color-good-border: rgba(4, 120, 87, 0.6);
+    
+    --color-plan-bg: rgba(27, 41, 21, 0.4);
+    --color-plan-border: rgba(58, 85, 47, 0.6);
+    --color-plan-text: #9AC15D;
+    
+    --color-sup-bg: rgba(14, 36, 18, 0.4);
+    --color-sup-border: rgba(30, 78, 37, 0.6);
+    --color-sup-text: #56A35B;
+    
+    --radius-card: 16px;
+    --radius-pill: 999px;
+    --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    /* Шрифты с поддержкой нативных шрифтов Apple SF Pro */
+    --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Space Grotesk', system-ui, sans-serif;
+    --font-sans: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'SF Mono', Monaco, 'IBM Plex Mono', monospace;
+    
+    --transition-speed: 0.2s;
+    --badge-padding: 4px 10px;
+    --kpi-border-left: 4px;
+  }
+
+  /* ---------- Общие стили ---------- */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+  }
+  
+  body {
+    background-color: var(--bg-slide);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Кастомный macOS-style скроллбар для Заметок Спикера */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242D35;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #323F4B;
+  }
+
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vh, 24px);
+    padding: clamp(16px, 2.5vw, 36px);
+    padding-top: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-top));
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    padding-left: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-left));
+    padding-right: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-right));
+    max-width: 1760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ---------- Шапка слайда ---------- */
+  header.top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 4px;
+  }
+  
+  .kicker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+  }
+  
+  .kicker-badge {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.3vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-top: 10px;
+    max-width: 1100px;
+  }
+  
+  h1 .neg {
+    color: var(--color-bad);
+  }
+  
+  .sub {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.6;
+    flex: none;
+  }
+
+  /* ---------- KPI Блоки ---------- */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(12px, 1.5vw, 20px);
+  }
+  
+  .kpi {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 18px 20px 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  .kpi::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--kpi-border-left);
+    background: var(--border-color-soft);
+    transition: background-color var(--transition-speed);
+  }
+  
+  .kpi.alert::before {
+    background: var(--color-bad);
+  }
+  
+  body.theme-swiss .kpi {
+    border-bottom: 2px solid #000;
+  }
+  
+  .kpi .label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+  }
+  
+  .kpi .big {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(22px, 2vw, 30px);
+    margin-top: 10px;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  
+  .kpi .big small {
+    font-size: 0.55em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  
+  .kpi .big.neg {
+    color: var(--color-bad);
+  }
+  
+  .kpi .sub2 {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: var(--badge-padding);
+    border-radius: var(--radius-pill);
+    background: var(--color-bad-bg);
+    color: var(--color-bad);
+    border: 1px solid var(--color-bad-border);
+    transition: all var(--transition-speed);
+  }
+  
+  .chip.neutral {
+    background: var(--bg-panel);
+    color: var(--text-muted);
+    border-color: var(--border-color);
+  }
+  
+  body.theme-swiss .chip {
+    border-radius: 0;
+    border-width: 1px;
+    padding: 2px 6px;
+  }
+
+  /* ---------- Графики ---------- */
+  main.charts {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(12px, 1.5vw, 20px);
+  }
+  
+  .panel {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 20px 22px 14px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .panel {
+    border: 1px solid #000;
+  }
+  
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  
+  .panel-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.25vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
+  .panel-head .unit {
+    color: var(--text-faint);
+    font-size: 11.5px;
+  }
+  
+  .panel-head .headline-delta {
+    display: none;
+  }
+  
+  body.theme-swiss .panel-head .headline-delta {
+    border-radius: 0;
+  }
+  
+  .chart-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    margin-top: 8px;
+    height: 100%;
+    width: 100%;
+  }
+  
+  svg.chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    max-height: 280px;
+  }
+
+  /* ---------- Карточки действий ---------- */
+  .actions {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    gap: clamp(12px, 1.5vw, 20px);
+    align-items: stretch;
+  }
+  
+  .actions .lead {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text-main);
+    padding: 0 8px 0 2px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .act {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .act {
+    border: 1px solid #000;
+  }
+  
+  .act .n {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 14px;
+    background: var(--bg-panel);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    flex: none;
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .act .n {
+    border-radius: 0;
+    border: 1px solid #000;
+    background: transparent;
+  }
+  
+  .act b {
+    color: var(--text-main);
+    font-weight: 700;
+  }
+  
+  .act-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .act-meta {
+    font-size: 11px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ---------- Футер ---------- */
+  footer.ctl-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color-soft);
+    transition: border-color var(--transition-speed);
+  }
+  
+  .ctl {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+  
+  .ctl:hover:not(:disabled) {
+    border-color: var(--text-main);
+    color: var(--text-main);
+  }
+  
+  .ctl:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  
+  body.theme-swiss .ctl {
+    border-radius: 0;
+    border: 1px solid #000;
+  }
+  
+  .ctl.notes-btn {
+    margin-left: auto;
+    background: var(--text-main);
+    color: var(--bg-slide);
+    border-color: var(--text-main);
+  }
+  
+  .ctl.notes-btn:hover {
+    opacity: 0.9;
+  }
+  
+  .counter {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    min-width: 50px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ---------- Боковая панель Заметки Спикера ---------- */
+  .notes {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(460px, 94vw);
+    z-index: 60;
+    background: rgba(18, 22, 26, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-left: 1px solid var(--border-color);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+    transform: translateX(102%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed), border-color var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  body.theme-dark .notes {
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+  }
+  
+  body.theme-swiss .notes {
+    border-left: 2px solid #000;
+  }
+  
+  .notes.open {
+    transform: translateX(0);
+  }
+  
+  .notes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color-soft);
+  }
+  
+  .notes-head h2 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+  .notes-close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all var(--transition-speed);
+  }
+  
+  .notes-close:hover {
+    color: var(--text-main);
+    background: var(--bg-panel);
+  }
+  
+  body.theme-swiss .notes-close {
+    border-radius: 0;
+    border: 1px solid #000;
+  }
+  
+  .notes-body {
+    padding: 20px 24px 40px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  
+  .notes-body h3 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-bad);
+    margin: 22px 0 8px;
+    font-weight: 700;
+  }
+  
+  .notes-body h3:first-child {
+    margin-top: 0;
+  }
+  
+  .notes-body ul {
+    padding-left: 20px;
+  }
+  
+  .notes-body li {
+    margin-bottom: 6px;
+  }
+  
+  .notes-body .say {
+    background: var(--bg-panel);
+    border-left: 4px solid var(--color-bad);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-main);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .notes-body .say {
+    border-radius: 0;
+    border: 1px solid #000;
+    border-left: 4px solid var(--color-bad);
+  }
+
+  /* ---------- Интерактивные подсказки ---------- */
+  .t {
+    border-bottom: 1.5px dotted var(--text-faint);
+    cursor: help;
+    color: inherit;
+    font-weight: 500;
+  }
+  
+  #term-tip {
+    position: fixed;
+    z-index: 80;
+    display: none;
+    max-width: 300px;
+    background: #1A1F26;
+    color: #F8F9FA;
+    font-size: 12.5px;
+    line-height: 1.5;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    pointer-events: none;
+  }
+  
+  body.theme-dark #term-tip {
+    background: #242D35;
+    border: 1px solid #323F4B;
+  }
+  
+  .ct {
+    position: absolute;
+    z-index: 20;
+    display: none;
+    min-width: 230px;
+    max-width: 310px;
+    background: #1A1F26;
+    color: #F8F9FA;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.2);
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  
+  body.theme-dark .ct {
+    background: #12161A;
+    border: 1px solid #242D35;
+  }
+  
+  .ct .ct-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+  }
+  
+  .ct .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2.5px 0;
+  }
+  
+  .ct .row .k {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #ADB5BD;
+  }
+  
+  .ct .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: none;
+  }
+  
+  .ct .row .v {
+    font-weight: 600;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  
+  .ct .row.hl .k {
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .ct .delta {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-weight: 700;
+  }
+  
+  .ct .delta.bad {
+    color: #FDA29B;
+  }
+  
+  .ct .wk {
+    color: #868E96;
+    font-weight: 400;
+  }
+  
+  .hit {
+    fill: transparent;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .hit:focus-visible {
+    stroke: var(--color-fact);
+    stroke-width: 2;
+    fill: rgba(0, 0, 0, 0.05);
+  }
+
+  /* ---------- Адаптивность ---------- */
+  @media (min-width:1181px) and (min-height:660px) {
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    .slide {
+      height: 100vh;
+    }
+    svg.chart {
+      height: 100%;
+      width: 100%;
+      min-height: 0;
+    }
+  }
+  
+  @media (max-width:1180px) {
+    main.charts {
+      grid-template-columns: 1fr;
+    }
+    .kpis {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .actions {
+      grid-template-columns: 1fr 1fr;
+    }
+    .actions .lead {
+      grid-column: 1/-1;
+    }
+    .meta {
+      text-align: left;
+    }
+  }
+  
+  @media (max-width:640px) {
+    .kpis {
+      grid-template-columns: 1fr;
+    }
+    .actions {
+      grid-template-columns: 1fr;
+    }
+    .panel-head .headline-delta {
+      margin-left: 0;
+    }
+  }
+  
+  @media print {
+    footer.ctl-bar, .notes, .meta, .style-selector {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+      color: #000 !important;
+    }
+  }
+</style>
+</head>
+<body class="theme-dark">
+<div class="slide">
+  <header class="top">
+    <div>
+      <div class="kicker-wrapper">
+        <span class="kicker">Q3-2026 · недели 27–40 · план-факт трекинг</span>
+        <span class="kicker-badge">Управленческий отчет</span>
+      </div>
+      <h1>Старт квартала ниже плана: отгрузка 44.8% плана, фин. результат <span class="neg">−5,5 млн ₽</span></h1>
+      <div class="sub">
+        <span>Факт по неделю 29 (13–19 июля) · продолжение до недели 30 (20–26 июля)</span>
+        <span class="t" data-tip="Сумма значений с начала квартала по выбранную неделю включительно. Показывает путь к квартальной цели, а не разовый результат недели.">нарастающий итог</span>
+        <span>· млн ₽</span>
+      </div>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+      <div class="meta">
+        <div>выгрузка 20.07.2026 · источник: план-факт «3 квартал»</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="kpis">
+    <div class="kpi alert">
+      <div class="label">Отгрузка · факт нарастающим</div>
+      <div class="big">11,1 <small>млн ₽</small></div>
+      <div class="sub2">план на 13–19 июля: 24,8 млн ₽</div>
+      <span class="chip">▼ −13,7 млн · 44.8% плана</span>
+    </div>
+    <div class="kpi alert">
+      <div class="label">Чистая прибыль · факт</div>
+      <div class="big neg">−5,50 <small>млн ₽</small></div>
+      <div class="sub2">план на 13–19 июля: +8,37 млн ₽</div>
+      <span class="chip">▼ −13,9 млн к плану</span>
+    </div>
+    <div class="kpi">
+      <div class="label">План квартала (грин)</div>
+      <div class="big" style="color: var(--color-plan-text);"><span>98,5</span> <small style="color: inherit;">/ <span>15,0</span> млн ₽</small></div>
+      <div class="sub2">отгрузка / чистая прибыль</div>
+      <span class="chip" style="background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border);">базовый сценарий</span>
+    </div>
+    <div class="kpi">
+      <div class="label"><span class="t" data-tip="Растянутая (амбициозная) цель квартала сверх базового плана. Используется как ориентир максимального результата, а не как обязательство.">Супергрин</span></div>
+      <div class="big" style="color: var(--color-sup-text);"><span>140,1</span> <small style="color: inherit;">/ <span>51,9</span> млн ₽</small></div>
+      <div class="sub2">отгрузка / чистая прибыль</div>
+      <span class="chip" style="background: var(--color-sup-bg); color: var(--color-sup-text); border-color: var(--color-sup-border);">растянутая цель</span>
+    </div>
+  </section>
+
+  <main class="charts">
+    <div class="panel">
+      <div class="panel-head">
+      <h2>Отгрузка продукции</h2>
+      <span class="unit">нарастающим итогом, млн ₽</span>
+      <span class="headline-delta" style="background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border); display: none;"></span>
+    </div>
+      <div class="chart-wrap" id="chart-ship-wrap"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+      <h2>Чистая прибыль (<span class="t" data-tip="Финансовый результат периода: маржинальный доход минус все расходы, включая амортизацию, проценты и лизинг. В управленческом план-факте используется как «чистая прибыль».">фин. результат</span>)</h2>
+      <span class="unit">нарастающим итогом, млн ₽</span>
+      <span class="headline-delta" style="background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border); display: none;"></span>
+    </div>
+      <div class="chart-wrap" id="chart-profit-wrap"></div>
+    </div>
+  </main>
+
+  <footer class="ctl-bar">
+    <button class="ctl" id="prev" disabled aria-label="Предыдущий слайд">←</button>
+    <span class="counter">1 / 1</span>
+    <button class="ctl" id="next" disabled aria-label="Следующий слайд">→</button>
+    <button class="ctl notes-btn" id="notes-btn" aria-haspopup="true" aria-expanded="false">Speaker Notes</button>
+  </footer>
+</div>
+
+<aside class="notes" id="notes" aria-hidden="true" role="dialog" aria-label="Заметки спикера">
+  <div class="notes-head">
+    <h2>Speaker Notes</h2>
+    <button class="notes-close" id="notes-close" aria-label="Закрыть заметки">×</button>
+  </div>
+  <div class="notes-body">
+<h3>Что сказать</h3>
+<div class="say">«Прошло 3 недели третьего квартала. Отгрузали на 11,1 млн ₽ при плане 24,8 млн ₽ — это 44.8% плана. Финансовый результат — −5,50 млн ₽ при плановых +8,37 млн ₽».</div>
+<h3>Главный тезис</h3>
+<p>Старт квартала ниже плана по обеим метрикам, и разрыв увеличивается.</p>
+<h3>Вывод для аудитории</h3>
+<p>Темп нужно поднимать уже сейчас, не дожидаясь середины квартала. Следующий контрольный рубеж — 30-я неделя.</p>
+<h3>Цифры, которые проговорить</h3>
+<ul>
+  <li>Отгрузка: факт 11,1 млн ₽ против плана 24,8 млн ₽ (−13,7 млн, 44.8%).</li>
+  <li>Прибыль: −5,50 млн ₽ против плановых 8,37 млн ₽ (−13,9 млн).</li>
+  <li>Квартальные ориентиры: план 98,5 / 15,0 млн ₽; супергрин 140,1 / 51,9 млн ₽.</li>
+</ul>
+<h3>Пауза</h3>
+<p>После панели прибыли — 5 секунд тишины: дать команде посмотреть на накопленный результат.</p>
+<h3>Вероятные вопросы</h3>
+<ul>
+  <li>«Почему отстали?» — назвать драйвер по факту недели (заготовить до встречи).</li>
+  <li>«Что показывает 30-я неделя?» — идёт сейчас, план 5,34 млн ₽; факт появится к следующему выпуску.</li>
+  <li>«Реалистичен ли супергрин при таком старте?» — супергрин требует ускорения отгрузки в оставшиеся недели квартала.</li>
+</ul>
+<h3>Переход</h3>
+<p>К блоку «Что делаем»: пройтись по действиям, подтвердить владельцев и сроки.</p>
+</div>
+</aside>
+<div id="term-tip" role="tooltip"></div>
+
+<script>
+"use strict";
+
+/* ==================== ДАННЫЕ ==================== */
+const Q3 = {
+  "weeks": [
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40
+  ],
+  "dates": {
+    "27": "29 июня – 5 июля",
+    "28": "6–12 июля",
+    "29": "13–19 июля",
+    "30": "20–26 июля",
+    "31": "27 июля – 2 августа",
+    "32": "3–9 августа",
+    "33": "10–16 августа",
+    "34": "17–23 августа",
+    "35": "24–30 августа",
+    "36": "31 августа – 6 сентября",
+    "37": "7–13 сентября",
+    "38": "14–20 сентября",
+    "39": "21–27 сентября",
+    "40": "28 сентября – 4 октября"
+  },
+  "currentWeek": 30,
+  "pastWeekCount": 3,
+  "kpiWeek": 29,
+  "kpiWeekIndex": 2,
+  "ship": {
+    "zero": true,
+    "min": 0,
+    "max": 145000000,
+    "ticks": [
+      0,
+      20000000,
+      40000000,
+      60000000,
+      80000000,
+      100000000,
+      120000000,
+      140000000,
+      145000000
+    ],
+    "plan": {
+      "weekly": [
+        5342330.8,
+        5342330.8,
+        14142330.8,
+        5342330.8,
+        7542330.8,
+        6264578.5,
+        6264578.5,
+        6264578.5,
+        6264578.5,
+        6835223.0,
+        7235223.0,
+        7235223.0,
+        7235223.0,
+        7235223.0
+      ],
+      "cum": [
+        5342330.8,
+        10684661.6,
+        24826992.4,
+        30169323.2,
+        37711654.0,
+        43976232.5,
+        50240811.0,
+        56505389.5,
+        62769968.0,
+        69605191.0,
+        76840414.0,
+        84075637.0,
+        91310860.0,
+        98546083.0
+      ]
+    },
+    "sup": {
+      "weekly": [
+        5342330.8,
+        5342330.8,
+        14142330.8,
+        5342330.8,
+        8762298.8,
+        8007238.5,
+        8007238.5,
+        8007238.5,
+        21528550.5,
+        9227837.4,
+        9227837.4,
+        9227837.4,
+        9227837.4,
+        18682589.4
+      ],
+      "cum": [
+        5342330.8,
+        10684661.6,
+        24826992.4,
+        30169323.2,
+        38931622.0,
+        46938860.5,
+        54946099.0,
+        62953337.5,
+        84481888.0,
+        93709725.4,
+        102937562.80000001,
+        112165400.20000002,
+        121393237.60000002,
+        140075827.00000003
+      ]
+    },
+    "fact": {
+      "weekly": [
+        4048774.88,
+        2627269.15,
+        4458233.07,
+        10319396.0
+      ],
+      "cum": [
+        4048774.88,
+        6676044.029999999,
+        11134277.1,
+        21453673.1
+      ]
+    }
+  },
+  "profit": {
+    "zero": false,
+    "min": -7000000,
+    "max": 55000000,
+    "ticks": [
+      -10000000,
+      0,
+      10000000,
+      20000000,
+      30000000,
+      40000000,
+      50000000
+    ],
+    "plan": {
+      "weekly": [
+        97268.02645,
+        97268.02645,
+        8175668.026,
+        97268.02645,
+        2116868.026,
+        13901.67568,
+        13901.67568,
+        13901.67568,
+        13901.67568,
+        617571.8639,
+        939771.8639,
+        939771.8639,
+        939771.8639,
+        939771.8639
+      ],
+      "cum": [
+        97268.02645,
+        194536.0529,
+        8370204.0789,
+        8467472.10535,
+        10584340.131350001,
+        10598241.807030002,
+        10612143.482710002,
+        10626045.158390002,
+        10639946.834070003,
+        11257518.697970003,
+        12197290.561870003,
+        13137062.425770003,
+        14076834.289670004,
+        15016606.153570004
+      ]
+    },
+    "sup": {
+      "weekly": [
+        -58695.32482,
+        -58695.32482,
+        8026744.675,
+        -58695.32482,
+        3083571.274,
+        1769616.818,
+        1769143.345,
+        1769143.345,
+        13483362.61,
+        2819308.213,
+        2819308.213,
+        2819308.213,
+        2819308.213,
+        10920139.73
+      ],
+      "cum": [
+        -58695.32482,
+        -117390.64964,
+        7909354.025359999,
+        7850658.70054,
+        10934229.974539999,
+        12703846.792539999,
+        14472990.13754,
+        16242133.48254,
+        29725496.09254,
+        32544804.30554,
+        35364112.51854,
+        38183420.73154,
+        41002728.94454,
+        51922868.67454
+      ]
+    },
+    "fact": {
+      "weekly": [
+        -1651753.304,
+        -2711163.601,
+        -1136791.592,
+        4765861.747
+      ],
+      "cum": [
+        -1651753.304,
+        -4362916.904999999,
+        -5499708.4969999995,
+        -733846.7499999991
+      ]
+    }
+  }
+};
+
+
+const CHIP = {
+  "ship": {
+    "l1": "▼ Δ плану −13,7 млн ₽",
+    "l2": "44.8% плана за 3 недели"
+  },
+  "profit": {
+    "l1": "▼ Δ плану −13,9 млн ₽",
+    "l2": "план на дату: +8,37 млн ₽"
+  }
+};
+
+
+const fmtM = v => {
+  const m = v / 1e6;
+  const a = Math.abs(m);
+  const d = a >= 10 ? 1 : 2;
+  return m.toLocaleString("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d });
+};
+
+/* ==================== ПОСТРОЕНИЕ ГРАФИКОВ ==================== */
+function buildChart(wrapId, key) {
+  const d = Q3[key];
+  const W = Q3.weeks;
+  const n = W.length;
+  
+  const VW = 1200;
+  const VH = 500;
+  const P = { l: 65, r: 150, t: 25, b: 60 };
+  
+  const iw = VW - P.l - P.r;
+  const ih = VH - P.t - P.b;
+  
+  const X = i => P.l + i * iw / (n - 1);
+  const Y = v => P.t + (d.max - v) / (d.max - d.min) * ih;
+  const stepX = X(1) - X(0);
+  
+  const path = arr => arr.map((v, i) => (i ? "L" : "M") + X(i).toFixed(1) + "," + Y(v).toFixed(1)).join(" ");
+  const pathWithOffset = (arr, startIndex) => arr.map((v, i) => (i ? "L" : "M") + X(startIndex + i).toFixed(1) + "," + Y(v).toFixed(1)).join(" ");
+  
+  let s = `<svg class="chart" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="График ${key === "ship" ? "отгрузки" : "чистой прибыли"} нарастающим итогом: факт, план, суперплан">`;
+  
+  // Сетка и шкала Y
+  d.ticks.forEach(t => {
+    const y = Y(t);
+    // Для темных и швейцарских стилей цвета берутся из CSS-переменных
+    s += `<line x1="${P.l}" y1="${y}" x2="${VW - P.r + 8}" y2="${y}" stroke="var(--color-grid)" stroke-width="${t === 0 ? 1.6 : 1}" />`;
+    s += `<text x="${P.l - 9}" y="${y + 4}" text-anchor="end" font-size="19" fill="var(--text-faint)" font-family="var(--font-mono)">${fmtM(t)}</text>`;
+  });
+  
+  s += `<text x="${P.l - 9}" y="${P.t - 10}" text-anchor="start" font-size="19" fill="var(--text-faint)" font-weight="600">млн ₽</text>`;
+  
+  // Вертикальные разделители месяцев
+  const sep = (a, b) => {
+    const x = (X(a) + X(b)) / 2;
+    s += `<line x1="${x}" y1="${P.t}" x2="${x}" y2="${VH - P.b}" stroke="var(--color-grid)" stroke-dasharray="3 4" />`;
+  };
+  sep(4, 5);
+  sep(9, 10);
+  
+  // Текущая неделя (активный столбец)
+  const ci = W.indexOf(Q3.currentWeek);
+  s += `<rect x="${X(ci) - stepX / 2}" y="${P.t}" width="${stepX}" height="${ih}" fill="var(--bg-panel)" opacity="0.4" />`;
+  s += `<text x="${X(ci)}" y="${P.t - 5}" text-anchor="middle" font-size="18" fill="var(--text-muted)">идёт ${Q3.currentWeek}-я</text>`;
+  
+  // Метки недель по оси X
+  W.forEach((w, i) => {
+    s += `<text x="${X(i)}" y="${VH - P.b + 17}" text-anchor="middle" font-size="18" fill="var(--text-faint)" font-family="var(--font-mono)">${w}</text>`;
+  });
+  
+  // Подписи месяцев
+  const ml = (cx, txt) => {
+    s += `<text x="${cx}" y="${VH - P.b + 37}" text-anchor="middle" font-size="19" font-weight="700" fill="var(--color-axis)">${txt}</text>`;
+  };
+  ml((X(0) + X(4)) / 2, "Июль");
+  ml((X(5) + X(9)) / 2, "Август");
+  ml((X(10) + X(13)) / 2, "Сентябрь");
+  
+  // Линия Суперплана
+  s += `<path d="${path(d.sup.cum)}" fill="none" stroke="var(--color-sup)" stroke-width="5" />`;
+  // Линия Плана
+  s += `<path d="${path(d.plan.cum)}" fill="none" stroke="var(--color-plan)" stroke-width="5" />`;
+  const pastWeekCount = Q3.pastWeekCount || 0;
+  const factStroke = 7;
+  const forecastStroke = Number((factStroke * 0.8).toFixed(1));
+  const hasForecastTail = d.fact.cum.length > pastWeekCount;
+
+  if (hasForecastTail && pastWeekCount > 0) {
+    const solidFactPath = pathWithOffset(d.fact.cum.slice(0, pastWeekCount), 0);
+    const dashedFactPath = pathWithOffset(d.fact.cum.slice(pastWeekCount - 1), pastWeekCount - 1);
+    s += `<path d="${solidFactPath}" fill="none" stroke="var(--color-fact)" stroke-width="${factStroke}" stroke-linecap="round" stroke-linejoin="round" />`;
+    s += `<path d="${dashedFactPath}" fill="none" stroke="var(--color-fact)" stroke-width="${forecastStroke}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" />`;
+  } else {
+    s += `<path d="${path(d.fact.cum)}" fill="none" stroke="var(--color-fact)" stroke-width="${factStroke}" stroke-linecap="round" stroke-linejoin="round" />`;
+  }
+  
+  // Точки факта - только до прошедших недель (индекс < pastWeekCount)
+  d.fact.cum.forEach((v, i) => {
+    if (i < pastWeekCount) {
+      s += `<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="var(--color-fact)" stroke="var(--bg-card)" stroke-width="1.8" />`;
+    }
+  });
+  
+  // Лейблы в конце графиков
+  const el = (y, t1, t2, colVar) => {
+    s += `<text x="${VW - P.r + 14}" y="${y - 2}" font-size="19" font-weight="700" fill="var(${colVar})">${t1}</text>` + 
+         `<text x="${VW - P.r + 14}" y="${y + 18}" font-size="19" fill="var(--text-faint)" font-family="var(--font-mono)">${t2}</text>`;
+  };
+  el(Y(d.plan.cum[n - 1]), "Грин", fmtM(d.plan.cum[n - 1]) + " млн ₽", "--color-plan");
+  el(Y(d.sup.cum[n - 1]), "Супергрин", fmtM(d.sup.cum[n - 1]) + " млн ₽", "--color-sup");
+  
+  // Карточка текущего факта
+  const kpiIndex = (Q3.kpiWeekIndex !== undefined) ? Q3.kpiWeekIndex : (d.fact.cum.length - 1);
+  const fi = Math.max(0, Math.min(kpiIndex, d.fact.cum.length - 1));
+  const fx = X(fi);
+  const fy = Y(d.fact.cum[fi]);
+  const ch = CHIP[key];
+  const cw = 240;
+  const chh = 82;
+
+  // ПРАВИЛО: карточка факта не должна перекрывать линии и осевые подписи.
+  // Автоподбор позиции: перебираются кандидаты справа/слева/сверху/снизу от точки
+  // и углы графика; выбирается первый вариант, не перекрывающий линии.
+  function rectContains(rx, ry, rw, rh, px, py) {
+    return px >= rx && px <= rx + rw && py >= ry && py <= ry + rh;
+  }
+  function lineHitsRect(rx, ry, rw, rh, pts) {
+    for (let i = 0; i < pts.length - 1; i++) {
+      const x1 = X(i), y1 = Y(pts[i]);
+      const x2 = X(i + 1), y2 = Y(pts[i + 1]);
+      if (rectContains(rx, ry, rw, rh, x1, y1)) return true;
+      if (rectContains(rx, ry, rw, rh, x2, y2)) return true;
+      if (rectContains(rx, ry, rw, rh, (x1 + x2) / 2, (y1 + y2) / 2)) return true;
+    }
+    return false;
+  }
+  function cardOverlaps(rx, ry) {
+    return lineHitsRect(rx, ry, cw, chh, d.fact.cum) ||
+           lineHitsRect(rx, ry, cw, chh, d.plan.cum) ||
+           lineHitsRect(rx, ry, cw, chh, d.sup.cum);
+  }
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  const candidates = [
+    { cx: fx + 40, cy: fy - chh - 40 },          // справа сверху
+    { cx: fx - cw - 40, cy: fy - chh - 40 },     // слева сверху
+    { cx: fx + 40, cy: fy + 40 },                // справа снизу
+    { cx: fx - cw - 40, cy: fy + 40 },           // слева снизу
+    { cx: P.l + 90, cy: P.t + 35 },              // левый верхний угол
+    { cx: VW - P.r - cw - 20, cy: P.t + 35 },    // правый верхний угол
+  ];
+  let chosen = null;
+  for (const c of candidates) {
+    const ccx = clamp(c.cx, P.l + 4, VW - P.r - cw - 4);
+    const ccy = clamp(c.cy, P.t + 4, VH - P.b - chh - 4);
+    if (!cardOverlaps(ccx, ccy)) { chosen = { cx: ccx, cy: ccy }; break; }
+  }
+  if (!chosen) chosen = { cx: P.l + 90, cy: P.t + 35 };
+  const cx = clamp(chosen.cx, P.l + 4, VW - P.r - cw - 4);
+  const cy = clamp(chosen.cy, P.t + 4, VH - P.b - chh - 4);
+  
+  s += `<g class="fact-card-group">` +
+       `<rect x="${cx}" y="${cy}" width="${cw}" height="${chh}" rx="8" fill="var(--color-bad-bg)" stroke="var(--color-bad-border)" stroke-width="1" />` +
+       `<text x="${cx + 16}" y="${cy + 24}" font-size="19" font-weight="700" fill="var(--text-main)">Факт: ${fmtM(d.fact.cum[fi])} млн ₽</text>` +
+       `<text x="${cx + 16}" y="${cy + 48}" font-size="18" font-weight="700" fill="var(--color-bad)">${ch.l1}</text>` +
+       `<text x="${cx + 16}" y="${cy + 68}" font-size="18" font-weight="500" fill="var(--color-bad)">${ch.l2}</text>` +
+       `</g>`;
+       
+  // Интерактивные триггеры
+  const seriesDef = [["fact", d.fact], ["plan", d.plan], ["sup", d.sup]];
+  const colors = { fact: "var(--color-fact)", plan: "var(--color-plan)", sup: "var(--color-sup)" };
+  const names = { fact: "Факт", plan: "Грин", sup: "Супергрин" };
+  
+  seriesDef.forEach(([sk, sd]) => {
+    sd.cum.forEach((v, i) => {
+      s += `<circle class="hit" cx="${X(i)}" cy="${Y(v)}" r="13" tabindex="0" data-s="${sk}" data-i="${i}" role="button" aria-label="Неделя ${W[i]}: ${names[sk]} ${fmtM(v)} млн ₽" />`;
+    });
+  });
+  
+  s += `</svg><div class="ct" role="tooltip"></div>`;
+  
+  const wrap = document.getElementById(wrapId);
+  wrap.innerHTML = s;
+  
+  const svg = wrap.querySelector("svg");
+  
+  const tip = wrap.querySelector(".ct");
+  
+  function showTip(sk, i) {
+    const w = W[i];
+    let h = `<div class="ct-title">Неделя ${w} · ${Q3.dates[w]}</div>`;
+    
+    ["fact", "plan", "sup"].forEach(k2 => {
+      const sd = Q3[key][k2];
+      if (i < sd.cum.length) {
+        h += `<div class="row ${k2 === sk ? "hl" : ""}">` +
+             `<span class="k"><span class="dot" style="background:${colors[k2]}"></span>${names[k2]}</span>` +
+             `<span class="v">${fmtM(sd.cum[i])} млн ₽</span>` +
+             `</div>`;
+        h += `<div class="row ${k2 === sk ? "hl" : ""}">` +
+             `<span class="k wk">за неделю</span>` +
+             `<span class="v wk">${fmtM(sd.weekly[i])} млн ₽</span>` +
+             `</div>`;
+      }
+    });
+    
+    if (i < Q3[key].fact.cum.length) {
+      const f = Q3[key].fact.cum[i];
+      const p = Q3[key].plan.cum[i];
+      const dv = f - p;
+      const pct = (p > 0 && f >= 0) ? (f / p * 100) : null;
+      h += `<div class="delta ${dv < 0 ? "bad" : ""}">Δ плану: ${dv < 0 ? "−" : "+"}${fmtM(Math.abs(dv))} млн ₽${pct !== null ? ` · ${pct.toLocaleString("ru-RU", { maximumFractionDigits: 1 })}%` : ""}</div>`;
+    }
+    
+    tip.innerHTML = h;
+    const rect = svg.getBoundingClientRect();
+    const kx = rect.width / VW;
+    const ky = rect.height / VH;
+    
+    const px = X(i) * kx;
+    const py = Y(Q3[key][sk].cum[i]) * ky;
+    
+    tip.style.display = "block";
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    
+    let left = px - tw / 2;
+    left = Math.max(4, Math.min(left, rect.width - tw - 4));
+    
+    let top = py - th - 14;
+    if (top < 2) top = py + 18;
+    
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
+  }
+  
+  function hideTip() {
+    tip.style.display = "none";
+  }
+  
+  wrap.querySelectorAll(".hit").forEach(c => {
+    const sk = c.dataset.s;
+    const i = +c.dataset.i;
+    
+    c.addEventListener("mouseenter", () => showTip(sk, i));
+    c.addEventListener("mouseleave", hideTip);
+    c.addEventListener("focus", () => showTip(sk, i));
+    c.addEventListener("blur", hideTip);
+    c.addEventListener("click", e => {
+      e.stopPropagation();
+      tip.style.display === "block" ? hideTip() : showTip(sk, i);
+    });
+    c.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        showTip(sk, i);
+      }
+      if (e.key === "Escape") hideTip();
+    });
+  });
+  
+  wrap.addEventListener("mouseleave", hideTip);
+}
+
+// Первичная отрисовка
+function renderCharts() {
+  buildChart("chart-ship-wrap", "ship");
+  buildChart("chart-profit-wrap", "profit");
+}
+
+renderCharts();
+
+/* ==================== ГЛОССАРИЙ / ТЕРМИНЫ ==================== */
+const tt = document.getElementById("term-tip");
+document.querySelectorAll(".t").forEach(el => {
+  const show = () => {
+    tt.textContent = el.dataset.tip;
+    tt.style.display = "block";
+    const r = el.getBoundingClientRect();
+    const tw = tt.offsetWidth;
+    let x = r.left + r.width / 2 - tw / 2;
+    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+    tt.style.left = x + "px";
+    tt.style.top = (r.bottom + 8) + "px";
+  };
+  const hide = () => { tt.style.display = "none"; };
+  
+  el.addEventListener("mouseenter", show);
+  el.addEventListener("mouseleave", hide);
+  el.addEventListener("focus", show);
+  el.addEventListener("blur", hide);
+  el.addEventListener("click", e => {
+    e.stopPropagation();
+    tt.style.display === "block" ? hide() : show();
+  });
+  el.setAttribute("tabindex", "0");
+});
+document.addEventListener("click", () => { tt.style.display = "none"; });
+
+/* ==================== SPEAKER NOTES ==================== */
+const notes = document.getElementById("notes");
+const nb = document.getElementById("notes-btn");
+
+function setNotes(open) {
+  notes.classList.toggle("open", open);
+  notes.setAttribute("aria-hidden", String(!open));
+  nb.setAttribute("aria-expanded", String(open));
+}
+
+nb.addEventListener("click", e => {
+  e.stopPropagation();
+  setNotes(!notes.classList.contains("open"));
+});
+
+document.getElementById("notes-close").addEventListener("click", () => setNotes(false));
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") setNotes(false);
+  if (e.key === "n" || e.key === "N" || e.key === "т" || e.key === "Т") {
+    setNotes(!notes.classList.contains("open"));
+  }
+});
+</script>
+</body>
+</html>
