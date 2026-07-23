@@ -23,7 +23,7 @@
             
             --tp-bg: rgba(24, 24, 27, 0.95);
             --tp-border: #3F3F46;
-            --tp-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            --tp-shadow: 0 10px 30px rgba(0,0,0,0.6);
             
             --color-primary: #3B82F6;
             --color-success: #10B981;
@@ -51,11 +51,31 @@
         
         .link { stroke: var(--link-color); stroke-opacity: 0.8; }
 
-        #tooltip { position: absolute; opacity: 0; background: var(--tp-bg); border: 1px solid var(--tp-border); color: var(--text-main); padding: 12px; border-radius: 8px; pointer-events: none; font-size: 0.8rem; box-shadow: var(--tp-shadow); max-width: 280px; backdrop-filter: blur(8px); transition: opacity 0.2s ease; z-index: 100; left: 50%; top: 50%; transform: translate(-50%, -50%); }
-        .tp-assignee { font-weight: 700; color: var(--color-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
-        .tp-title { font-size: 0.8rem; margin-bottom: 8px; line-height: 1.3; color: #FAFAFA; font-weight: 500; }
-        .tp-stages { font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 6px; line-height: 1.5; margin-bottom: 6px; }
-        .tp-report { font-size: 0.7rem; color: #E4E4E7; background: rgba(59, 130, 246, 0.1); border-left: 3px solid var(--color-primary); padding: 6px 8px; border-radius: 4px; font-style: italic; line-height: 1.4; }
+        /* Tooltip Glassmorphism styling */
+        #tooltip { 
+            position: absolute; 
+            opacity: 0; 
+            background: var(--tp-bg); 
+            border: 1px solid var(--tp-border); 
+            color: var(--text-main); 
+            padding: 14px; 
+            border-radius: 10px; 
+            pointer-events: none; 
+            font-size: 0.85rem; 
+            box-shadow: var(--tp-shadow); 
+            max-width: 320px; 
+            backdrop-filter: blur(10px); 
+            transition: opacity 0.2s ease; 
+            z-index: 100; 
+            left: 50%; top: 50%; 
+            transform: translate(-50%, -50%); 
+        }
+        
+        /* Tooltip internals */
+        .tp-assignee { font-weight: 700; font-size: 0.95rem; color: #3B82F6; margin-bottom: 6px; }
+        .tp-title { font-size: 0.85rem; margin-bottom: 10px; line-height: 1.4; color: #FAFAFA; font-weight: 500; }
+        .tp-stages { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 6px; line-height: 1.6; margin-bottom: 8px; }
+        .tp-report { font-size: 0.75rem; color: #E4E4E7; background: rgba(59, 130, 246, 0.08); border-left: 3px solid var(--color-primary); padding: 6px 10px; border-radius: 4px; font-style: italic; line-height: 1.4; }
         
         .tp-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-bottom: 6px; border: 1px solid currentColor; }
         .tp-bg-warning { color: #F59E0B; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); }
@@ -63,13 +83,17 @@
         .tp-bg-danger { color: #EF4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
         .tp-bg-muted { color: #A1A1AA; background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
         
+        /* Department tooltip internals */
+        .tp-dept-title { font-weight: 700; color: #8B5CF6; margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+        .tp-dept-tasks { font-size: 0.75rem; color: #E4E4E7; line-height: 1.5; }
+        
         #tp-close { display: none; text-align: right; color: var(--text-muted); cursor: pointer; font-size: 1rem; margin-bottom: 4px; pointer-events: auto; }
     </style>
 </head>
 <body>
     <header>
         <h1>Карта внедрений: AI-first</h1>
-        <p>Нажмите на узел-плашку для просмотра деталей</p>
+        <p>Нажмите на узел-плашку для просмотра деталей и отчетов</p>
     </header>
     
     <div class="legend">
@@ -89,7 +113,7 @@
     <svg id="network"></svg>
     
     <script type="application/json" id="graph-data">
-    {"nodes": [{"id": "root", "group": "center", "label": "AI-first VRH", "size": 30, "color": "#3B82F6"}, {"id": "dep_Коммерция", "group": "department", "label": "Коммерция", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Управление, HR и Финансы", "group": "department", "label": "Управление, HR и Финансы", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Производство и Выращивание", "group": "department", "label": "Производство и Выращивание", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Сервис и Обеспечение", "group": "department", "label": "Сервис и Обеспечение", "size": 18, "color": "#8B5CF6"}, {"id": "epic_10129", "group": "epic", "label": "Левина", "full_title": "внедрить цифровое управление воронкой продаж.", "assignee": "Левина Анастасия", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10137", "group": "epic", "label": "Кротов", "full_title": "внедрить AI-процесс подготовки и анализа маркетинговых материалов.", "assignee": "Кротов Никита Алексеевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10145", "group": "epic", "label": "Куфтин", "full_title": "автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "assignee": "Куфтин Данил", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10153", "group": "epic", "label": "Балдин", "full_title": "внедрить единый цифровой порядок управления стратегическими проектами.", "assignee": "Балдин Вячеслав", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10161", "group": "epic", "label": "Чернасов", "full_title": "автоматизировать регулярный план-факт анализ.", "assignee": "Чернасов Тимофей Юрьевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10169", "group": "epic", "label": "Комарова", "full_title": "внедрить цифровой процесс подготовки и проверки договоров.", "assignee": "Комарова Тамара", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10177", "group": "epic", "label": "Федоров", "full_title": "создать безопасный технический контур для AI-инструментов.", "assignee": "Федоров Денис Вячеславович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10185", "group": "epic", "label": "Харлукова", "full_title": "цифровизировать подбор и адаптацию сотрудников.", "assignee": "Харлукова Ирина", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10193", "group": "epic", "label": "Харлуков", "full_title": "внедрить модель планирования производства под целевые объемы готовой продукции.", "assignee": "Харлуков Максим", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10201", "group": "epic", "label": "Соколов", "full_title": "внедрить цифровой контроль ключевых показателей выращивания.", "assignee": "Соколов Артем Альбертович", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10209", "group": "epic", "label": "Саурин", "full_title": "создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.", "assignee": "Саурин Иван Дмитриевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10217", "group": "epic", "label": "Раскатова", "full_title": "создать цифровую базу рекламаций и несоответствий.", "assignee": "Раскатова Юлия", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10225", "group": "epic", "label": "Москвина", "full_title": "внедрить цифровой паспорт партии икры.", "assignee": "Москвина Марина Олеговна", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10233", "group": "epic", "label": "Таволжанский", "full_title": "внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.", "assignee": "Таволжанский Максим Валерьевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10241", "group": "epic", "label": "Шоров", "full_title": "цифровизировать ежедневный учет состояния рыбного стада.", "assignee": "Шоров Александр", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10249", "group": "epic", "label": "Трепов", "full_title": "внедрить цифровое управление ремонтами и техническим обслуживанием.", "assignee": "Трепов Эдуард", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10257", "group": "epic", "label": "Волков", "full_title": "внедрить цифровой контроль энергопотребления.", "assignee": "Волков Александр Александрович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10265", "group": "epic", "label": "Шубина", "full_title": "внедрить цифровое управление закупками и складскими остатками.", "assignee": "Шубина Яна Александровна", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}], "links": [{"source": "root", "target": "dep_Коммерция", "value": 3}, {"source": "root", "target": "dep_Управление, HR и Финансы", "value": 3}, {"source": "root", "target": "dep_Производство и Выращивание", "value": 3}, {"source": "root", "target": "dep_Сервис и Обеспечение", "value": 3}, {"source": "dep_Коммерция", "target": "epic_10129", "value": 1}, {"source": "dep_Коммерция", "target": "epic_10137", "value": 1}, {"source": "dep_Коммерция", "target": "epic_10145", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10153", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10161", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10169", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10177", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10185", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10193", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10201", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10209", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10217", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10225", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10233", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10241", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10249", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10257", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10265", "value": 1}]}
+    {"nodes": [{"id": "root", "group": "center", "label": "AI-first VRH", "size": 30, "color": "#3B82F6"}, {"id": "dep_Коммерция", "group": "department", "label": "Коммерция", "tasks_list": "1. внедрить цифровое управление воронкой продаж.<br>2. внедрить AI-процесс подготовки и анализа маркетинговых материалов.<br>3. автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Управление, HR и Финансы", "group": "department", "label": "Управление, HR и Финансы", "tasks_list": "1. внедрить единый цифровой порядок управления стратегическими проектами.<br>2. автоматизировать регулярный план-факт анализ.<br>3. внедрить цифровой процесс подготовки и проверки договоров.<br>4. создать безопасный технический контур для AI-инструментов.<br>5. цифровизировать подбор и адаптацию сотрудников.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Производство и Выращивание", "group": "department", "label": "Производство и Выращивание", "tasks_list": "1. внедрить модель планирования производства под целевые объемы готовой продукции.<br>2. внедрить цифровой контроль ключевых показателей выращивания.<br>3. создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.<br>4. создать цифровую базу рекламаций и несоответствий.<br>5. внедрить цифровой паспорт партии икры.<br>6. внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.<br>7. цифровизировать ежедневный учет состояния рыбного стада.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Сервис и Обеспечение", "group": "department", "label": "Сервис и Обеспечение", "tasks_list": "1. внедрить цифровое управление ремонтами и техническим обслуживанием.<br>2. внедрить цифровой контроль энергопотребления.<br>3. внедрить цифровое управление закупками и складскими остатками.", "size": 18, "color": "#8B5CF6"}, {"id": "epic_10129", "group": "epic", "label": "Левина", "full_title": "внедрить цифровое управление воронкой продаж.", "assignee": "Левина Анастасия", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10137", "group": "epic", "label": "Кротов", "full_title": "внедрить AI-процесс подготовки и анализа маркетинговых материалов.", "assignee": "Кротов Никита Алексеевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10145", "group": "epic", "label": "Куфтин", "full_title": "автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "assignee": "Куфтин Данил", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10153", "group": "epic", "label": "Балдин", "full_title": "внедрить единый цифровой порядок управления стратегическими проектами.", "assignee": "Балдин Вячеслав", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10161", "group": "epic", "label": "Чернасов", "full_title": "автоматизировать регулярный план-факт анализ.", "assignee": "Чернасов Тимофей Юрьевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10169", "group": "epic", "label": "Комарова", "full_title": "внедрить цифровой процесс подготовки и проверки договоров.", "assignee": "Комарова Тамара", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10177", "group": "epic", "label": "Федоров", "full_title": "создать безопасный технический контур для AI-инструментов.", "assignee": "Федоров Денис Вячеславович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10185", "group": "epic", "label": "Харлукова", "full_title": "цифровизировать подбор и адаптацию сотрудников.", "assignee": "Харлукова Ирина", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10193", "group": "epic", "label": "Харлуков", "full_title": "внедрить модель планирования производства под целевые объемы готовой продукции.", "assignee": "Харлуков Максим", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10201", "group": "epic", "label": "Соколов", "full_title": "внедрить цифровой контроль ключевых показателей выращивания.", "assignee": "Соколов Артем Альбертович", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10209", "group": "epic", "label": "Саурин", "full_title": "создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.", "assignee": "Саурин Иван Дмитриевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10217", "group": "epic", "label": "Раскатова", "full_title": "создать цифровую базу рекламаций и несоответствий.", "assignee": "Раскатова Юлия", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10225", "group": "epic", "label": "Москвина", "full_title": "внедрить цифровой паспорт партии икры.", "assignee": "Москвина Марина Олеговна", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10233", "group": "epic", "label": "Таволжанский", "full_title": "внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.", "assignee": "Таволжанский Максим Валерьевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10241", "group": "epic", "label": "Шоров", "full_title": "цифровизировать ежедневный учет состояния рыбного стада.", "assignee": "Шоров Александр", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10249", "group": "epic", "label": "Трепов", "full_title": "внедрить цифровое управление ремонтами и техническим обслуживанием.", "assignee": "Трепов Эдуард", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10257", "group": "epic", "label": "Волков", "full_title": "внедрить цифровой контроль энергопотребления.", "assignee": "Волков Александр Александрович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10265", "group": "epic", "label": "Шубина", "full_title": "внедрить цифровое управление закупками и складскими остатками.", "assignee": "Шубина Яна Александровна", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}], "links": [{"source": "root", "target": "dep_Коммерция", "value": 3}, {"source": "root", "target": "dep_Управление, HR и Финансы", "value": 3}, {"source": "root", "target": "dep_Производство и Выращивание", "value": 3}, {"source": "root", "target": "dep_Сервис и Обеспечение", "value": 3}, {"source": "dep_Коммерция", "target": "epic_10129", "value": 1}, {"source": "dep_Коммерция", "target": "epic_10137", "value": 1}, {"source": "dep_Коммерция", "target": "epic_10145", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10153", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10161", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10169", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10177", "value": 1}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10185", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10193", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10201", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10209", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10217", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10225", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10233", "value": 1}, {"source": "dep_Производство и Выращивание", "target": "epic_10241", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10249", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10257", "value": 1}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10265", "value": 1}]}
     </script>
 
     <script>
@@ -144,9 +168,15 @@
                 .attr("dy", ".35em")
                 .text(d => d.label);
                 
+            // Bind mouseover/mousemove/mouseout to the node group itself
+            node.on("mouseover", showTooltip)
+                .on("mousemove", moveTooltip)
+                .on("mouseout", hideTooltip);
+                
+            // Click handler (primarily for mobile or lock info)
             node.on("click", function(event, d) {
                 event.stopPropagation();
-                if (d.group !== 'epic') return;
+                if (d.group !== 'epic' && d.group !== 'department') return;
                 
                 d3.selectAll(".node").classed("active", false);
                 d3.select(this).classed("active", true);
@@ -192,26 +222,40 @@
                 return (unsafe || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
 
+            function showTooltip(event, d) {
+                if (d.group !== 'epic' && d.group !== 'department') return;
+                showTooltipData(d);
+                positionTooltipDesktop(event);
+            }
+
             function showTooltipData(d) {
-                let badgeClass = 'tp-bg-muted';
-                if (d.status === 'В работе') badgeClass = 'tp-bg-warning';
-                if (d.status === 'Завершено') badgeClass = 'tp-bg-success';
-                if (d.status === 'Риск срыва') badgeClass = 'tp-bg-danger';
+                let html = '';
+                if (d.group === 'epic') {
+                    let badgeClass = 'tp-bg-muted';
+                    if (d.status === 'В работе') badgeClass = 'tp-bg-warning';
+                    if (d.status === 'Завершено') badgeClass = 'tp-bg-success';
+                    if (d.status === 'Риск срыва') badgeClass = 'tp-bg-danger';
 
-                const userIcon = `<svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
-                
-                let reportHtml = '';
-                if (d.report) {
-                    reportHtml = `<div class="tp-report">💬 ${escapeHtml(d.report)}</div>`;
+                    let reportHtml = '';
+                    if (d.report) {
+                        reportHtml = `<div class="tp-report">💬 ${escapeHtml(d.report)}</div>`;
+                    }
+
+                    html = `
+                        <div class="tp-assignee">${escapeHtml(d.assignee)}</div>
+                        <div class="tp-badge ${badgeClass}">${d.status}</div>
+                        <div class="tp-title">${escapeHtml(d.full_title)}</div>
+                        <div class="tp-stages">${d.stages}</div>
+                        ${reportHtml}
+                    `;
+                } else if (d.group === 'department') {
+                    html = `
+                        <div class="tp-dept-title">Направление: ${escapeHtml(d.label)}</div>
+                        <div class="tp-dept-tasks">${d.tasks_list}</div>
+                    `;
                 }
-
-                tpContent.html(`
-                    <div class="tp-assignee">${userIcon} ${escapeHtml(d.assignee)}</div>
-                    <div class="tp-badge ${badgeClass}">${d.status}</div>
-                    <div class="tp-title">${escapeHtml(d.full_title)}</div>
-                    <div class="tp-stages">${d.stages}</div>
-                    ${reportHtml}
-                `);
+                
+                tpContent.html(html);
                 tooltip.style("opacity", 1);
             }
 
