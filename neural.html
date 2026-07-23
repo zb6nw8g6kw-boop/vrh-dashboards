@@ -21,7 +21,7 @@
             --node-hover-stroke: #FAFAFA;
             --link-color: #3F3F46;
             
-            --tp-bg: rgba(24, 24, 27, 0.95);
+            --tp-bg: rgba(24, 24, 27, 0.96);
             --tp-border: #3F3F46;
             --tp-shadow: 0 10px 30px rgba(0,0,0,0.6);
             
@@ -61,23 +61,23 @@
             color: var(--text-main); 
             padding: 16px; 
             border-radius: 12px; 
-            pointer-events: none; 
             font-size: 0.85rem; 
             box-shadow: var(--tp-shadow); 
-            width: 340px; 
+            width: 360px; 
             max-width: 90vw;
             backdrop-filter: blur(12px); 
             transition: opacity 0.2s ease; 
             z-index: 100; 
             left: 50%; top: 50%; 
             transform: translate(-50%, -50%); 
+            pointer-events: none; /* Desktop default: passthrough */
         }
         
-        /* Tooltip internals (Optimized sizes and spacing) */
+        /* Tooltip internals */
         .tp-assignee { font-weight: 700; font-size: 1.05rem; color: #3B82F6; margin-bottom: 6px; }
         .tp-title { font-size: 0.9rem; margin-bottom: 12px; line-height: 1.4; color: #FAFAFA; font-weight: 600; }
-        .tp-stages { font-size: 0.8rem; color: #D4D4D8; border-top: 1px solid var(--border); padding-top: 8px; line-height: 1.6; margin-bottom: 8px; }
-        .tp-report { font-size: 0.8rem; color: #FAFAFA; background: rgba(59, 130, 246, 0.12); border-left: 3px solid var(--color-primary); padding: 8px 10px; border-radius: 4px; font-style: italic; line-height: 1.45; margin-top: 8px; }
+        .tp-stages { font-size: 0.75rem; color: #D4D4D8; border-top: 1px solid var(--border); padding-top: 8px; line-height: 1.6; margin-bottom: 8px; }
+        .tp-report { font-size: 0.75rem; color: #FAFAFA; background: rgba(59, 130, 246, 0.12); border-left: 3px solid var(--color-primary); padding: 8px 10px; border-radius: 4px; font-style: italic; line-height: 1.45; margin-top: 8px; }
         
         .tp-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; border: 1px solid currentColor; }
         .tp-bg-warning { color: #F59E0B; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); }
@@ -85,23 +85,38 @@
         .tp-bg-danger { color: #EF4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
         .tp-bg-muted { color: #A1A1AA; background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
         
-        /* Department / Center tooltip internals */
+        /* Department tooltip internals */
         .tp-dept-title { font-weight: 700; color: #8B5CF6; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .tp-dept-tasks { font-size: 0.8rem; color: #F4F4F5; line-height: 1.6; }
         
         #tp-close { display: none; text-align: right; color: var(--text-muted); cursor: pointer; font-size: 1.25rem; margin-bottom: 6px; pointer-events: auto; }
+        
+        /* Mobile specific style for tooltip */
+        body.mobile-mode #tooltip {
+            position: fixed !important;
+            left: 50% !important;
+            top: 50% !important;
+            bottom: auto !important;
+            right: auto !important;
+            transform: translate(-50%, -50%) !important;
+            pointer-events: auto !important;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        body.mobile-mode #tp-close {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Карта внедрений: AI-first</h1>
-        <p>Наведите курсор на узел для просмотра деталей</p>
+        <p id="header-desc">Наведите курсор на узел для просмотра деталей</p>
     </header>
     
     <div class="legend">
         <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> Проект (Ядро)</div>
         <div class="legend-item"><div class="legend-color" style="background: #8B5CF6;"></div> Отдел</div>
-        <div class="legend-item" style="margin-top:8px; border-top: 1px solid var(--border); padding-top:6px;"><strong>Статус:</strong></div>
+        <div class="legend-item" style="margin-top:8px; border-top: 1px solid var(--border); padding-top:8px;"><strong>Статус:</strong></div>
         <div class="legend-item"><div class="legend-color" style="background: #F59E0B;"></div> В работе</div>
         <div class="legend-item"><div class="legend-color" style="background: #10B981;"></div> Завершено</div>
         <div class="legend-item"><div class="legend-color" style="background: #D4D4D8;"></div> Ожидает</div>
@@ -115,7 +130,7 @@
     <svg id="network"></svg>
     
     <script type="application/json" id="graph-data">
-    {"nodes": [{"id": "root", "group": "center", "label": "AI-first VRH", "size": 30, "color": "#3B82F6", "goal": "Обновленная оргсхема компании с учетом возросшей производительности труда сотрудников и измененных внедренным AI бизнес-процессов компании."}, {"id": "dep_Коммерция", "group": "department", "label": "Коммерция", "tasks_list": "1. внедрить цифровое управление воронкой продаж.<br>2. внедрить AI-процесс подготовки и анализа маркетинговых материалов.<br>3. автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Управление, HR и Финансы", "group": "department", "label": "Управление, HR и Финансы", "tasks_list": "1. внедрить единый цифровой порядок управления стратегическими проектами.<br>2. автоматизировать регулярный план-факт анализ.<br>3. внедрить цифровой процесс подготовки и проверки договоров.<br>4. создать безопасный технический контур для AI-инструментов.<br>5. цифровизировать подбор и адаптацию сотрудников.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Производство и Выращивание", "group": "department", "label": "Производство и Выращивание", "tasks_list": "1. внедрить модель планирования производства под целевые объемы готовой продукции.<br>2. внедрить цифровой контроль ключевых показателей выращивания.<br>3. создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.<br>4. создать цифровую базу рекламаций и несоответствий.<br>5. внедрить цифровой паспорт партии икры.<br>6. внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.<br>7. цифровизировать ежедневный учет состояния рыбного стада.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Сервис и Обеспечение", "group": "department", "label": "Сервис и Обеспечение", "tasks_list": "1. внедрить цифровое управление ремонтами и техническим обслуживанием.<br>2. внедрить цифровой контроль энергопотребления.<br>3. внедрить цифровое управление закупками и складскими остатками.", "size": 18, "color": "#8B5CF6"}, {"id": "epic_10129", "group": "epic", "label": "Левина", "full_title": "внедрить цифровое управление воронкой продаж.", "assignee": "Левина Анастасия", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10137", "group": "epic", "label": "Кротов", "full_title": "внедрить AI-процесс подготовки и анализа маркетинговых материалов.", "assignee": "Кротов Никита Алексеевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10145", "group": "epic", "label": "Куфтин", "full_title": "автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "assignee": "Куфтин Данил", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10153", "group": "epic", "label": "Балдин", "full_title": "внедрить единый цифровой порядок управления стратегическими проектами.", "assignee": "Балдин Вячеслав", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10161", "group": "epic", "label": "Чернасов", "full_title": "автоматизировать регулярный план-факт анализ.", "assignee": "Чернасов Тимофей Юрьевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10169", "group": "epic", "label": "Комарова", "full_title": "внедрить цифровой процесс подготовки и проверки договоров.", "assignee": "Комарова Тамара", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10177", "group": "epic", "label": "Федоров", "full_title": "создать безопасный технический контур для AI-инструментов.", "assignee": "Федоров Денис Вячеславович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10185", "group": "epic", "label": "Харлукова", "full_title": "цифровизировать подбор и адаптацию сотрудников.", "assignee": "Харлукова Ирина", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10193", "group": "epic", "label": "Харлуков", "full_title": "внедрить модель планирования производства под целевые объемы готовой продукции.", "assignee": "Харлуков Максим", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: В работе<br>Этап 3: В работе", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10201", "group": "epic", "label": "Соколов", "full_title": "внедрить цифровой контроль ключевых показателей выращивания.", "assignee": "Соколов Артем Альбертович", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10209", "group": "epic", "label": "Саурин", "full_title": "создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.", "assignee": "Саурин Иван Дмитриевич", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10217", "group": "epic", "label": "Раскатова", "full_title": "создать цифровую базу рекламаций и несоответствий.", "assignee": "Раскатова Юлия", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10225", "group": "epic", "label": "Москвина", "full_title": "внедрить цифровой паспорт партии икры.", "assignee": "Москвина Марина Олеговна", "status": "В работе", "stages": "Этап 1: В работе<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10233", "group": "epic", "label": "Таволжанский", "full_title": "внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.", "assignee": "Таволжанский Максим Валерьевич", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10241", "group": "epic", "label": "Шоров", "full_title": "цифровизировать ежедневный учет состояния рыбного стада.", "assignee": "Шоров Александр", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10249", "group": "epic", "label": "Трепов", "full_title": "внедрить цифровое управление ремонтами и техническим обслуживанием.", "assignee": "Трепов Эдуард", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10257", "group": "epic", "label": "Волков", "full_title": "внедрить цифровой контроль энергопотребления.", "assignee": "Волков Александр Александрович", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10265", "group": "epic", "label": "Шубина", "full_title": "внедрить цифровое управление закупками и складскими остатками.", "assignee": "Шубина Яна Александровна", "status": "Ожидает", "stages": "Этап 1: Ожидает<br>Этап 2: Ожидает<br>Этап 3: Ожидает", "report": "", "size": 12, "color": "#52525B"}], "links": [{"source": "root", "target": "dep_Коммерция", "value": 3}, {"source": "root", "target": "dep_Управление, HR и Финансы", "value": 3}, {"source": "root", "target": "dep_Производство и Выращивание", "value": 3}, {"source": "root", "target": "dep_Сервис и Обеспечение", "value": 3}, {"source": "dep_Коммерция", "target": "epic_10129", "value": 1.5}, {"source": "dep_Коммерция", "target": "epic_10137", "value": 1.5}, {"source": "dep_Коммерция", "target": "epic_10145", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10153", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10161", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10169", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10177", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10185", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10193", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10201", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10209", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10217", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10225", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10233", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10241", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10249", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10257", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10265", "value": 1.5}]}
+    {"nodes": [{"id": "root", "group": "center", "label": "AI-first VRH", "size": 30, "color": "#3B82F6", "goal": "Обновленная оргсхема компании с учетом возросшей производительности труда сотрудников и измененных внедренным AI бизнес-процессов компании."}, {"id": "dep_Коммерция", "group": "department", "label": "Коммерция", "tasks_list": "1. внедрить цифровое управление воронкой продаж.<br>2. внедрить AI-процесс подготовки и анализа маркетинговых материалов.<br>3. автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Управление, HR и Финансы", "group": "department", "label": "Управление, HR и Финансы", "tasks_list": "1. внедрить единый цифровой порядок управления стратегическими проектами.<br>2. автоматизировать регулярный план-факт анализ.<br>3. внедрить цифровой процесс подготовки и проверки договоров.<br>4. создать безопасный технический контур для AI-инструментов.<br>5. цифровизировать подбор и адаптацию сотрудников.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Производство и Выращивание", "group": "department", "label": "Производство и Выращивание", "tasks_list": "1. внедрить модель планирования производства под целевые объемы готовой продукции.<br>2. внедрить цифровой контроль ключевых показателей выращивания.<br>3. создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.<br>4. создать цифровую базу рекламаций и несоответствий.<br>5. внедрить цифровой паспорт партии икры.<br>6. внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.<br>7. цифровизировать ежедневный учет состояния рыбного стада.", "size": 18, "color": "#8B5CF6"}, {"id": "dep_Сервис и Обеспечение", "group": "department", "label": "Сервис и Обеспечение", "tasks_list": "1. внедрить цифровое управление ремонтами и техническим обслуживанием.<br>2. внедрить цифровой контроль энергопотребления.<br>3. внедрить цифровое управление закупками и складскими остатками.", "size": 18, "color": "#8B5CF6"}, {"id": "epic_10129", "group": "epic", "label": "Левина", "full_title": "внедрить цифровое управление воронкой продаж.", "assignee": "Левина Анастасия", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10137", "group": "epic", "label": "Кротов", "full_title": "внедрить AI-процесс подготовки и анализа маркетинговых материалов.", "assignee": "Кротов Никита Алексеевич", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10145", "group": "epic", "label": "Куфтин", "full_title": "автоматизировать сбор исторических данных по продажам и построение прогноза на выбранный период с заданными параметрами.", "assignee": "Куфтин Данил", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10153", "group": "epic", "label": "Балдин", "full_title": "внедрить единый цифровой порядок управления стратегическими проектами.", "assignee": "Балдин Вячеслав", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>В работе</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10161", "group": "epic", "label": "Чернасов", "full_title": "автоматизировать регулярный план-факт анализ.", "assignee": "Чернасов Тимофей Юрьевич", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10169", "group": "epic", "label": "Комарова", "full_title": "внедрить цифровой процесс подготовки и проверки договоров.", "assignee": "Комарова Тамара", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>В работе</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10177", "group": "epic", "label": "Федоров", "full_title": "создать безопасный технический контур для AI-инструментов.", "assignee": "Федоров Денис Вячеславович", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10185", "group": "epic", "label": "Харлукова", "full_title": "цифровизировать подбор и адаптацию сотрудников.", "assignee": "Харлукова Ирина", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10193", "group": "epic", "label": "Харлуков", "full_title": "внедрить модель планирования производства под целевые объемы готовой продукции.", "assignee": "Харлуков Максим", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>В работе</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10201", "group": "epic", "label": "Соколов", "full_title": "внедрить цифровой контроль ключевых показателей выращивания.", "assignee": "Соколов Артем Альбертович", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10209", "group": "epic", "label": "Саурин", "full_title": "создать базу данных по-ячипового учета маточного стада и систему анализа эффективности нерестовой кампании по каждой самке.", "assignee": "Саурин Иван Дмитриевич", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10217", "group": "epic", "label": "Раскатова", "full_title": "создать цифровую базу рекламаций и несоответствий.", "assignee": "Раскатова Юлия", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10225", "group": "epic", "label": "Москвина", "full_title": "внедрить цифровой паспорт партии икры.", "assignee": "Москвина Марина Олеговна", "status": "В работе", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>В работе</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#F59E0B"}, {"id": "epic_10233", "group": "epic", "label": "Таволжанский", "full_title": "внедрить цифровой поиск причин отклонений продукции от утвержденных эталонов на основе параметров производства.", "assignee": "Таволжанский Максим Валерьевич", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10241", "group": "epic", "label": "Шоров", "full_title": "цифровизировать ежедневный учет состояния рыбного стада.", "assignee": "Шоров Александр", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10249", "group": "epic", "label": "Трепов", "full_title": "внедрить цифровое управление ремонтами и техническим обслуживанием.", "assignee": "Трепов Эдуард", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10257", "group": "epic", "label": "Волков", "full_title": "внедрить цифровой контроль энергопотребления.", "assignee": "Волков Александр Александрович", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}, {"id": "epic_10265", "group": "epic", "label": "Шубина", "full_title": "внедрить цифровое управление закупками и складскими остатками.", "assignee": "Шубина Яна Александровна", "status": "Ожидает", "stages": "<b>Этап 1 · архитектура решения, исходный показатель, источник данных</b> (01.08.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 2 · прототип и минимум 3 рабочих цикла</b> (01.09.2026) — <span style='font-weight:600;'>Ожидает</span><br><b>Этап 3 · внедрение, подтвержденный эффект, регламент</b> (30.09.2026) — <span style='font-weight:600;'>Ожидает</span>", "report": "", "size": 12, "color": "#52525B"}], "links": [{"source": "root", "target": "dep_Коммерция", "value": 3}, {"source": "root", "target": "dep_Управление, HR и Финансы", "value": 3}, {"source": "root", "target": "dep_Производство и Выращивание", "value": 3}, {"source": "root", "target": "dep_Сервис и Обеспечение", "value": 3}, {"source": "dep_Коммерция", "target": "epic_10129", "value": 1.5}, {"source": "dep_Коммерция", "target": "epic_10137", "value": 1.5}, {"source": "dep_Коммерция", "target": "epic_10145", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10153", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10161", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10169", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10177", "value": 1.5}, {"source": "dep_Управление, HR и Финансы", "target": "epic_10185", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10193", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10201", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10209", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10217", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10225", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10233", "value": 1.5}, {"source": "dep_Производство и Выращивание", "target": "epic_10241", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10249", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10257", "value": 1.5}, {"source": "dep_Сервис и Обеспечение", "target": "epic_10265", "value": 1.5}]}
     </script>
 
     <script>
@@ -131,7 +146,13 @@
             
             const width = window.innerWidth;
             const height = window.innerHeight;
-            const isMobile = width < 768;
+            
+            // Проверка мобильного устройства / тачскрина
+            const isMobile = width < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (isMobile) {
+                document.body.classList.add('mobile-mode');
+                document.getElementById('header-desc').textContent = "Нажмите на узел для просмотра деталей";
+            }
             
             const svg = d3.select("#network").attr("width", width).attr("height", height);
             const g = svg.append("g");
@@ -143,8 +164,8 @@
             const tpContent = d3.select("#tp-content");
             const tpClose = d3.select("#tp-close");
 
-            const linkDistance = isMobile ? 120 : 250;
-            const chargeStrength = isMobile ? -500 : -3500;
+            const linkDistance = isMobile ? 100 : 250;
+            const chargeStrength = isMobile ? -400 : -3500;
 
             const simulation = d3.forceSimulation(graph.nodes)
                 .force("link", d3.forceLink(graph.links).id(d => d.id).distance(d => {
@@ -178,19 +199,22 @@
                 .attr("dy", ".35em")
                 .text(d => d.label);
                 
-            // Локальные обертки для событий
-            node.on("mouseover", function(event, d) {
-                if (d.group !== 'epic' && d.group !== 'department' && d.group !== 'center') return;
-                showTooltipData(d);
-                positionTooltipDesktop(event);
-            })
-            .on("mousemove", function(event) {
-                positionTooltipDesktop(event);
-            })
-            .on("mouseout", function() {
-                tooltip.style("opacity", 0);
-            });
+            // Логика событий мыши (только для десктопов без тачскрина)
+            if (!isMobile) {
+                node.on("mouseover", function(event, d) {
+                    if (d.group !== 'epic' && d.group !== 'department' && d.group !== 'center') return;
+                    showTooltipData(d);
+                    positionTooltipDesktop(event);
+                })
+                .on("mousemove", function(event) {
+                    positionTooltipDesktop(event);
+                })
+                .on("mouseout", function() {
+                    tooltip.style("opacity", 0);
+                });
+            }
                 
+            // Клик (для мобилок фиксирует по центру, для десктопов тоже работает)
             node.on("click", function(event, d) {
                 event.stopPropagation();
                 if (d.group !== 'epic' && d.group !== 'department' && d.group !== 'center') return;
@@ -201,6 +225,7 @@
                 showTooltipData(d);
                 
                 if (isMobile) {
+                    // Мобильный режим: жестко центрируем без привязки к координатам тапа
                     tooltip.style("transform", "translate(-50%, -50%)")
                            .style("left", "50%")
                            .style("top", "50%");
@@ -213,6 +238,7 @@
                 }
             });
 
+            // Закрытие тултипа по клику на пустое место (на мобилках)
             svg.on("click", () => {
                 d3.selectAll(".node").classed("active", false);
                 tooltip.style("opacity", 0).style("pointer-events", "none");
@@ -278,7 +304,7 @@
             function positionTooltipDesktop(event) {
                 let x = event.pageX + 15;
                 let y = event.pageY + 15;
-                if (x + 350 > window.innerWidth) x = event.pageX - 350;
+                if (x + 360 > window.innerWidth) x = event.pageX - 360;
                 if (y + 250 > window.innerHeight) y = event.pageY - 250;
                 tooltip.style("left", x + "px").style("top", y + "px").style("transform", "none");
             }
