@@ -14,7 +14,7 @@
             --bg-main: #09090B;
             --text-main: #FAFAFA;
             --text-muted: #A1A1AA;
-            --border: #27272A;
+            --border: #3F3F46;
             --card-bg: #18181B;
             
             --node-stroke: #18181B;
@@ -46,8 +46,8 @@
         
         .node circle { stroke: var(--node-stroke); stroke-width: 2px; transition: stroke-width 0.2s, stroke 0.2s; cursor: pointer; }
         .node:hover circle, .node.active circle { stroke: var(--node-hover-stroke); stroke-width: 3px; }
-        .node text { font-size: 10px; fill: #D4D4D8; pointer-events: none; text-shadow: 0px 1px 3px rgba(0,0,0,0.8); font-weight: 600; }
-        .node.epic:hover text, .node.active text { fill: #FAFAFA; font-size: 11px; }
+        .node text { font-size: 11px; fill: #E4E4E7; pointer-events: none; text-shadow: 0px 1px 3px rgba(0,0,0,0.9); font-weight: 600; }
+        .node.epic:hover text, .node.active text { fill: #FAFAFA; font-size: 12px; }
         
         .link { stroke: var(--link-color); stroke-opacity: 0.8; }
 
@@ -58,36 +58,37 @@
             background: var(--tp-bg); 
             border: 1px solid var(--tp-border); 
             color: var(--text-main); 
-            padding: 14px; 
-            border-radius: 10px; 
+            padding: 16px; 
+            border-radius: 12px; 
             pointer-events: none; 
             font-size: 0.85rem; 
             box-shadow: var(--tp-shadow); 
-            max-width: 320px; 
-            backdrop-filter: blur(10px); 
+            width: 340px; 
+            max-width: 90vw;
+            backdrop-filter: blur(12px); 
             transition: opacity 0.2s ease; 
             z-index: 100; 
             left: 50%; top: 50%; 
             transform: translate(-50%, -50%); 
         }
         
-        /* Tooltip internals */
-        .tp-assignee { font-weight: 700; font-size: 0.95rem; color: #3B82F6; margin-bottom: 6px; }
-        .tp-title { font-size: 0.85rem; margin-bottom: 10px; line-height: 1.4; color: #FAFAFA; font-weight: 500; }
-        .tp-stages { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 6px; line-height: 1.6; margin-bottom: 8px; }
-        .tp-report { font-size: 0.75rem; color: #E4E4E7; background: rgba(59, 130, 246, 0.08); border-left: 3px solid var(--color-primary); padding: 6px 10px; border-radius: 4px; font-style: italic; line-height: 1.4; }
+        /* Tooltip internals (Optimized sizes and spacing) */
+        .tp-assignee { font-weight: 700; font-size: 1.05rem; color: #3B82F6; margin-bottom: 6px; }
+        .tp-title { font-size: 0.9rem; margin-bottom: 12px; line-height: 1.4; color: #FAFAFA; font-weight: 600; }
+        .tp-stages { font-size: 0.8rem; color: #D4D4D8; border-top: 1px solid var(--border); padding-top: 8px; line-height: 1.6; margin-bottom: 8px; }
+        .tp-report { font-size: 0.8rem; color: #FAFAFA; background: rgba(59, 130, 246, 0.12); border-left: 3px solid var(--color-primary); padding: 8px 10px; border-radius: 4px; font-style: italic; line-height: 1.45; margin-top: 8px; }
         
-        .tp-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-bottom: 6px; border: 1px solid currentColor; }
+        .tp-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; border: 1px solid currentColor; }
         .tp-bg-warning { color: #F59E0B; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); }
         .tp-bg-success { color: #10B981; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
         .tp-bg-danger { color: #EF4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
         .tp-bg-muted { color: #A1A1AA; background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
         
         /* Department tooltip internals */
-        .tp-dept-title { font-weight: 700; color: #8B5CF6; margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-        .tp-dept-tasks { font-size: 0.75rem; color: #E4E4E7; line-height: 1.5; }
+        .tp-dept-title { font-weight: 700; color: #8B5CF6; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .tp-dept-tasks { font-size: 0.8rem; color: #F4F4F5; line-height: 1.6; }
         
-        #tp-close { display: none; text-align: right; color: var(--text-muted); cursor: pointer; font-size: 1rem; margin-bottom: 4px; pointer-events: auto; }
+        #tp-close { display: none; text-align: right; color: var(--text-muted); cursor: pointer; font-size: 1.25rem; margin-bottom: 6px; pointer-events: auto; }
     </style>
 </head>
 <body>
@@ -99,7 +100,7 @@
     <div class="legend">
         <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> Проект (Ядро)</div>
         <div class="legend-item"><div class="legend-color" style="background: #8B5CF6;"></div> Отдел</div>
-        <div class="legend-item" style="margin-top:6px; border-top: 1px solid var(--border); padding-top:6px;"><strong>Статус:</strong></div>
+        <div class="legend-item" style="margin-top:8px; border-top: 1px solid var(--border); padding-top:6px;"><strong>Статус:</strong></div>
         <div class="legend-item"><div class="legend-color" style="background: #F59E0B;"></div> В работе</div>
         <div class="legend-item"><div class="legend-color" style="background: #10B981;"></div> Завершено</div>
         <div class="legend-item"><div class="legend-color" style="background: #D4D4D8;"></div> Ожидает</div>
@@ -241,6 +242,7 @@
                         reportHtml = `<div class="tp-report">💬 ${escapeHtml(d.report)}</div>`;
                     }
 
+                    // ПОЛНОСТЬЮ убран значок человечка. Шрифты сбалансированы.
                     html = `
                         <div class="tp-assignee">${escapeHtml(d.assignee)}</div>
                         <div class="tp-badge ${badgeClass}">${d.status}</div>
@@ -262,11 +264,12 @@
             function positionTooltipDesktop(event) {
                 let x = event.pageX + 15;
                 let y = event.pageY + 15;
-                if (x + 300 > window.innerWidth) x = event.pageX - 300;
-                if (y + 200 > window.innerHeight) y = event.pageY - 200;
+                if (x + 350 > window.innerWidth) x = event.pageX - 350;
+                if (y + 250 > window.innerHeight) y = event.pageY - 250;
                 tooltip.style("left", x + "px").style("top", y + "px").style("transform", "none");
             }
 
+            // Drag physics
             function dragstarted(event, d) {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 d.fx = d.x; d.fy = d.y;
