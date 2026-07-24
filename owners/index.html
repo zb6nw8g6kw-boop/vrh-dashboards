@@ -3194,7 +3194,7 @@ a{color:inherit}
 &lt;/body&gt;
 &lt;/html&gt;
 " title="Операционка · Еженедельный сводный отчёт"></iframe>
-      <iframe id="dash-aifirst" class="dashboard-frame" src="https://zb6nw8g6kw-boop.github.io/vrh-dashboards/neural.html" title="AI-first VRH · Нейронное облако"></iframe>
+      <iframe id="dash-aifirst" class="dashboard-frame" data-src="https://zb6nw8g6kw-boop.github.io/vrh-dashboards/neural.html" title="AI-first VRH · Нейронное облако" loading="lazy"></iframe>
     </main>
 
     <footer class="app-footer">
@@ -3215,7 +3215,15 @@ a{color:inherit}
         t.setAttribute('aria-selected', 'false');
       });
 
-      document.getElementById('dash-' + id).classList.add('active');
+      const activeFrame = document.getElementById('dash-' + id);
+      activeFrame.classList.add('active');
+
+      // Lazy-load AI-first VRH iframe only when its tab is first opened,
+      // so the embedded D3 graph initializes inside a visible container.
+      if (id === 'aifirst' && activeFrame.getAttribute('src') !== activeFrame.dataset.src) {
+        activeFrame.setAttribute('src', activeFrame.dataset.src);
+      }
+
       const activeTab = document.getElementById(map[id]);
       activeTab.classList.add('active');
       activeTab.setAttribute('aria-selected', 'true');
