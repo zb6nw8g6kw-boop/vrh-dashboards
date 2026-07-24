@@ -1679,7 +1679,8 @@
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(560px, 1fr);
     gap: clamp(12px, 1.5vw, 20px);
   }
   
@@ -1693,7 +1694,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
-    min-height: 0;
+    min-height: 560px;
     box-shadow: var(--shadow-card);
     transition: all var(--transition-speed);
   }
@@ -1745,7 +1746,7 @@
     width: 100%;
     height: 100%;
     align-self: center;
-    max-height: 280px;
+    min-height: 520px;
   }
 
   /* ---------- Карточки действий ---------- */
@@ -2123,15 +2124,15 @@
   @media (min-width:1181px) and (min-height:660px) {
     html, body {
       height: 100%;
-      overflow: hidden;
     }
     .slide {
-      height: 100vh;
+      min-height: 100vh;
+      height: auto;
     }
     svg.chart {
       height: 100%;
       width: 100%;
-      min-height: 0;
+      min-height: 520px;
     }
   }
   
@@ -2181,12 +2182,12 @@
   &lt;header class=&quot;top&quot;&gt;
     &lt;div&gt;
       &lt;div class=&quot;kicker-wrapper&quot;&gt;
-        &lt;span class=&quot;kicker&quot;&gt;Q3-2026 · недели 27–40 · план-факт трекинг&lt;/span&gt;
+        &lt;span class=&quot;kicker&quot;&gt;PL / SP / факт задачи №1&lt;/span&gt;
         &lt;span class=&quot;kicker-badge&quot;&gt;Управленческий отчет&lt;/span&gt;
       &lt;/div&gt;
-      &lt;h1&gt;Старт квартала ниже плана: отгрузка 44.8% плана, фин. результат &lt;span class=&quot;neg&quot;&gt;−5,5 млн ₽&lt;/span&gt;&lt;/h1&gt;
+      &lt;h1&gt;План-факт Q3: отгрузка и финрез&lt;/h1&gt;
       &lt;div class=&quot;sub&quot;&gt;
-        &lt;span&gt;Факт по неделю 29 (13–19 июля) · продолжение до недели 30 (20–26 июля)&lt;/span&gt;
+        &lt;span&gt;факт до 29 недели&lt;/span&gt;
         &lt;span class=&quot;t&quot; data-tip=&quot;Сумма значений с начала квартала по выбранную неделю включительно. Показывает путь к квартальной цели, а не разовый результат недели.&quot;&gt;нарастающий итог&lt;/span&gt;
         &lt;span&gt;· млн ₽&lt;/span&gt;
       &lt;/div&gt;
@@ -2194,7 +2195,7 @@
     
     &lt;div style=&quot;display: flex; flex-direction: column; align-items: flex-end; gap: 8px;&quot;&gt;
       &lt;div class=&quot;meta&quot;&gt;
-        &lt;div&gt;выгрузка 21.07.2026 · источник: план-факт «3 квартал»&lt;/div&gt;
+        &lt;div&gt;24.07.2026 14:14&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/header&gt;
@@ -2203,25 +2204,25 @@
     &lt;div class=&quot;kpi alert&quot;&gt;
       &lt;div class=&quot;label&quot;&gt;Отгрузка · факт нарастающим&lt;/div&gt;
       &lt;div class=&quot;big&quot;&gt;11,1 &lt;small&gt;млн ₽&lt;/small&gt;&lt;/div&gt;
-      &lt;div class=&quot;sub2&quot;&gt;план на 13–19 июля: 24,8 млн ₽&lt;/div&gt;
-      &lt;span class=&quot;chip&quot;&gt;▼ −13,7 млн · 44.8% плана&lt;/span&gt;
+      &lt;div class=&quot;sub2&quot;&gt;PL к неделе: 24,8 млн ₽&lt;/div&gt;
+      &lt;span class=&quot;chip&quot;&gt;−13,7 млн ₽ к PL&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class=&quot;kpi alert&quot;&gt;
-      &lt;div class=&quot;label&quot;&gt;Чистая прибыль · факт&lt;/div&gt;
-      &lt;div class=&quot;big neg&quot;&gt;−5,50 &lt;small&gt;млн ₽&lt;/small&gt;&lt;/div&gt;
-      &lt;div class=&quot;sub2&quot;&gt;план на 13–19 июля: +8,37 млн ₽&lt;/div&gt;
-      &lt;span class=&quot;chip&quot;&gt;▼ −13,9 млн к плану&lt;/span&gt;
+      &lt;div class=&quot;label&quot;&gt;Финрез · факт&lt;/div&gt;
+      &lt;div class=&quot;big neg&quot;&gt;-5,4 &lt;small&gt;млн ₽&lt;/small&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;PL к неделе: 8,4 млн ₽&lt;/div&gt;
+      &lt;span class=&quot;chip&quot;&gt;−13,8 млн ₽ к PL&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class=&quot;kpi&quot;&gt;
       &lt;div class=&quot;label&quot;&gt;План квартала (грин)&lt;/div&gt;
       &lt;div class=&quot;big&quot; style=&quot;color: var(--color-plan-text);&quot;&gt;&lt;span&gt;98,5&lt;/span&gt; &lt;small style=&quot;color: inherit;&quot;&gt;/ &lt;span&gt;15,0&lt;/span&gt; млн ₽&lt;/small&gt;&lt;/div&gt;
-      &lt;div class=&quot;sub2&quot;&gt;отгрузка / чистая прибыль&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;отгрузка / финрез&lt;/div&gt;
       &lt;span class=&quot;chip&quot; style=&quot;background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border);&quot;&gt;базовый сценарий&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class=&quot;kpi&quot;&gt;
       &lt;div class=&quot;label&quot;&gt;&lt;span class=&quot;t&quot; data-tip=&quot;Растянутая (амбициозная) цель квартала сверх базового плана. Используется как ориентир максимального результата, а не как обязательство.&quot;&gt;Супергрин&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;big&quot; style=&quot;color: var(--color-sup-text);&quot;&gt;&lt;span&gt;140,1&lt;/span&gt; &lt;small style=&quot;color: inherit;&quot;&gt;/ &lt;span&gt;51,9&lt;/span&gt; млн ₽&lt;/small&gt;&lt;/div&gt;
-      &lt;div class=&quot;sub2&quot;&gt;отгрузка / чистая прибыль&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;отгрузка / финрез&lt;/div&gt;
       &lt;span class=&quot;chip&quot; style=&quot;background: var(--color-sup-bg); color: var(--color-sup-text); border-color: var(--color-sup-border);&quot;&gt;растянутая цель&lt;/span&gt;
     &lt;/div&gt;
   &lt;/section&gt;
@@ -2237,7 +2238,7 @@
     &lt;/div&gt;
     &lt;div class=&quot;panel&quot;&gt;
       &lt;div class=&quot;panel-head&quot;&gt;
-      &lt;h2&gt;Чистая прибыль (&lt;span class=&quot;t&quot; data-tip=&quot;Финансовый результат периода: маржинальный доход минус все расходы, включая амортизацию, проценты и лизинг. В управленческом план-факте используется как «чистая прибыль».&quot;&gt;фин. результат&lt;/span&gt;)&lt;/h2&gt;
+      &lt;h2&gt;Финрез (&lt;span class=&quot;t&quot; data-tip=&quot;Финансовый результат периода: маржинальный доход минус все расходы, включая амортизацию, проценты и лизинг. В управленческом план-факте используется как «финрез».&quot;&gt;фин. результат&lt;/span&gt;)&lt;/h2&gt;
       &lt;span class=&quot;unit&quot;&gt;нарастающим итогом, млн ₽&lt;/span&gt;
       &lt;span class=&quot;headline-delta&quot; style=&quot;background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border); display: none;&quot;&gt;&lt;/span&gt;
     &lt;/div&gt;
@@ -2259,28 +2260,7 @@
     &lt;button class=&quot;notes-close&quot; id=&quot;notes-close&quot; aria-label=&quot;Закрыть заметки&quot;&gt;×&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class=&quot;notes-body&quot;&gt;
-&lt;h3&gt;Что сказать&lt;/h3&gt;
-&lt;div class=&quot;say&quot;&gt;«Прошло 3 недели третьего квартала. Отгрузали на 11,1 млн ₽ при плане 24,8 млн ₽ — это 44.8% плана. Финансовый результат — −5,50 млн ₽ при плановых +8,37 млн ₽».&lt;/div&gt;
-&lt;h3&gt;Главный тезис&lt;/h3&gt;
-&lt;p&gt;Старт квартала ниже плана по обеим метрикам, и разрыв увеличивается.&lt;/p&gt;
-&lt;h3&gt;Вывод для аудитории&lt;/h3&gt;
-&lt;p&gt;Темп нужно поднимать уже сейчас, не дожидаясь середины квартала. Следующий контрольный рубеж — 30-я неделя.&lt;/p&gt;
-&lt;h3&gt;Цифры, которые проговорить&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Отгрузка: факт 11,1 млн ₽ против плана 24,8 млн ₽ (−13,7 млн, 44.8%).&lt;/li&gt;
-  &lt;li&gt;Прибыль: −5,50 млн ₽ против плановых 8,37 млн ₽ (−13,9 млн).&lt;/li&gt;
-  &lt;li&gt;Квартальные ориентиры: план 98,5 / 15,0 млн ₽; супергрин 140,1 / 51,9 млн ₽.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Пауза&lt;/h3&gt;
-&lt;p&gt;После панели прибыли — 5 секунд тишины: дать команде посмотреть на накопленный результат.&lt;/p&gt;
-&lt;h3&gt;Вероятные вопросы&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;«Почему отстали?» — назвать драйвер по факту недели (заготовить до встречи).&lt;/li&gt;
-  &lt;li&gt;«Что показывает 30-я неделя?» — идёт сейчас, план 5,34 млн ₽; факт появится к следующему выпуску.&lt;/li&gt;
-  &lt;li&gt;«Реалистичен ли супергрин при таком старте?» — супергрин требует ускорения отгрузки в оставшиеся недели квартала.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Переход&lt;/h3&gt;
-&lt;p&gt;К блоку «Что делаем»: пройтись по действиям, подтвердить владельцев и сроки.&lt;/p&gt;
+К неделе 29: отгрузка 11,1 млн ₽ (−13,7 млн ₽ к PL), финрез -5,4 млн ₽ (−13,8 млн ₽ к PL). Постоянные расходы квартала: 66,3 млн ₽, распределение равномерно по неделям. Источник прогноза: нет. Если постоянные расходы уточняются, приоритет — ретроактивно пересчитать финрез. Факторы финреза к PL: объём −12,5 млн ₽; маржинальность −1,3 млн ₽; постоянные расходы +0 ₽; прочее/округление +0 ₽.
 &lt;/div&gt;
 &lt;/aside&gt;
 &lt;div id=&quot;term-tip&quot; role=&quot;tooltip&quot;&gt;&lt;/div&gt;
@@ -2289,250 +2269,10 @@
 &quot;use strict&quot;;
 
 /* ==================== ДАННЫЕ ==================== */
-const Q3 = {
-  &quot;weeks&quot;: [
-    27,
-    28,
-    29,
-    30,
-    31,
-    32,
-    33,
-    34,
-    35,
-    36,
-    37,
-    38,
-    39,
-    40
-  ],
-  &quot;dates&quot;: {
-    &quot;27&quot;: &quot;29 июня – 5 июля&quot;,
-    &quot;28&quot;: &quot;6–12 июля&quot;,
-    &quot;29&quot;: &quot;13–19 июля&quot;,
-    &quot;30&quot;: &quot;20–26 июля&quot;,
-    &quot;31&quot;: &quot;27 июля – 2 августа&quot;,
-    &quot;32&quot;: &quot;3–9 августа&quot;,
-    &quot;33&quot;: &quot;10–16 августа&quot;,
-    &quot;34&quot;: &quot;17–23 августа&quot;,
-    &quot;35&quot;: &quot;24–30 августа&quot;,
-    &quot;36&quot;: &quot;31 августа – 6 сентября&quot;,
-    &quot;37&quot;: &quot;7–13 сентября&quot;,
-    &quot;38&quot;: &quot;14–20 сентября&quot;,
-    &quot;39&quot;: &quot;21–27 сентября&quot;,
-    &quot;40&quot;: &quot;28 сентября – 4 октября&quot;
-  },
-  &quot;currentWeek&quot;: 30,
-  &quot;pastWeekCount&quot;: 3,
-  &quot;kpiWeek&quot;: 29,
-  &quot;kpiWeekIndex&quot;: 2,
-  &quot;ship&quot;: {
-    &quot;zero&quot;: true,
-    &quot;min&quot;: 0,
-    &quot;max&quot;: 145000000,
-    &quot;ticks&quot;: [
-      0,
-      20000000,
-      40000000,
-      60000000,
-      80000000,
-      100000000,
-      120000000,
-      140000000,
-      145000000
-    ],
-    &quot;plan&quot;: {
-      &quot;weekly&quot;: [
-        5342330.8,
-        5342330.8,
-        14142330.8,
-        5342330.8,
-        7542330.8,
-        6264578.5,
-        6264578.5,
-        6264578.5,
-        6264578.5,
-        6835223.0,
-        7235223.0,
-        7235223.0,
-        7235223.0,
-        7235223.0
-      ],
-      &quot;cum&quot;: [
-        5342330.8,
-        10684661.6,
-        24826992.4,
-        30169323.2,
-        37711654.0,
-        43976232.5,
-        50240811.0,
-        56505389.5,
-        62769968.0,
-        69605191.0,
-        76840414.0,
-        84075637.0,
-        91310860.0,
-        98546083.0
-      ]
-    },
-    &quot;sup&quot;: {
-      &quot;weekly&quot;: [
-        5342330.8,
-        5342330.8,
-        14142330.8,
-        5342330.8,
-        8762298.8,
-        8007238.5,
-        8007238.5,
-        8007238.5,
-        21528550.5,
-        9227837.4,
-        9227837.4,
-        9227837.4,
-        9227837.4,
-        18682589.4
-      ],
-      &quot;cum&quot;: [
-        5342330.8,
-        10684661.6,
-        24826992.4,
-        30169323.2,
-        38931622.0,
-        46938860.5,
-        54946099.0,
-        62953337.5,
-        84481888.0,
-        93709725.4,
-        102937562.80000001,
-        112165400.20000002,
-        121393237.60000002,
-        140075827.00000003
-      ]
-    },
-    &quot;fact&quot;: {
-      &quot;weekly&quot;: [
-        4048774.88,
-        2627269.15,
-        4458233.07,
-        10319396.0
-      ],
-      &quot;cum&quot;: [
-        4048774.88,
-        6676044.029999999,
-        11134277.1,
-        21453673.1
-      ]
-    }
-  },
-  &quot;profit&quot;: {
-    &quot;zero&quot;: false,
-    &quot;min&quot;: -7000000,
-    &quot;max&quot;: 55000000,
-    &quot;ticks&quot;: [
-      -10000000,
-      0,
-      10000000,
-      20000000,
-      30000000,
-      40000000,
-      50000000
-    ],
-    &quot;plan&quot;: {
-      &quot;weekly&quot;: [
-        97268.02645,
-        97268.02645,
-        8175668.026,
-        97268.02645,
-        2116868.026,
-        13901.67568,
-        13901.67568,
-        13901.67568,
-        13901.67568,
-        617571.8639,
-        939771.8639,
-        939771.8639,
-        939771.8639,
-        939771.8639
-      ],
-      &quot;cum&quot;: [
-        97268.02645,
-        194536.0529,
-        8370204.0789,
-        8467472.10535,
-        10584340.131350001,
-        10598241.807030002,
-        10612143.482710002,
-        10626045.158390002,
-        10639946.834070003,
-        11257518.697970003,
-        12197290.561870003,
-        13137062.425770003,
-        14076834.289670004,
-        15016606.153570004
-      ]
-    },
-    &quot;sup&quot;: {
-      &quot;weekly&quot;: [
-        -58695.32482,
-        -58695.32482,
-        8026744.675,
-        -58695.32482,
-        3083571.274,
-        1769616.818,
-        1769143.345,
-        1769143.345,
-        13483362.61,
-        2819308.213,
-        2819308.213,
-        2819308.213,
-        2819308.213,
-        10920139.73
-      ],
-      &quot;cum&quot;: [
-        -58695.32482,
-        -117390.64964,
-        7909354.025359999,
-        7850658.70054,
-        10934229.974539999,
-        12703846.792539999,
-        14472990.13754,
-        16242133.48254,
-        29725496.09254,
-        32544804.30554,
-        35364112.51854,
-        38183420.73154,
-        41002728.94454,
-        51922868.67454
-      ]
-    },
-    &quot;fact&quot;: {
-      &quot;weekly&quot;: [
-        -1651753.304,
-        -2711163.601,
-        -1136791.592,
-        4765861.747
-      ],
-      &quot;cum&quot;: [
-        -1651753.304,
-        -4362916.904999999,
-        -5499708.4969999995,
-        -733846.7499999991
-      ]
-    }
-  }
-};
+const Q3 = {&quot;weeks&quot;: [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40], &quot;dates&quot;: {&quot;27&quot;: &quot;29.06–05.07&quot;, &quot;28&quot;: &quot;06.07–12.07&quot;, &quot;29&quot;: &quot;13.07–19.07&quot;, &quot;30&quot;: &quot;20.07–26.07&quot;, &quot;31&quot;: &quot;27.07–02.08&quot;, &quot;32&quot;: &quot;03.08–09.08&quot;, &quot;33&quot;: &quot;10.08–16.08&quot;, &quot;34&quot;: &quot;17.08–23.08&quot;, &quot;35&quot;: &quot;24.08–30.08&quot;, &quot;36&quot;: &quot;31.08–06.09&quot;, &quot;37&quot;: &quot;07.09–13.09&quot;, &quot;38&quot;: &quot;14.09–20.09&quot;, &quot;39&quot;: &quot;21.09–27.09&quot;, &quot;40&quot;: &quot;28.09–04.10&quot;}, &quot;currentWeek&quot;: 29, &quot;extendToWeek&quot;: 29, &quot;kpiWeekIndex&quot;: 2, &quot;pastWeekCount&quot;: 2, &quot;fixedCosts&quot;: {&quot;quarterAmount&quot;: 66290983.0, &quot;weeklyAmount&quot;: 4735070.214285715}, &quot;factorAnalysis&quot;: {&quot;weeksCount&quot;: 3, &quot;planShip&quot;: 24826992.4, &quot;factShip&quot;: 11090523.84, &quot;planProfit&quot;: 8370204.0789, &quot;factProfit&quot;: -5446180.292857144, &quot;fixedBurden&quot;: 14205210.642857144, &quot;planRate&quot;: 0.9093092855563586, &quot;factRate&quot;: 0.7897760715692217, &quot;volumeEffect&quot;: -12490698.412360981, &quot;marginEffect&quot;: -1325685.9593961632, &quot;fixedEffect&quot;: 0.0, &quot;residual&quot;: 2.3283064365386963e-10, &quot;totalDelta&quot;: -13816384.371757144}, &quot;ship&quot;: {&quot;zero&quot;: 0, &quot;min&quot;: 0, &quot;max&quot;: 150000000, &quot;ticks&quot;: [0, 50000000, 100000000, 150000000], &quot;plan&quot;: {&quot;weekly&quot;: [5342330.8, 5342330.8, 14142330.8, 5342330.8, 7542330.8, 6264578.5, 6264578.5, 6264578.5, 6264578.5, 6835223.0, 7235223.0, 7235223.0, 7235223.0, 7235223.0], &quot;cum&quot;: [5342330.8, 10684661.6, 24826992.4, 30169323.2, 37711654.0, 43976232.5, 50240811.0, 56505389.5, 62769968.0, 69605191.0, 76840414.0, 84075637.0, 91310860.0, 98546083.0]}, &quot;sup&quot;: {&quot;weekly&quot;: [5342330.8, 5342330.8, 14142330.8, 5342330.8, 8762298.8, 8007238.5, 8007238.5, 8007238.5, 21528550.5, 9227837.4, 9227837.4, 9227837.4, 9227837.4, 18682589.4], &quot;cum&quot;: [5342330.8, 10684661.6, 24826992.4, 30169323.2, 38931622.0, 46938860.5, 54946099.0, 62953337.5, 84481888.0, 93709725.4, 102937562.80000001, 112165400.20000002, 121393237.60000002, 140075827.00000003]}, &quot;fact&quot;: {&quot;weekly&quot;: [4004844.35, 2627269.15, 4458410.34], &quot;cum&quot;: [4004844.35, 6632113.5, 11090523.84]}}, &quot;profit&quot;: {&quot;zero&quot;: 0, &quot;min&quot;: -20000000, &quot;max&quot;: 60000000, &quot;ticks&quot;: [-20000000, 0, 20000000, 40000000, 60000000], &quot;plan&quot;: {&quot;weekly&quot;: [97268.02645, 97268.02645, 8175668.026, 97268.02645, 2116868.026, 13901.67568, 13901.67568, 13901.67568, 13901.67568, 617571.8639, 939771.8639, 939771.8639, 939771.8639, 939771.8639], &quot;cum&quot;: [97268.02645, 194536.0529, 8370204.0789, 8467472.10535, 10584340.131350001, 10598241.807030002, 10612143.482710002, 10626045.158390002, 10639946.834070003, 11257518.697970003, 12197290.561870003, 13137062.425770003, 14076834.289670004, 15016606.153570004]}, &quot;sup&quot;: {&quot;weekly&quot;: [-58695.32482, -58695.32482, 8026744.675, -58695.32482, 3083571.274, 1769616.818, 1769143.345, 1769143.345, 13483362.61, 2819308.213, 2819308.213, 2819308.213, 2819308.213, 10920139.73], &quot;cum&quot;: [-58695.32482, -117390.64964, 7909354.025359999, 7850658.70054, 10934229.974539999, 12703846.792539999, 14472990.13754, 16242133.48254, 29725496.09254, 32544804.30554, 35364112.51854, 38183420.73154, 41002728.94454, 51922868.67454]}, &quot;fact&quot;: {&quot;weekly&quot;: [-1598247.4142857147, -2711102.5942857144, -1136830.2842857144], &quot;cum&quot;: [-1598247.4142857147, -4309350.008571429, -5446180.292857144]}}, &quot;meta&quot;: {&quot;factWeek&quot;: 29, &quot;extendToWeek&quot;: 29, &quot;forecastSource&quot;: null, &quot;sources&quot;: [&quot;task1&quot;], &quot;sourcesByWeek&quot;: {&quot;27&quot;: &quot;task1&quot;, &quot;28&quot;: &quot;task1&quot;, &quot;29&quot;: &quot;task1&quot;}}};
 
 
-const CHIP = {
-  &quot;ship&quot;: {
-    &quot;l1&quot;: &quot;▼ Δ плану −13,7 млн ₽&quot;,
-    &quot;l2&quot;: &quot;44.8% плана за 3 недели&quot;
-  },
-  &quot;profit&quot;: {
-    &quot;l1&quot;: &quot;▼ Δ плану −13,9 млн ₽&quot;,
-    &quot;l2&quot;: &quot;план на дату: +8,37 млн ₽&quot;
-  }
-};
+const CHIP = {&quot;ship&quot;: {&quot;l1&quot;: &quot;−13,7 млн ₽ к PL&quot;, &quot;l2&quot;: &quot;−13,7 млн ₽ к SP&quot;, &quot;status&quot;: &quot;below&quot;}, &quot;profit&quot;: {&quot;l1&quot;: &quot;−13,8 млн ₽ к PL&quot;, &quot;l2&quot;: &quot;−13,4 млн ₽ к SP&quot;, &quot;status&quot;: &quot;below&quot;}, &quot;shipLabel&quot;: &quot;−13,7 млн ₽ к PL&quot;, &quot;profitLabel&quot;: &quot;−13,8 млн ₽ к PL&quot;};
 
 
 const fmtM = v =&gt; {
@@ -2560,9 +2300,8 @@ function buildChart(wrapId, key) {
   const stepX = X(1) - X(0);
   
   const path = arr =&gt; arr.map((v, i) =&gt; (i ? &quot;L&quot; : &quot;M&quot;) + X(i).toFixed(1) + &quot;,&quot; + Y(v).toFixed(1)).join(&quot; &quot;);
-  const pathWithOffset = (arr, startIndex) =&gt; arr.map((v, i) =&gt; (i ? &quot;L&quot; : &quot;M&quot;) + X(startIndex + i).toFixed(1) + &quot;,&quot; + Y(v).toFixed(1)).join(&quot; &quot;);
   
-  let s = `&lt;svg class=&quot;chart&quot; viewBox=&quot;0 0 ${VW} ${VH}&quot; role=&quot;img&quot; aria-label=&quot;График ${key === &quot;ship&quot; ? &quot;отгрузки&quot; : &quot;чистой прибыли&quot;} нарастающим итогом: факт, план, суперплан&quot;&gt;`;
+  let s = `&lt;svg class=&quot;chart&quot; viewBox=&quot;0 0 ${VW} ${VH}&quot; role=&quot;img&quot; aria-label=&quot;График ${key === &quot;ship&quot; ? &quot;отгрузки&quot; : &quot;финреза&quot;} нарастающим итогом: факт, план, суперплан&quot;&gt;`;
   
   // Сетка и шкала Y
   d.ticks.forEach(t =&gt; {
@@ -2604,25 +2343,14 @@ function buildChart(wrapId, key) {
   s += `&lt;path d=&quot;${path(d.sup.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-sup)&quot; stroke-width=&quot;5&quot; /&gt;`;
   // Линия Плана
   s += `&lt;path d=&quot;${path(d.plan.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-plan)&quot; stroke-width=&quot;5&quot; /&gt;`;
+  // ПРАВИЛО: факт — единый SVG-path. Сплошная/пунктирная части задаются
+  // через stroke-dasharray, рассчитанный по длине path в JS после вставки в DOM.
   const pastWeekCount = Q3.pastWeekCount || 0;
-  const factStroke = 7;
-  const forecastStroke = Number((factStroke * 0.8).toFixed(1));
-  const hasForecastTail = d.fact.cum.length &gt; pastWeekCount;
-
-  if (hasForecastTail &amp;&amp; pastWeekCount &gt; 0) {
-    const solidFactPath = pathWithOffset(d.fact.cum.slice(0, pastWeekCount), 0);
-    const dashedFactPath = pathWithOffset(d.fact.cum.slice(pastWeekCount - 1), pastWeekCount - 1);
-    s += `&lt;path d=&quot;${solidFactPath}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${factStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; /&gt;`;
-    s += `&lt;path d=&quot;${dashedFactPath}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${forecastStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-dasharray=&quot;6 6&quot; /&gt;`;
-  } else {
-    s += `&lt;path d=&quot;${path(d.fact.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${factStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; /&gt;`;
-  }
+  s += `&lt;path id=&quot;fact-line-${key}&quot; d=&quot;${path(d.fact.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; /&gt;`;
   
-  // Точки факта - только до прошедших недель (индекс &lt; pastWeekCount)
+  // Точки факта
   d.fact.cum.forEach((v, i) =&gt; {
-    if (i &lt; pastWeekCount) {
-      s += `&lt;circle cx=&quot;${X(i)}&quot; cy=&quot;${Y(v)}&quot; r=&quot;5&quot; fill=&quot;var(--color-fact)&quot; stroke=&quot;var(--bg-card)&quot; stroke-width=&quot;1.8&quot; /&gt;`;
-    }
+    s += `&lt;circle cx=&quot;${X(i)}&quot; cy=&quot;${Y(v)}&quot; r=&quot;5&quot; fill=&quot;var(--color-fact)&quot; stroke=&quot;var(--bg-card)&quot; stroke-width=&quot;1.8&quot; /&gt;`;
   });
   
   // Лейблы в конце графиков
@@ -2706,7 +2434,29 @@ function buildChart(wrapId, key) {
   const wrap = document.getElementById(wrapId);
   wrap.innerHTML = s;
   
+  // Применяем пунктир к добавленной части единого path факта
   const svg = wrap.querySelector(&quot;svg&quot;);
+  const factPath = svg.querySelector(`#fact-line-${key}`);
+  const factTotal = factPath.getTotalLength();
+  
+  // Сплошная часть: до pastWeekCount (включая точку pastWeekCount, чтобы была связь)
+  const solidPoints = d.fact.cum.slice(0, pastWeekCount + 1);
+  const dashedPoints = d.fact.cum.slice(pastWeekCount, d.fact.cum.length);
+  
+  const tmpSolid = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;path&quot;);
+  tmpSolid.setAttribute(&quot;d&quot;, path(solidPoints));
+  const L_solid = tmpSolid.getTotalLength();
+  
+  const tmpDashed = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;path&quot;);
+  tmpDashed.setAttribute(&quot;d&quot;, path(dashedPoints));
+  const L_dashed = tmpDashed.getTotalLength();
+  
+  const dash = 6;
+  const gap = 12;
+  const nDashes = Math.ceil(L_dashed / (dash + gap)) + 1;
+  const dashArray = [L_solid, 0.001, ...Array(nDashes).fill([dash, gap]).flat()].map(v =&gt; v.toFixed(2)).join(&quot; &quot;);
+  factPath.setAttribute(&quot;stroke-dasharray&quot;, dashArray);
+  factPath.setAttribute(&quot;stroke-dashoffset&quot;, 0);
   
   const tip = wrap.querySelector(&quot;.ct&quot;);
   
