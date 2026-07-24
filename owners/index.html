@@ -1,0 +1,3239 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Объединенный дашборд ВРХ для встреч с собственниками по понедельникам</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --surface: #14161d;
+      --surface-2: #1c1f27;
+      --text: #f5f5f7;
+      --text-muted: #9ca3af;
+      --accent: #ff0000;
+      --accent-hover: #e00000;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 8px 32px rgba(0,0,0,0.35);
+      --radius: 14px;
+      --header-height: 72px;
+      --tabs-height: 64px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+    .app-header {
+      flex: 0 0 var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .brand-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .app-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .app-tabs {
+      flex: 0 0 var(--tabs-height);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .app-tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .tab:hover {
+      background: var(--surface-2);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+    .tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(255,0,0,0.25);
+    }
+    .tab-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.5;
+    }
+    .tab.active .tab-dot { opacity: 1; }
+    .tab-content {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .dashboard-frame {
+      display: none;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: var(--bg);
+    }
+    .dashboard-frame.active {
+      display: block;
+    }
+    .app-footer {
+      flex: 0 0 auto;
+      padding: 10px 24px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      :root { --header-height: 60px; --tabs-height: 56px; }
+      .app-header { padding: 0 16px; }
+      .brand { flex-direction: column; gap: 2px; }
+      .brand-title { font-size: 15px; }
+      .brand-sub { display: none; }
+      .app-meta { display: none; }
+      .app-tabs { padding: 0 12px; gap: 6px; }
+      .tab { padding: 8px 14px; font-size: 13px; }
+      .app-footer { flex-direction: column; align-items: flex-start; gap: 4px; padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <h1 class="brand-title">Объединенный дашборд ВРХ</h1>
+        <span class="brand-sub">для встреч с собственниками по понедельникам</span>
+      </div>
+      <div class="app-meta">ВРХ · Автономный HTML-файл</div>
+    </header>
+
+    <nav class="app-tabs" role="tablist" aria-label="Разделы дашборда">
+      <button class="tab active" role="tab" aria-selected="true" aria-controls="dash-osp" id="tab-osp" onclick="switchTab('osp')">
+        <span class="tab-dot"></span>Проект СУПЕРГРИН ОСП
+      </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="dash-planfact" id="tab-planfact" onclick="switchTab('planfact')">
+        <span class="tab-dot"></span>План-факт 3 квартала
+      </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="dash-operational" id="tab-operational" onclick="switchTab('operational')">
+        <span class="tab-dot"></span>Операционка · 2026-W29
+      </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="dash-aifirst" id="tab-aifirst" onclick="switchTab('aifirst')">
+        <span class="tab-dot"></span>AI-first VRH · Нейронное облако
+      </button>
+    </nav>
+
+    <main class="tab-content">
+      <iframe id="dash-osp" class="dashboard-frame active" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Отчет о статусах задач · ОСП 3 квартала&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --panel-light: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: &quot;Segoe UI&quot;, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    header { border-bottom: 1px solid var(--panel-light); padding-bottom: 16px; margin-bottom: 24px; }
+    h1 { margin: 0 0 8px; font-size: 28px; font-weight: 700; }
+    .subtitle { color: var(--text-muted); font-size: 15px; }
+    .intro {
+      background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(167,139,250,0.12));
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .kpi-card.accent {
+      border: 1px solid var(--accent);
+      background: rgba(56,189,248,0.08);
+    }
+    .kpi-label { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .kpi-value { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+    .kpi-note { font-size: 12px; color: var(--text-muted); }
+    .card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .block {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    h2 { margin: 0 0 16px; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); }
+    h3 { margin: 20px 0 12px; font-size: 15px; font-weight: 600; color: var(--text); }
+    h4.month-title { margin: 16px 0 8px; font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+    .block-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--panel-light);
+      border-radius: 8px;
+    }
+    .metric { font-size: 14px; color: var(--text-muted); }
+    .metric strong { color: var(--text); font-size: 16px; }
+    .note { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--panel-light); }
+    th { color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    td.num, th.num { text-align: right; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.03); }
+    .total td { background: rgba(56,189,248,0.08); font-weight: 600; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .badge.done { background: rgba(16,185,129,0.15); color: var(--success); }
+    .badge.progress { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .badge.pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+    .badge.missing { background: rgba(248,113,113,0.15); color: var(--danger); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--panel-light); border-radius: 8px; margin-bottom: 16px; }
+    .capitalize { text-transform: capitalize; }
+    .checklist { list-style: none; padding: 0; margin: 0 0 16px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; background: var(--panel-light); border-radius: 8px; margin-bottom: 8px; }
+    .checkbox { flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--text-muted); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 14px; font-weight: 700; }
+    .checkbox.checked { background: var(--success); border-color: var(--success); }
+    .check-label { font-size: 14px; line-height: 1.4; padding-top: 1px; }
+    .q4-network { margin-bottom: 20px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; }
+    .q4-network h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; color: var(--text); }
+    .q4-network .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+    .q4-network .meta .badge { margin-right: 8px; }
+    .collapsible { margin-bottom: 12px; }
+    .collapse-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--panel-light);
+      border: 1px solid var(--panel-light);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+    }
+    .collapse-toggle:hover { background: #475569; }
+    .toggle-icon { font-size: 12px; transition: transform 0.15s ease; }
+    .collapse-toggle.expanded .toggle-icon { transform: rotate(90deg); }
+    .toggle-label { flex: 1; }
+    .toggle-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--panel);
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+    .collapse-content {
+      display: none;
+      margin-top: 8px;
+      animation: fadeIn 0.2s ease;
+    }
+    .collapse-content.expanded { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--panel-light); color: var(--text-muted); font-size: 12px; text-align: center; }
+    @media (max-width: 640px) {
+      .container { padding: 16px; }
+      h1 { font-size: 22px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .kpi-value { font-size: 20px; }
+      .block-summary { flex-direction: column; gap: 8px; }
+      .collapse-toggle { padding: 10px 12px; font-size: 13px; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Отчет о статусах задач&lt;/h1&gt;
+      &lt;div class=&quot;subtitle&quot;&gt;ОСП 3 квартала · Коммерческий результат · группа Bitrix24 179 · актуально на 21.07.2026&lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&quot;intro&quot;&gt;
+      &lt;strong&gt;Плановые показатели проекта.&lt;/strong&gt; Исправленный план Q3 по запрошенным блокам — &lt;strong&gt;38 775 071 ₽ без НДС&lt;/strong&gt; и &lt;strong&gt;812.6 кг икры&lt;/strong&gt;. МСП на понятные гипотезы — &lt;strong&gt;14 107 290 ₽&lt;/strong&gt; и &lt;strong&gt;316.1 кг&lt;/strong&gt;. Задел на Q4 по сетям — &lt;strong&gt;5 663 875 ₽&lt;/strong&gt; и &lt;strong&gt;118.8 кг&lt;/strong&gt;.
+    &lt;/div&gt;
+
+    
+    &lt;div class=&quot;kpi-grid&quot;&gt;
+      &lt;div class=&quot;kpi-card accent&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;План Q3 по запрошенным блокам&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;38 775 071 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;812.6 кг без НДС&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;kpi-card&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;МСП на понятные гипотезы&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;14 107 290 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;316.1 кг без НДС&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;kpi-card&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;Задел на Q4 (сети)&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;5 663 875 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;118.8 кг без НДС&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;kpi-card&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;Июль&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;1 086 010 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;24.1 кг&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;kpi-card&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;Август&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;19 867 755 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;411.4 кг&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;kpi-card&quot;&gt;
+        &lt;div class=&quot;kpi-label&quot;&gt;Сентябрь&lt;/div&gt;
+        &lt;div class=&quot;kpi-value&quot;&gt;17 821 306 ₽&lt;/div&gt;
+        &lt;div class=&quot;kpi-note&quot;&gt;377.1 кг&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;Плановые показатели Q3 по месяцам&lt;/h2&gt;
+      
+    &lt;table&gt;
+      &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽ без НДС&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;июль&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;1 086 010 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;24.1 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;19 867 755 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;411.4 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;17 821 306 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;377.1 кг&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;total&quot;&gt;&lt;td&gt;&lt;strong&gt;Итого&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;38 775 071 ₽&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;812.6 кг&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  
+    &lt;/div&gt;
+
+    
+      &lt;section class=&quot;block&quot; id=&quot;block-0&quot;&gt;
+        &lt;h2&gt;1. Сети Q3&lt;/h2&gt;
+        &lt;div class=&quot;block-summary&quot;&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;10&lt;/strong&gt; задач&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;20 092 900&lt;/strong&gt; ₽ план&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;406.5&lt;/strong&gt; кг план&lt;/div&gt;&lt;/div&gt;
+        &lt;p class=&quot;note&quot;&gt;Включают только сети с плановой отгрузкой в августе–сентябре 2026 по файлу АМБИЦИИ.&lt;/p&gt;
+        
+    &lt;table&gt;
+      &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽ без НДС&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;июль&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;0 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;0.0 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;13 053 750 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;265.5 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;7 039 150 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;141.0 кг&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;total&quot;&gt;&lt;td&gt;&lt;strong&gt;Итого&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;20 092 900 ₽&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;406.5 кг&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  
+        
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-0-tasks&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Задачи по месяцам&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;10&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-0-tasks&quot; style=&quot;display:none;&quot;&gt;
+        
+        &lt;div class=&quot;table-wrap&quot;&gt;
+          &lt;table&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Задача&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дедлайн&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;9845&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-AUCHAN-W35] Сети · Ашан · переговоры и подготовка входа · неделя 35&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9847&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-DA-W35] Сети · Да · переговоры и подготовка входа · неделя 35&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9849&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-GLOBUS-W33] Сети · Гипер Глобус · переговоры и подготовка входа · неделя 33&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9851&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-LENTA-W36] Сети · Лента · переговоры и подготовка входа · неделя 36&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9853&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-MAGNIT-W30] Сети · Магнит · переговоры и подготовка входа · неделя 30&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9855&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-METRO-W34] Сети · METRO Cash &amp; Carry · переговоры и подготовка входа · неделя 34&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;9857&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-SAMOKAT-W29] Сети · Самокат · переговоры и подготовка входа · неделя 29&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;10003&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-HYP-GLOBUS] Гипотеза по входу в новые сети и расширения географии текущих сетей · Гиперглобус&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1 304 220 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;27.0 кг&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;10005&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-HYP-MAGNIT-GEO] Гипотеза по входу в новые сети и расширения географии текущих сетей · МАГНИТ (расширение гео)&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;5 734 930 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;114.0 кг&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;10007&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-NET-HYP-METRO] Гипотеза по входу в новые сети и расширения географии текущих сетей · Метро&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Алейников Николай&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;13 053 750 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;265.5 кг&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+      &lt;/section&gt;
+    
+      &lt;section class=&quot;block&quot; id=&quot;block-1&quot;&gt;
+        &lt;h2&gt;2. Сети — задел на 4 квартал&lt;/h2&gt;
+        &lt;div class=&quot;block-summary&quot;&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;3&lt;/strong&gt; сети&lt;/div&gt;&lt;/div&gt;
+        &lt;p class=&quot;note&quot;&gt;Задел на Q4 (ЛЕНТА, Да, Ашан). В сводку Q3 не входит, но отражается для контроля переговоров и ЛПР.&lt;/p&gt;
+        
+        
+          &lt;div class=&quot;q4-network&quot;&gt;
+            &lt;h3&gt;Задел на отгрузку в 4 квартал · Ашан&lt;/h3&gt;
+            &lt;div class=&quot;meta&quot;&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt; · Левина Анастасия · до 30.09.2026&lt;/div&gt;
+            &lt;ul class=&quot;checklist&quot;&gt;
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Переговоры с ЛПР&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Процедуры входа&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Условия&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Гарантированные отгрузки&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+          &lt;/div&gt;
+        
+          &lt;div class=&quot;q4-network&quot;&gt;
+            &lt;h3&gt;Задел на отгрузку в 4 квартал · Да&lt;/h3&gt;
+            &lt;div class=&quot;meta&quot;&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt; · Левина Анастасия · до 30.09.2026&lt;/div&gt;
+            &lt;ul class=&quot;checklist&quot;&gt;
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Переговоры с ЛПР&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Процедуры входа&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Условия&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Гарантированные отгрузки&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+          &lt;/div&gt;
+        
+          &lt;div class=&quot;q4-network&quot;&gt;
+            &lt;h3&gt;Задел на отгрузку в 4 квартал · ЛЕНТА&lt;/h3&gt;
+            &lt;div class=&quot;meta&quot;&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt; · Левина Анастасия · до 30.09.2026&lt;/div&gt;
+            &lt;ul class=&quot;checklist&quot;&gt;
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Переговоры с ЛПР&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Процедуры входа&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Условия&lt;/span&gt;
+      &lt;/li&gt;
+    
+      &lt;li class=&quot;check-item&quot;&gt;
+        &lt;span class=&quot;checkbox &quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;check-label&quot;&gt;Гарантированные отгрузки&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+          &lt;/div&gt;
+        
+      &lt;/section&gt;
+    
+      &lt;section class=&quot;block&quot; id=&quot;block-2&quot;&gt;
+        &lt;h2&gt;3. Разбудить не менее 27 клиентов МСП&lt;/h2&gt;
+        &lt;div class=&quot;block-summary&quot;&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;27&lt;/strong&gt; клиентов&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;11 894 171&lt;/strong&gt; ₽ план&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;272.1&lt;/strong&gt; кг план&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;26/27&lt;/strong&gt; в Bitrix24&lt;/div&gt;&lt;/div&gt;
+        &lt;p class=&quot;note&quot;&gt;27 клиентов из файла АМБИЦИИ. Статусы показаны для клиентов, заведённых в Bitrix24; остальные требуют создания карточек.&lt;/p&gt;
+        
+    &lt;table&gt;
+      &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽ без НДС&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;июль&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;826 600 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;19.1 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;3 628 455 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;82.9 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;7 439 116 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;170.1 кг&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;total&quot;&gt;&lt;td&gt;&lt;strong&gt;Итого&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;11 894 171 ₽&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;272.1 кг&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  
+        
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-2-clients&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Клиенты и статусы&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;26/27 в Bitrix24&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-2-clients&quot; style=&quot;display:none;&quot;&gt;
+        
+        &lt;div class=&quot;table-wrap&quot;&gt;
+          &lt;table&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Клиент&lt;/th&gt;&lt;th&gt;ID задачи&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th&gt;Месяцы&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;КРЫМФРУКТ&lt;/td&gt;
+          &lt;td&gt;9791&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Фоменкова Анна Олеговна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;июль, август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1 662 639 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;35.7 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ПРИЯТНОГО АППЕТИТА&lt;/td&gt;
+          &lt;td&gt;9793&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Фоменкова Анна Олеговна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1 404 536 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;28.6 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ИКОРНЫЙ ООО&lt;/td&gt;
+          &lt;td&gt;9795&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Фоменкова Анна Олеговна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1 068 682 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;33.4 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;АСТОРИЯ ООО_9701028970&lt;/td&gt;
+          &lt;td&gt;9801&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;185 398 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;6.5 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;СЕГМЕНТ ООО&lt;/td&gt;
+          &lt;td&gt;9803&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;июль, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;312 662 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;8.9 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Оконечникова Татьяна Геннадьевна ИП&lt;/td&gt;
+          &lt;td&gt;9805&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;163 232 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;6.1 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;МИР ФАНТАЗИЙ ООО&lt;/td&gt;
+          &lt;td&gt;9807&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge done&quot;&gt;Завершена&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;июль, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;232 112 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;5.4 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ЦЕНТРУМ ООО&lt;/td&gt;
+          &lt;td&gt;9809&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Хайлова Екатерина Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;104 000 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1.8 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Мартынов Андрей Анатольевич ИП&lt;/td&gt;
+          &lt;td&gt;9821&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1 232 400 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;26.0 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;МОЛОЧНАЯ ДОСТАВКА ООО&lt;/td&gt;
+          &lt;td&gt;9823&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;611 213 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;12.3 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;АМСАР ООО ТД&lt;/td&gt;
+          &lt;td&gt;9811&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;402 850 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;7.5 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Зайцев Никита Олегович ИП&lt;/td&gt;
+          &lt;td&gt;9799&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Хайлова Екатерина Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;393 616 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;7.7 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Шаргородская Кристина Сергеевна ИП&lt;/td&gt;
+          &lt;td&gt;9813&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;437 759 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;10.9 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Н. ПАРК ЗАО&lt;/td&gt;
+          &lt;td&gt;9815&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge done&quot;&gt;Завершена&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;424 998 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;9.8 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ОКЕАН ООО&lt;/td&gt;
+          &lt;td&gt;9797&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Фоменкова Анна Олеговна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;775 100 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;17.0 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Шевченко Владимир Олегович ИП&lt;/td&gt;
+          &lt;td&gt;9817&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;155 446 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Мартьянов Даниил Евгеньевич&lt;/td&gt;
+          &lt;td&gt;9819&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Лезина Александра Сергеевна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;109 429 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;2.8 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;МОРСКИЕ РЕСУРСЫ ООО&lt;/td&gt;
+          &lt;td&gt;9825&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;319 132 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;5.4 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Тимофеев Евгений Юрьевич ИП&lt;/td&gt;
+          &lt;td&gt;9827&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;210 135 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;4.9 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ТАЁЖНОЕ ЗИМОВЬЕ ООО&lt;/td&gt;
+          &lt;td&gt;9829&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;292 584 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;5.1 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;СОЛОВЬЕВА ЛЮДМИЛА ЕВГЕНЬЕВНА (ИП)&lt;/td&gt;
+          &lt;td&gt;9831&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;346 854 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;10.6 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Подъячева Елена Борисовна ИП&lt;/td&gt;
+          &lt;td&gt;9833&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;226 882 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;4.7 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Панарина Татьяна Валерьевна ИП&lt;/td&gt;
+          &lt;td&gt;9835&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;102 147 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;2.5 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;ИП Воят / ИП Марочкин/ ИП Доценко&lt;/td&gt;
+          &lt;td&gt;—&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge missing&quot;&gt;Не заведён в Bitrix24&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;242 723 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;5.0 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Сушун Надежда Тимофеевна ИП&lt;/td&gt;
+          &lt;td&gt;9839&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge pending&quot;&gt;Ждёт выполнения&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;107 972 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;2.1 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;Кипоренко Ольга Борисовна&lt;/td&gt;
+          &lt;td&gt;9841&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge done&quot;&gt;Завершена&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;91 254 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;1.9 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      
+        &lt;tr&gt;
+          &lt;td&gt;КМ20 ФУД ООО&lt;/td&gt;
+          &lt;td&gt;9843&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Смолянинова Дарья Александровна&lt;/td&gt;
+          &lt;td class=&quot;capitalize&quot;&gt;август, сентябрь&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;278 417 ₽&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;6.5 кг&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+      &lt;/section&gt;
+    
+      &lt;section class=&quot;block&quot; id=&quot;block-3&quot;&gt;
+        &lt;h2&gt;4. Тендерные закупки и корпоративные подарки&lt;/h2&gt;
+        &lt;div class=&quot;block-summary&quot;&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;1&lt;/strong&gt; задач&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;4 574 880&lt;/strong&gt; ₽ план&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;90.0&lt;/strong&gt; кг план&lt;/div&gt;&lt;/div&gt;
+        
+        
+    &lt;table&gt;
+      &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽ без НДС&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;июль&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;0 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;0.0 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;2 287 440 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;45.0 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;2 287 440 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;45.0 кг&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;total&quot;&gt;&lt;td&gt;&lt;strong&gt;Итого&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;4 574 880 ₽&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;90.0 кг&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  
+        
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-3-tasks&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Задача&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;1&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-3-tasks&quot; style=&quot;display:none;&quot;&gt;
+        
+        &lt;div class=&quot;table-wrap&quot;&gt;
+          &lt;table&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Задача&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дедлайн&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;9781&lt;/td&gt;
+          &lt;td&gt;[Q3-COM-CORP-GIFTS-TENDERS] Корпоративные подарки и тендеры · запуск канала продаж&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;Левина Анастасия&lt;/td&gt;
+          &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+      &lt;/section&gt;
+    
+      &lt;section class=&quot;block&quot; id=&quot;block-4&quot;&gt;
+        &lt;h2&gt;5. Новые клиенты МСП от КАМа&lt;/h2&gt;
+        &lt;div class=&quot;block-summary&quot;&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;9&lt;/strong&gt; клиентов&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;21&lt;/strong&gt; задач&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;2 213 120&lt;/strong&gt; ₽ план&lt;/div&gt;&lt;div class=&quot;metric&quot;&gt;&lt;strong&gt;44.0&lt;/strong&gt; кг план&lt;/div&gt;&lt;/div&gt;
+        &lt;p class=&quot;note&quot;&gt;9 новых клиентов от КАМа, 21 помесячная задача.&lt;/p&gt;
+        
+    &lt;table&gt;
+      &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Месяц&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽ без НДС&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;июль&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;259 410 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;5.0 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;август&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;898 110 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;18.0 кг&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;capitalize&quot;&gt;сентябрь&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;1 055 600 ₽&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;21.0 кг&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr class=&quot;total&quot;&gt;&lt;td&gt;&lt;strong&gt;Итого&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;2 213 120 ₽&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;num&quot;&gt;&lt;strong&gt;44.0 кг&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  
+        &lt;h4 class=&quot;month-title&quot;&gt;июль — 259 410 ₽ / 5.0 кг&lt;/h4&gt;
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-4-июль&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Задачи июль&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;3&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-4-июль&quot; style=&quot;display:none;&quot;&gt;
+        
+          &lt;div class=&quot;table-wrap&quot;&gt;
+            &lt;table&gt;
+              &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Задача&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дедлайн&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+              &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;td&gt;9961&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-07.2026] МСП · новый клиент · ООО Вайнкап · июль 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge done&quot;&gt;Завершена&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;157 490 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.07.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9971&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-07.2026] МСП · новый клиент · ООО Рыбный · июль 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.07.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9977&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-07.2026] МСП · новый клиент · ИП Иванов · июль 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.07.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;h4 class=&quot;month-title&quot;&gt;август — 898 110 ₽ / 18.0 кг&lt;/h4&gt;
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-4-август&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Задачи август&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;9&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-4-август&quot; style=&quot;display:none;&quot;&gt;
+        
+          &lt;div class=&quot;table-wrap&quot;&gt;
+            &lt;table&gt;
+              &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Задача&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дедлайн&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+              &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;td&gt;9963&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-08.2026] МСП · новый клиент · ООО Вайнкап · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;157 490 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9967&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-02-08.2026] МСП · новый клиент · ООО Новоком · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;96 540 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9973&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-08.2026] МСП · новый клиент · ООО Рыбный · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9979&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-08.2026] МСП · новый клиент · ИП Иванов · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9983&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-05-08.2026] МСП · новый клиент · ИП Зинковский · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;99 230 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9987&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-06-08.2026] МСП · новый клиент · ООО Аквамарин · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;48 700 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9991&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-07-08.2026] МСП · новый клиент · ООО Северный · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;147 500 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9995&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-08-08.2026] МСП · новый клиент · ИП Бекенева · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;99 230 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9999&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-09-08.2026] МСП · новый клиент · ИП Юнисов · август 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;147 500 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;31.08.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;h4 class=&quot;month-title&quot;&gt;сентябрь — 1 055 600 ₽ / 21.0 кг&lt;/h4&gt;
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;block-4-сентябрь&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Задачи сентябрь&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;9&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;block-4-сентябрь&quot; style=&quot;display:none;&quot;&gt;
+        
+          &lt;div class=&quot;table-wrap&quot;&gt;
+            &lt;table&gt;
+              &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Задача&lt;/th&gt;&lt;th&gt;Статус&lt;/th&gt;&lt;th&gt;Ответственный&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, ₽&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;План, кг&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дедлайн&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+              &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;td&gt;9965&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-01-09.2026] МСП · новый клиент · ООО Вайнкап · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;314 980 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;6.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9969&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-02-09.2026] МСП · новый клиент · ООО Новоком · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;96 540 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9975&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-03-09.2026] МСП · новый клиент · ООО Рыбный · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9981&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-04-09.2026] МСП · новый клиент · ИП Иванов · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;50 960 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9985&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-05-09.2026] МСП · новый клиент · ИП Зинковский · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;99 230 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9989&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-06-09.2026] МСП · новый клиент · ООО Аквамарин · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;48 700 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;1.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9993&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-07-09.2026] МСП · новый клиент · ООО Северный · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;147 500 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;9997&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-08-09.2026] МСП · новый клиент · ИП Бекенева · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;99 230 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;2.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        
+          &lt;tr&gt;
+            &lt;td&gt;10001&lt;/td&gt;
+            &lt;td&gt;[Q3-COM-MSP-NEW-CLIENT-ALEYNIKOV-09-09.2026] МСП · новый клиент · ИП Юнисов · сентябрь 2026&lt;/td&gt;
+            &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;Алейников Николай&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;147 500 ₽&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;3.0 кг&lt;/td&gt;
+            &lt;td class=&quot;num&quot;&gt;30.09.2026&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+      &lt;/section&gt;
+    
+    
+    &lt;section class=&quot;block&quot; id=&quot;block-nikolai&quot;&gt;
+      &lt;h2&gt;Активности Николая Алейникова по сетям&lt;/h2&gt;
+      &lt;p class=&quot;note&quot;&gt;Последние статус-обновления из чатов задач по сетям: встречи и переговоры с ЛПР, текущий статус и следующие шаги с датами.&lt;/p&gt;
+      
+    &lt;div class=&quot;collapsible&quot;&gt;
+      &lt;button class=&quot;collapse-toggle&quot; data-target=&quot;nikolai-activity&quot;&gt;
+        &lt;span class=&quot;toggle-icon&quot;&gt;▶&lt;/span&gt;
+        &lt;span class=&quot;toggle-label&quot;&gt;Показать активности по сетям&lt;/span&gt;
+        &lt;span class=&quot;toggle-count&quot;&gt;10&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;collapse-content&quot; id=&quot;nikolai-activity&quot; style=&quot;display:none;&quot;&gt;
+        
+        &lt;div class=&quot;table-wrap&quot;&gt;
+          &lt;table&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Сеть&lt;/th&gt;&lt;th&gt;Статус задачи&lt;/th&gt;&lt;th&gt;Сделано&lt;/th&gt;&lt;th&gt;Следующий шаг&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дата шага&lt;/th&gt;&lt;th class=&quot;num&quot;&gt;Дата обновления&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Ашан&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Провести переговоры с ЛПР по возможности сотрудничества - 02.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;02.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;Да&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;отправить договор на согласование клиенту - 20.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;20.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;Гипер Глобус&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Связаться с ЛПР - 09.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;09.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;Лента&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Приступить к рассмотрению договора на портале поставщика - 01.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;01.09.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;Магнит&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;Согласованы переговоры по вопросу сотрудничества.&lt;/td&gt;
+        &lt;td&gt;Провести переговоры с сетью в Краснодаре - 27.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;27.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;METRO Cash &amp; Carry&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Связаться с ЛПР - 18.08.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;18.08.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;Самокат&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Связаться с ЛПР - 20.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;20.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;[Q3-COM-NET-HYP-GLOBUS] Гипотеза по входу в новые сети и расширения географии текущих сетей&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Провести переговоры с ЛПР по вопросу сотрудничества  - 21.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;21.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;[Q3-COM-NET-HYP-MAGNIT-GEO] Гипотеза по входу в новые сети и расширения географии текущих сетей&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;—&lt;/td&gt;
+        &lt;td&gt;Запланированы переговоры на 27.07&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;—&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;14.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    
+      &lt;tr&gt;
+        &lt;td&gt;[Q3-COM-NET-HYP-METRO] Гипотеза по входу в новые сети и расширения географии текущих сетей&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;badge progress&quot;&gt;В работе&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;проведены переговоры с ЛПР&lt;/td&gt;
+        &lt;td&gt;Провести переговоры с ЛПР по вопросу сотрудничества - 30.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;30.07.2026&lt;/td&gt;
+        &lt;td class=&quot;num&quot;&gt;17.07.2026&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      
+      &lt;/div&gt;
+    &lt;/div&gt;
+  
+    &lt;/section&gt;
+  
+
+    &lt;footer&gt;
+      Источник: Bitrix24 группа 179 (read-only), чат-активность задач и файл «АМБИЦИИ осп 3кв.xlsx» из ВРХ Облака. Плановые суммы — декларации из описаний задач, не факт отгрузки. Для управленческих решений требуется сверка с 1С ERP.
+    &lt;/footer&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    document.querySelectorAll(&#39;.collapse-toggle&#39;).forEach(btn =&gt; {
+      btn.addEventListener(&#39;click&#39;, () =&gt; {
+        const target = document.getElementById(btn.dataset.target);
+        if (target) {
+          const expanded = target.classList.toggle(&#39;expanded&#39;);
+          btn.classList.toggle(&#39;expanded&#39;);
+          target.style.display = expanded ? &#39;block&#39; : &#39;none&#39;;
+        }
+      });
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="ОСП 3 квартала · Коммерческий результат"></iframe>
+      <iframe id="dash-planfact" class="dashboard-frame" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, viewport-fit=cover&quot;&gt;
+&lt;meta name=&quot;color-scheme&quot; content=&quot;dark&quot;&gt;
+&lt;title&gt;3 квартал 2026 · План-факт трекинг&lt;/title&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+  /* ---------- CSS-переменные (Темная тема по умолчанию, оптимизировано для macOS) ---------- */
+  :root {
+    --bg-slide: #090B0E;
+    --bg-card: rgba(18, 22, 26, 0.75);
+    --bg-panel: rgba(26, 32, 38, 0.5);
+    --border-color: rgba(36, 45, 53, 0.65);
+    --border-color-soft: rgba(30, 37, 44, 0.4);
+    
+    --text-main: #F8F9FA;
+    --text-muted: #A5B0BC;
+    --text-faint: #6C7A87;
+    
+    --color-fact: #0F62FE; /* Кобальтовый синий для факта */
+    --color-plan: #9AC15D; /* грин (салатовый) */
+    --color-sup: #56A35B;  /* супергрин (темно-зеленый) */
+    --color-grid: rgba(29, 37, 44, 0.5);
+    --color-axis: #8695A4;
+    --color-zero: #ADB5BD;
+    
+    --color-bad: #FDA29B;
+    --color-bad-bg: rgba(44, 26, 26, 0.4);
+    --color-bad-border: rgba(97, 32, 32, 0.6);
+    
+    --color-good: #6EE7B7;
+    --color-good-bg: rgba(6, 78, 59, 0.4);
+    --color-good-border: rgba(4, 120, 87, 0.6);
+    
+    --color-plan-bg: rgba(27, 41, 21, 0.4);
+    --color-plan-border: rgba(58, 85, 47, 0.6);
+    --color-plan-text: #9AC15D;
+    
+    --color-sup-bg: rgba(14, 36, 18, 0.4);
+    --color-sup-border: rgba(30, 78, 37, 0.6);
+    --color-sup-text: #56A35B;
+    
+    --radius-card: 16px;
+    --radius-pill: 999px;
+    --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    /* Шрифты с поддержкой нативных шрифтов Apple SF Pro */
+    --font-display: &#39;SF Pro Display&#39;, -apple-system, BlinkMacSystemFont, &#39;Space Grotesk&#39;, system-ui, sans-serif;
+    --font-sans: &#39;SF Pro Text&#39;, -apple-system, BlinkMacSystemFont, &#39;IBM Plex Sans&#39;, system-ui, sans-serif;
+    --font-mono: &#39;SF Mono&#39;, Monaco, &#39;IBM Plex Mono&#39;, monospace;
+    
+    --transition-speed: 0.2s;
+    --badge-padding: 4px 10px;
+    --kpi-border-left: 4px;
+  }
+
+  /* ---------- Общие стили ---------- */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+  }
+  
+  body {
+    background-color: var(--bg-slide);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Кастомный macOS-style скроллбар для Заметок Спикера */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242D35;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #323F4B;
+  }
+
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vh, 24px);
+    padding: clamp(16px, 2.5vw, 36px);
+    padding-top: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-top));
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    padding-left: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-left));
+    padding-right: calc(clamp(16px, 2.5vw, 36px) + env(safe-area-inset-right));
+    max-width: 1760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ---------- Шапка слайда ---------- */
+  header.top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 4px;
+  }
+  
+  .kicker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+  }
+  
+  .kicker-badge {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.3vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-top: 10px;
+    max-width: 1100px;
+  }
+  
+  h1 .neg {
+    color: var(--color-bad);
+  }
+  
+  .sub {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.6;
+    flex: none;
+  }
+
+  /* ---------- KPI Блоки ---------- */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(12px, 1.5vw, 20px);
+  }
+  
+  .kpi {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 18px 20px 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  .kpi::before {
+    content: &quot;&quot;;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--kpi-border-left);
+    background: var(--border-color-soft);
+    transition: background-color var(--transition-speed);
+  }
+  
+  .kpi.alert::before {
+    background: var(--color-bad);
+  }
+  
+  body.theme-swiss .kpi {
+    border-bottom: 2px solid #000;
+  }
+  
+  .kpi .label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+  }
+  
+  .kpi .big {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(22px, 2vw, 30px);
+    margin-top: 10px;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  
+  .kpi .big small {
+    font-size: 0.55em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  
+  .kpi .big.neg {
+    color: var(--color-bad);
+  }
+  
+  .kpi .sub2 {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: var(--badge-padding);
+    border-radius: var(--radius-pill);
+    background: var(--color-bad-bg);
+    color: var(--color-bad);
+    border: 1px solid var(--color-bad-border);
+    transition: all var(--transition-speed);
+  }
+  
+  .chip.neutral {
+    background: var(--bg-panel);
+    color: var(--text-muted);
+    border-color: var(--border-color);
+  }
+  
+  body.theme-swiss .chip {
+    border-radius: 0;
+    border-width: 1px;
+    padding: 2px 6px;
+  }
+
+  /* ---------- Графики ---------- */
+  main.charts {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(12px, 1.5vw, 20px);
+  }
+  
+  .panel {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 20px 22px 14px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .panel {
+    border: 1px solid #000;
+  }
+  
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  
+  .panel-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.25vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
+  .panel-head .unit {
+    color: var(--text-faint);
+    font-size: 11.5px;
+  }
+  
+  .panel-head .headline-delta {
+    display: none;
+  }
+  
+  body.theme-swiss .panel-head .headline-delta {
+    border-radius: 0;
+  }
+  
+  .chart-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    margin-top: 8px;
+    height: 100%;
+    width: 100%;
+  }
+  
+  svg.chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    max-height: 280px;
+  }
+
+  /* ---------- Карточки действий ---------- */
+  .actions {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    gap: clamp(12px, 1.5vw, 20px);
+    align-items: stretch;
+  }
+  
+  .actions .lead {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text-main);
+    padding: 0 8px 0 2px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .act {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow-card);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .act {
+    border: 1px solid #000;
+  }
+  
+  .act .n {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 14px;
+    background: var(--bg-panel);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    flex: none;
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .act .n {
+    border-radius: 0;
+    border: 1px solid #000;
+    background: transparent;
+  }
+  
+  .act b {
+    color: var(--text-main);
+    font-weight: 700;
+  }
+  
+  .act-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .act-meta {
+    font-size: 11px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ---------- Футер ---------- */
+  footer.ctl-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color-soft);
+    transition: border-color var(--transition-speed);
+  }
+  
+  .ctl {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+  
+  .ctl:hover:not(:disabled) {
+    border-color: var(--text-main);
+    color: var(--text-main);
+  }
+  
+  .ctl:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  
+  body.theme-swiss .ctl {
+    border-radius: 0;
+    border: 1px solid #000;
+  }
+  
+  .ctl.notes-btn {
+    margin-left: auto;
+    background: var(--text-main);
+    color: var(--bg-slide);
+    border-color: var(--text-main);
+  }
+  
+  .ctl.notes-btn:hover {
+    opacity: 0.9;
+  }
+  
+  .counter {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    min-width: 50px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ---------- Боковая панель Заметки Спикера ---------- */
+  .notes {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(460px, 94vw);
+    z-index: 60;
+    background: rgba(18, 22, 26, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-left: 1px solid var(--border-color);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+    transform: translateX(102%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed), border-color var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  body.theme-dark .notes {
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+  }
+  
+  body.theme-swiss .notes {
+    border-left: 2px solid #000;
+  }
+  
+  .notes.open {
+    transform: translateX(0);
+  }
+  
+  .notes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color-soft);
+  }
+  
+  .notes-head h2 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+  .notes-close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all var(--transition-speed);
+  }
+  
+  .notes-close:hover {
+    color: var(--text-main);
+    background: var(--bg-panel);
+  }
+  
+  body.theme-swiss .notes-close {
+    border-radius: 0;
+    border: 1px solid #000;
+  }
+  
+  .notes-body {
+    padding: 20px 24px 40px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  
+  .notes-body h3 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-bad);
+    margin: 22px 0 8px;
+    font-weight: 700;
+  }
+  
+  .notes-body h3:first-child {
+    margin-top: 0;
+  }
+  
+  .notes-body ul {
+    padding-left: 20px;
+  }
+  
+  .notes-body li {
+    margin-bottom: 6px;
+  }
+  
+  .notes-body .say {
+    background: var(--bg-panel);
+    border-left: 4px solid var(--color-bad);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-main);
+    transition: all var(--transition-speed);
+  }
+  
+  body.theme-swiss .notes-body .say {
+    border-radius: 0;
+    border: 1px solid #000;
+    border-left: 4px solid var(--color-bad);
+  }
+
+  /* ---------- Интерактивные подсказки ---------- */
+  .t {
+    border-bottom: 1.5px dotted var(--text-faint);
+    cursor: help;
+    color: inherit;
+    font-weight: 500;
+  }
+  
+  #term-tip {
+    position: fixed;
+    z-index: 80;
+    display: none;
+    max-width: 300px;
+    background: #1A1F26;
+    color: #F8F9FA;
+    font-size: 12.5px;
+    line-height: 1.5;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    pointer-events: none;
+  }
+  
+  body.theme-dark #term-tip {
+    background: #242D35;
+    border: 1px solid #323F4B;
+  }
+  
+  .ct {
+    position: absolute;
+    z-index: 20;
+    display: none;
+    min-width: 230px;
+    max-width: 310px;
+    background: #1A1F26;
+    color: #F8F9FA;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.2);
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  
+  body.theme-dark .ct {
+    background: #12161A;
+    border: 1px solid #242D35;
+  }
+  
+  .ct .ct-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+  }
+  
+  .ct .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2.5px 0;
+  }
+  
+  .ct .row .k {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #ADB5BD;
+  }
+  
+  .ct .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: none;
+  }
+  
+  .ct .row .v {
+    font-weight: 600;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  
+  .ct .row.hl .k {
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .ct .delta {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-weight: 700;
+  }
+  
+  .ct .delta.bad {
+    color: #FDA29B;
+  }
+  
+  .ct .wk {
+    color: #868E96;
+    font-weight: 400;
+  }
+  
+  .hit {
+    fill: transparent;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .hit:focus-visible {
+    stroke: var(--color-fact);
+    stroke-width: 2;
+    fill: rgba(0, 0, 0, 0.05);
+  }
+
+  /* ---------- Адаптивность ---------- */
+  @media (min-width:1181px) and (min-height:660px) {
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    .slide {
+      height: 100vh;
+    }
+    svg.chart {
+      height: 100%;
+      width: 100%;
+      min-height: 0;
+    }
+  }
+  
+  @media (max-width:1180px) {
+    main.charts {
+      grid-template-columns: 1fr;
+    }
+    .kpis {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .actions {
+      grid-template-columns: 1fr 1fr;
+    }
+    .actions .lead {
+      grid-column: 1/-1;
+    }
+    .meta {
+      text-align: left;
+    }
+  }
+  
+  @media (max-width:640px) {
+    .kpis {
+      grid-template-columns: 1fr;
+    }
+    .actions {
+      grid-template-columns: 1fr;
+    }
+    .panel-head .headline-delta {
+      margin-left: 0;
+    }
+  }
+  
+  @media print {
+    footer.ctl-bar, .notes, .meta, .style-selector {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+      color: #000 !important;
+    }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=&quot;theme-dark&quot;&gt;
+&lt;div class=&quot;slide&quot;&gt;
+  &lt;header class=&quot;top&quot;&gt;
+    &lt;div&gt;
+      &lt;div class=&quot;kicker-wrapper&quot;&gt;
+        &lt;span class=&quot;kicker&quot;&gt;Q3-2026 · недели 27–40 · план-факт трекинг&lt;/span&gt;
+        &lt;span class=&quot;kicker-badge&quot;&gt;Управленческий отчет&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;h1&gt;Старт квартала ниже плана: отгрузка 44.8% плана, фин. результат &lt;span class=&quot;neg&quot;&gt;−5,5 млн ₽&lt;/span&gt;&lt;/h1&gt;
+      &lt;div class=&quot;sub&quot;&gt;
+        &lt;span&gt;Факт по неделю 29 (13–19 июля) · продолжение до недели 30 (20–26 июля)&lt;/span&gt;
+        &lt;span class=&quot;t&quot; data-tip=&quot;Сумма значений с начала квартала по выбранную неделю включительно. Показывает путь к квартальной цели, а не разовый результат недели.&quot;&gt;нарастающий итог&lt;/span&gt;
+        &lt;span&gt;· млн ₽&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div style=&quot;display: flex; flex-direction: column; align-items: flex-end; gap: 8px;&quot;&gt;
+      &lt;div class=&quot;meta&quot;&gt;
+        &lt;div&gt;выгрузка 21.07.2026 · источник: план-факт «3 квартал»&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;section class=&quot;kpis&quot;&gt;
+    &lt;div class=&quot;kpi alert&quot;&gt;
+      &lt;div class=&quot;label&quot;&gt;Отгрузка · факт нарастающим&lt;/div&gt;
+      &lt;div class=&quot;big&quot;&gt;11,1 &lt;small&gt;млн ₽&lt;/small&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;план на 13–19 июля: 24,8 млн ₽&lt;/div&gt;
+      &lt;span class=&quot;chip&quot;&gt;▼ −13,7 млн · 44.8% плана&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;kpi alert&quot;&gt;
+      &lt;div class=&quot;label&quot;&gt;Чистая прибыль · факт&lt;/div&gt;
+      &lt;div class=&quot;big neg&quot;&gt;−5,50 &lt;small&gt;млн ₽&lt;/small&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;план на 13–19 июля: +8,37 млн ₽&lt;/div&gt;
+      &lt;span class=&quot;chip&quot;&gt;▼ −13,9 млн к плану&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;kpi&quot;&gt;
+      &lt;div class=&quot;label&quot;&gt;План квартала (грин)&lt;/div&gt;
+      &lt;div class=&quot;big&quot; style=&quot;color: var(--color-plan-text);&quot;&gt;&lt;span&gt;98,5&lt;/span&gt; &lt;small style=&quot;color: inherit;&quot;&gt;/ &lt;span&gt;15,0&lt;/span&gt; млн ₽&lt;/small&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;отгрузка / чистая прибыль&lt;/div&gt;
+      &lt;span class=&quot;chip&quot; style=&quot;background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border);&quot;&gt;базовый сценарий&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;kpi&quot;&gt;
+      &lt;div class=&quot;label&quot;&gt;&lt;span class=&quot;t&quot; data-tip=&quot;Растянутая (амбициозная) цель квартала сверх базового плана. Используется как ориентир максимального результата, а не как обязательство.&quot;&gt;Супергрин&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;big&quot; style=&quot;color: var(--color-sup-text);&quot;&gt;&lt;span&gt;140,1&lt;/span&gt; &lt;small style=&quot;color: inherit;&quot;&gt;/ &lt;span&gt;51,9&lt;/span&gt; млн ₽&lt;/small&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub2&quot;&gt;отгрузка / чистая прибыль&lt;/div&gt;
+      &lt;span class=&quot;chip&quot; style=&quot;background: var(--color-sup-bg); color: var(--color-sup-text); border-color: var(--color-sup-border);&quot;&gt;растянутая цель&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;main class=&quot;charts&quot;&gt;
+    &lt;div class=&quot;panel&quot;&gt;
+      &lt;div class=&quot;panel-head&quot;&gt;
+      &lt;h2&gt;Отгрузка продукции&lt;/h2&gt;
+      &lt;span class=&quot;unit&quot;&gt;нарастающим итогом, млн ₽&lt;/span&gt;
+      &lt;span class=&quot;headline-delta&quot; style=&quot;background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border); display: none;&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+      &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-ship-wrap&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;panel&quot;&gt;
+      &lt;div class=&quot;panel-head&quot;&gt;
+      &lt;h2&gt;Чистая прибыль (&lt;span class=&quot;t&quot; data-tip=&quot;Финансовый результат периода: маржинальный доход минус все расходы, включая амортизацию, проценты и лизинг. В управленческом план-факте используется как «чистая прибыль».&quot;&gt;фин. результат&lt;/span&gt;)&lt;/h2&gt;
+      &lt;span class=&quot;unit&quot;&gt;нарастающим итогом, млн ₽&lt;/span&gt;
+      &lt;span class=&quot;headline-delta&quot; style=&quot;background: var(--color-plan-bg); color: var(--color-plan-text); border-color: var(--color-plan-border); display: none;&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+      &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-profit-wrap&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;ctl-bar&quot;&gt;
+    &lt;button class=&quot;ctl&quot; id=&quot;prev&quot; disabled aria-label=&quot;Предыдущий слайд&quot;&gt;←&lt;/button&gt;
+    &lt;span class=&quot;counter&quot;&gt;1 / 1&lt;/span&gt;
+    &lt;button class=&quot;ctl&quot; id=&quot;next&quot; disabled aria-label=&quot;Следующий слайд&quot;&gt;→&lt;/button&gt;
+    &lt;button class=&quot;ctl notes-btn&quot; id=&quot;notes-btn&quot; aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;&gt;Speaker Notes&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;
+
+&lt;aside class=&quot;notes&quot; id=&quot;notes&quot; aria-hidden=&quot;true&quot; role=&quot;dialog&quot; aria-label=&quot;Заметки спикера&quot;&gt;
+  &lt;div class=&quot;notes-head&quot;&gt;
+    &lt;h2&gt;Speaker Notes&lt;/h2&gt;
+    &lt;button class=&quot;notes-close&quot; id=&quot;notes-close&quot; aria-label=&quot;Закрыть заметки&quot;&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;notes-body&quot;&gt;
+&lt;h3&gt;Что сказать&lt;/h3&gt;
+&lt;div class=&quot;say&quot;&gt;«Прошло 3 недели третьего квартала. Отгрузали на 11,1 млн ₽ при плане 24,8 млн ₽ — это 44.8% плана. Финансовый результат — −5,50 млн ₽ при плановых +8,37 млн ₽».&lt;/div&gt;
+&lt;h3&gt;Главный тезис&lt;/h3&gt;
+&lt;p&gt;Старт квартала ниже плана по обеим метрикам, и разрыв увеличивается.&lt;/p&gt;
+&lt;h3&gt;Вывод для аудитории&lt;/h3&gt;
+&lt;p&gt;Темп нужно поднимать уже сейчас, не дожидаясь середины квартала. Следующий контрольный рубеж — 30-я неделя.&lt;/p&gt;
+&lt;h3&gt;Цифры, которые проговорить&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Отгрузка: факт 11,1 млн ₽ против плана 24,8 млн ₽ (−13,7 млн, 44.8%).&lt;/li&gt;
+  &lt;li&gt;Прибыль: −5,50 млн ₽ против плановых 8,37 млн ₽ (−13,9 млн).&lt;/li&gt;
+  &lt;li&gt;Квартальные ориентиры: план 98,5 / 15,0 млн ₽; супергрин 140,1 / 51,9 млн ₽.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Пауза&lt;/h3&gt;
+&lt;p&gt;После панели прибыли — 5 секунд тишины: дать команде посмотреть на накопленный результат.&lt;/p&gt;
+&lt;h3&gt;Вероятные вопросы&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;«Почему отстали?» — назвать драйвер по факту недели (заготовить до встречи).&lt;/li&gt;
+  &lt;li&gt;«Что показывает 30-я неделя?» — идёт сейчас, план 5,34 млн ₽; факт появится к следующему выпуску.&lt;/li&gt;
+  &lt;li&gt;«Реалистичен ли супергрин при таком старте?» — супергрин требует ускорения отгрузки в оставшиеся недели квартала.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Переход&lt;/h3&gt;
+&lt;p&gt;К блоку «Что делаем»: пройтись по действиям, подтвердить владельцев и сроки.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/aside&gt;
+&lt;div id=&quot;term-tip&quot; role=&quot;tooltip&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+&quot;use strict&quot;;
+
+/* ==================== ДАННЫЕ ==================== */
+const Q3 = {
+  &quot;weeks&quot;: [
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40
+  ],
+  &quot;dates&quot;: {
+    &quot;27&quot;: &quot;29 июня – 5 июля&quot;,
+    &quot;28&quot;: &quot;6–12 июля&quot;,
+    &quot;29&quot;: &quot;13–19 июля&quot;,
+    &quot;30&quot;: &quot;20–26 июля&quot;,
+    &quot;31&quot;: &quot;27 июля – 2 августа&quot;,
+    &quot;32&quot;: &quot;3–9 августа&quot;,
+    &quot;33&quot;: &quot;10–16 августа&quot;,
+    &quot;34&quot;: &quot;17–23 августа&quot;,
+    &quot;35&quot;: &quot;24–30 августа&quot;,
+    &quot;36&quot;: &quot;31 августа – 6 сентября&quot;,
+    &quot;37&quot;: &quot;7–13 сентября&quot;,
+    &quot;38&quot;: &quot;14–20 сентября&quot;,
+    &quot;39&quot;: &quot;21–27 сентября&quot;,
+    &quot;40&quot;: &quot;28 сентября – 4 октября&quot;
+  },
+  &quot;currentWeek&quot;: 30,
+  &quot;pastWeekCount&quot;: 3,
+  &quot;kpiWeek&quot;: 29,
+  &quot;kpiWeekIndex&quot;: 2,
+  &quot;ship&quot;: {
+    &quot;zero&quot;: true,
+    &quot;min&quot;: 0,
+    &quot;max&quot;: 145000000,
+    &quot;ticks&quot;: [
+      0,
+      20000000,
+      40000000,
+      60000000,
+      80000000,
+      100000000,
+      120000000,
+      140000000,
+      145000000
+    ],
+    &quot;plan&quot;: {
+      &quot;weekly&quot;: [
+        5342330.8,
+        5342330.8,
+        14142330.8,
+        5342330.8,
+        7542330.8,
+        6264578.5,
+        6264578.5,
+        6264578.5,
+        6264578.5,
+        6835223.0,
+        7235223.0,
+        7235223.0,
+        7235223.0,
+        7235223.0
+      ],
+      &quot;cum&quot;: [
+        5342330.8,
+        10684661.6,
+        24826992.4,
+        30169323.2,
+        37711654.0,
+        43976232.5,
+        50240811.0,
+        56505389.5,
+        62769968.0,
+        69605191.0,
+        76840414.0,
+        84075637.0,
+        91310860.0,
+        98546083.0
+      ]
+    },
+    &quot;sup&quot;: {
+      &quot;weekly&quot;: [
+        5342330.8,
+        5342330.8,
+        14142330.8,
+        5342330.8,
+        8762298.8,
+        8007238.5,
+        8007238.5,
+        8007238.5,
+        21528550.5,
+        9227837.4,
+        9227837.4,
+        9227837.4,
+        9227837.4,
+        18682589.4
+      ],
+      &quot;cum&quot;: [
+        5342330.8,
+        10684661.6,
+        24826992.4,
+        30169323.2,
+        38931622.0,
+        46938860.5,
+        54946099.0,
+        62953337.5,
+        84481888.0,
+        93709725.4,
+        102937562.80000001,
+        112165400.20000002,
+        121393237.60000002,
+        140075827.00000003
+      ]
+    },
+    &quot;fact&quot;: {
+      &quot;weekly&quot;: [
+        4048774.88,
+        2627269.15,
+        4458233.07,
+        10319396.0
+      ],
+      &quot;cum&quot;: [
+        4048774.88,
+        6676044.029999999,
+        11134277.1,
+        21453673.1
+      ]
+    }
+  },
+  &quot;profit&quot;: {
+    &quot;zero&quot;: false,
+    &quot;min&quot;: -7000000,
+    &quot;max&quot;: 55000000,
+    &quot;ticks&quot;: [
+      -10000000,
+      0,
+      10000000,
+      20000000,
+      30000000,
+      40000000,
+      50000000
+    ],
+    &quot;plan&quot;: {
+      &quot;weekly&quot;: [
+        97268.02645,
+        97268.02645,
+        8175668.026,
+        97268.02645,
+        2116868.026,
+        13901.67568,
+        13901.67568,
+        13901.67568,
+        13901.67568,
+        617571.8639,
+        939771.8639,
+        939771.8639,
+        939771.8639,
+        939771.8639
+      ],
+      &quot;cum&quot;: [
+        97268.02645,
+        194536.0529,
+        8370204.0789,
+        8467472.10535,
+        10584340.131350001,
+        10598241.807030002,
+        10612143.482710002,
+        10626045.158390002,
+        10639946.834070003,
+        11257518.697970003,
+        12197290.561870003,
+        13137062.425770003,
+        14076834.289670004,
+        15016606.153570004
+      ]
+    },
+    &quot;sup&quot;: {
+      &quot;weekly&quot;: [
+        -58695.32482,
+        -58695.32482,
+        8026744.675,
+        -58695.32482,
+        3083571.274,
+        1769616.818,
+        1769143.345,
+        1769143.345,
+        13483362.61,
+        2819308.213,
+        2819308.213,
+        2819308.213,
+        2819308.213,
+        10920139.73
+      ],
+      &quot;cum&quot;: [
+        -58695.32482,
+        -117390.64964,
+        7909354.025359999,
+        7850658.70054,
+        10934229.974539999,
+        12703846.792539999,
+        14472990.13754,
+        16242133.48254,
+        29725496.09254,
+        32544804.30554,
+        35364112.51854,
+        38183420.73154,
+        41002728.94454,
+        51922868.67454
+      ]
+    },
+    &quot;fact&quot;: {
+      &quot;weekly&quot;: [
+        -1651753.304,
+        -2711163.601,
+        -1136791.592,
+        4765861.747
+      ],
+      &quot;cum&quot;: [
+        -1651753.304,
+        -4362916.904999999,
+        -5499708.4969999995,
+        -733846.7499999991
+      ]
+    }
+  }
+};
+
+
+const CHIP = {
+  &quot;ship&quot;: {
+    &quot;l1&quot;: &quot;▼ Δ плану −13,7 млн ₽&quot;,
+    &quot;l2&quot;: &quot;44.8% плана за 3 недели&quot;
+  },
+  &quot;profit&quot;: {
+    &quot;l1&quot;: &quot;▼ Δ плану −13,9 млн ₽&quot;,
+    &quot;l2&quot;: &quot;план на дату: +8,37 млн ₽&quot;
+  }
+};
+
+
+const fmtM = v =&gt; {
+  const m = v / 1e6;
+  const a = Math.abs(m);
+  const d = a &gt;= 10 ? 1 : 2;
+  return m.toLocaleString(&quot;ru-RU&quot;, { minimumFractionDigits: d, maximumFractionDigits: d });
+};
+
+/* ==================== ПОСТРОЕНИЕ ГРАФИКОВ ==================== */
+function buildChart(wrapId, key) {
+  const d = Q3[key];
+  const W = Q3.weeks;
+  const n = W.length;
+  
+  const VW = 1200;
+  const VH = 500;
+  const P = { l: 65, r: 150, t: 25, b: 60 };
+  
+  const iw = VW - P.l - P.r;
+  const ih = VH - P.t - P.b;
+  
+  const X = i =&gt; P.l + i * iw / (n - 1);
+  const Y = v =&gt; P.t + (d.max - v) / (d.max - d.min) * ih;
+  const stepX = X(1) - X(0);
+  
+  const path = arr =&gt; arr.map((v, i) =&gt; (i ? &quot;L&quot; : &quot;M&quot;) + X(i).toFixed(1) + &quot;,&quot; + Y(v).toFixed(1)).join(&quot; &quot;);
+  const pathWithOffset = (arr, startIndex) =&gt; arr.map((v, i) =&gt; (i ? &quot;L&quot; : &quot;M&quot;) + X(startIndex + i).toFixed(1) + &quot;,&quot; + Y(v).toFixed(1)).join(&quot; &quot;);
+  
+  let s = `&lt;svg class=&quot;chart&quot; viewBox=&quot;0 0 ${VW} ${VH}&quot; role=&quot;img&quot; aria-label=&quot;График ${key === &quot;ship&quot; ? &quot;отгрузки&quot; : &quot;чистой прибыли&quot;} нарастающим итогом: факт, план, суперплан&quot;&gt;`;
+  
+  // Сетка и шкала Y
+  d.ticks.forEach(t =&gt; {
+    const y = Y(t);
+    // Для темных и швейцарских стилей цвета берутся из CSS-переменных
+    s += `&lt;line x1=&quot;${P.l}&quot; y1=&quot;${y}&quot; x2=&quot;${VW - P.r + 8}&quot; y2=&quot;${y}&quot; stroke=&quot;var(--color-grid)&quot; stroke-width=&quot;${t === 0 ? 1.6 : 1}&quot; /&gt;`;
+    s += `&lt;text x=&quot;${P.l - 9}&quot; y=&quot;${y + 4}&quot; text-anchor=&quot;end&quot; font-size=&quot;19&quot; fill=&quot;var(--text-faint)&quot; font-family=&quot;var(--font-mono)&quot;&gt;${fmtM(t)}&lt;/text&gt;`;
+  });
+  
+  s += `&lt;text x=&quot;${P.l - 9}&quot; y=&quot;${P.t - 10}&quot; text-anchor=&quot;start&quot; font-size=&quot;19&quot; fill=&quot;var(--text-faint)&quot; font-weight=&quot;600&quot;&gt;млн ₽&lt;/text&gt;`;
+  
+  // Вертикальные разделители месяцев
+  const sep = (a, b) =&gt; {
+    const x = (X(a) + X(b)) / 2;
+    s += `&lt;line x1=&quot;${x}&quot; y1=&quot;${P.t}&quot; x2=&quot;${x}&quot; y2=&quot;${VH - P.b}&quot; stroke=&quot;var(--color-grid)&quot; stroke-dasharray=&quot;3 4&quot; /&gt;`;
+  };
+  sep(4, 5);
+  sep(9, 10);
+  
+  // Текущая неделя (активный столбец)
+  const ci = W.indexOf(Q3.currentWeek);
+  s += `&lt;rect x=&quot;${X(ci) - stepX / 2}&quot; y=&quot;${P.t}&quot; width=&quot;${stepX}&quot; height=&quot;${ih}&quot; fill=&quot;var(--bg-panel)&quot; opacity=&quot;0.4&quot; /&gt;`;
+  s += `&lt;text x=&quot;${X(ci)}&quot; y=&quot;${P.t - 5}&quot; text-anchor=&quot;middle&quot; font-size=&quot;18&quot; fill=&quot;var(--text-muted)&quot;&gt;идёт ${Q3.currentWeek}-я&lt;/text&gt;`;
+  
+  // Метки недель по оси X
+  W.forEach((w, i) =&gt; {
+    s += `&lt;text x=&quot;${X(i)}&quot; y=&quot;${VH - P.b + 17}&quot; text-anchor=&quot;middle&quot; font-size=&quot;18&quot; fill=&quot;var(--text-faint)&quot; font-family=&quot;var(--font-mono)&quot;&gt;${w}&lt;/text&gt;`;
+  });
+  
+  // Подписи месяцев
+  const ml = (cx, txt) =&gt; {
+    s += `&lt;text x=&quot;${cx}&quot; y=&quot;${VH - P.b + 37}&quot; text-anchor=&quot;middle&quot; font-size=&quot;19&quot; font-weight=&quot;700&quot; fill=&quot;var(--color-axis)&quot;&gt;${txt}&lt;/text&gt;`;
+  };
+  ml((X(0) + X(4)) / 2, &quot;Июль&quot;);
+  ml((X(5) + X(9)) / 2, &quot;Август&quot;);
+  ml((X(10) + X(13)) / 2, &quot;Сентябрь&quot;);
+  
+  // Линия Суперплана
+  s += `&lt;path d=&quot;${path(d.sup.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-sup)&quot; stroke-width=&quot;5&quot; /&gt;`;
+  // Линия Плана
+  s += `&lt;path d=&quot;${path(d.plan.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-plan)&quot; stroke-width=&quot;5&quot; /&gt;`;
+  const pastWeekCount = Q3.pastWeekCount || 0;
+  const factStroke = 7;
+  const forecastStroke = Number((factStroke * 0.8).toFixed(1));
+  const hasForecastTail = d.fact.cum.length &gt; pastWeekCount;
+
+  if (hasForecastTail &amp;&amp; pastWeekCount &gt; 0) {
+    const solidFactPath = pathWithOffset(d.fact.cum.slice(0, pastWeekCount), 0);
+    const dashedFactPath = pathWithOffset(d.fact.cum.slice(pastWeekCount - 1), pastWeekCount - 1);
+    s += `&lt;path d=&quot;${solidFactPath}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${factStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; /&gt;`;
+    s += `&lt;path d=&quot;${dashedFactPath}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${forecastStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-dasharray=&quot;6 6&quot; /&gt;`;
+  } else {
+    s += `&lt;path d=&quot;${path(d.fact.cum)}&quot; fill=&quot;none&quot; stroke=&quot;var(--color-fact)&quot; stroke-width=&quot;${factStroke}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; /&gt;`;
+  }
+  
+  // Точки факта - только до прошедших недель (индекс &lt; pastWeekCount)
+  d.fact.cum.forEach((v, i) =&gt; {
+    if (i &lt; pastWeekCount) {
+      s += `&lt;circle cx=&quot;${X(i)}&quot; cy=&quot;${Y(v)}&quot; r=&quot;5&quot; fill=&quot;var(--color-fact)&quot; stroke=&quot;var(--bg-card)&quot; stroke-width=&quot;1.8&quot; /&gt;`;
+    }
+  });
+  
+  // Лейблы в конце графиков
+  const el = (y, t1, t2, colVar) =&gt; {
+    s += `&lt;text x=&quot;${VW - P.r + 14}&quot; y=&quot;${y - 2}&quot; font-size=&quot;19&quot; font-weight=&quot;700&quot; fill=&quot;var(${colVar})&quot;&gt;${t1}&lt;/text&gt;` + 
+         `&lt;text x=&quot;${VW - P.r + 14}&quot; y=&quot;${y + 18}&quot; font-size=&quot;19&quot; fill=&quot;var(--text-faint)&quot; font-family=&quot;var(--font-mono)&quot;&gt;${t2}&lt;/text&gt;`;
+  };
+  el(Y(d.plan.cum[n - 1]), &quot;Грин&quot;, fmtM(d.plan.cum[n - 1]) + &quot; млн ₽&quot;, &quot;--color-plan&quot;);
+  el(Y(d.sup.cum[n - 1]), &quot;Супергрин&quot;, fmtM(d.sup.cum[n - 1]) + &quot; млн ₽&quot;, &quot;--color-sup&quot;);
+  
+  // Карточка текущего факта
+  const kpiIndex = (Q3.kpiWeekIndex !== undefined) ? Q3.kpiWeekIndex : (d.fact.cum.length - 1);
+  const fi = Math.max(0, Math.min(kpiIndex, d.fact.cum.length - 1));
+  const fx = X(fi);
+  const fy = Y(d.fact.cum[fi]);
+  const ch = CHIP[key];
+  const cw = 240;
+  const chh = 82;
+
+  // ПРАВИЛО: карточка факта не должна перекрывать линии и осевые подписи.
+  // Автоподбор позиции: перебираются кандидаты справа/слева/сверху/снизу от точки
+  // и углы графика; выбирается первый вариант, не перекрывающий линии.
+  function rectContains(rx, ry, rw, rh, px, py) {
+    return px &gt;= rx &amp;&amp; px &lt;= rx + rw &amp;&amp; py &gt;= ry &amp;&amp; py &lt;= ry + rh;
+  }
+  function lineHitsRect(rx, ry, rw, rh, pts) {
+    for (let i = 0; i &lt; pts.length - 1; i++) {
+      const x1 = X(i), y1 = Y(pts[i]);
+      const x2 = X(i + 1), y2 = Y(pts[i + 1]);
+      if (rectContains(rx, ry, rw, rh, x1, y1)) return true;
+      if (rectContains(rx, ry, rw, rh, x2, y2)) return true;
+      if (rectContains(rx, ry, rw, rh, (x1 + x2) / 2, (y1 + y2) / 2)) return true;
+    }
+    return false;
+  }
+  function cardOverlaps(rx, ry) {
+    return lineHitsRect(rx, ry, cw, chh, d.fact.cum) ||
+           lineHitsRect(rx, ry, cw, chh, d.plan.cum) ||
+           lineHitsRect(rx, ry, cw, chh, d.sup.cum);
+  }
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  const candidates = [
+    { cx: fx + 40, cy: fy - chh - 40 },          // справа сверху
+    { cx: fx - cw - 40, cy: fy - chh - 40 },     // слева сверху
+    { cx: fx + 40, cy: fy + 40 },                // справа снизу
+    { cx: fx - cw - 40, cy: fy + 40 },           // слева снизу
+    { cx: P.l + 90, cy: P.t + 35 },              // левый верхний угол
+    { cx: VW - P.r - cw - 20, cy: P.t + 35 },    // правый верхний угол
+  ];
+  let chosen = null;
+  for (const c of candidates) {
+    const ccx = clamp(c.cx, P.l + 4, VW - P.r - cw - 4);
+    const ccy = clamp(c.cy, P.t + 4, VH - P.b - chh - 4);
+    if (!cardOverlaps(ccx, ccy)) { chosen = { cx: ccx, cy: ccy }; break; }
+  }
+  if (!chosen) chosen = { cx: P.l + 90, cy: P.t + 35 };
+  const cx = clamp(chosen.cx, P.l + 4, VW - P.r - cw - 4);
+  const cy = clamp(chosen.cy, P.t + 4, VH - P.b - chh - 4);
+  
+  s += `&lt;g class=&quot;fact-card-group&quot;&gt;` +
+       `&lt;rect x=&quot;${cx}&quot; y=&quot;${cy}&quot; width=&quot;${cw}&quot; height=&quot;${chh}&quot; rx=&quot;8&quot; fill=&quot;var(--color-bad-bg)&quot; stroke=&quot;var(--color-bad-border)&quot; stroke-width=&quot;1&quot; /&gt;` +
+       `&lt;text x=&quot;${cx + 16}&quot; y=&quot;${cy + 24}&quot; font-size=&quot;19&quot; font-weight=&quot;700&quot; fill=&quot;var(--text-main)&quot;&gt;Факт: ${fmtM(d.fact.cum[fi])} млн ₽&lt;/text&gt;` +
+       `&lt;text x=&quot;${cx + 16}&quot; y=&quot;${cy + 48}&quot; font-size=&quot;18&quot; font-weight=&quot;700&quot; fill=&quot;var(--color-bad)&quot;&gt;${ch.l1}&lt;/text&gt;` +
+       `&lt;text x=&quot;${cx + 16}&quot; y=&quot;${cy + 68}&quot; font-size=&quot;18&quot; font-weight=&quot;500&quot; fill=&quot;var(--color-bad)&quot;&gt;${ch.l2}&lt;/text&gt;` +
+       `&lt;/g&gt;`;
+       
+  // Интерактивные триггеры
+  const seriesDef = [[&quot;fact&quot;, d.fact], [&quot;plan&quot;, d.plan], [&quot;sup&quot;, d.sup]];
+  const colors = { fact: &quot;var(--color-fact)&quot;, plan: &quot;var(--color-plan)&quot;, sup: &quot;var(--color-sup)&quot; };
+  const names = { fact: &quot;Факт&quot;, plan: &quot;Грин&quot;, sup: &quot;Супергрин&quot; };
+  
+  seriesDef.forEach(([sk, sd]) =&gt; {
+    sd.cum.forEach((v, i) =&gt; {
+      s += `&lt;circle class=&quot;hit&quot; cx=&quot;${X(i)}&quot; cy=&quot;${Y(v)}&quot; r=&quot;13&quot; tabindex=&quot;0&quot; data-s=&quot;${sk}&quot; data-i=&quot;${i}&quot; role=&quot;button&quot; aria-label=&quot;Неделя ${W[i]}: ${names[sk]} ${fmtM(v)} млн ₽&quot; /&gt;`;
+    });
+  });
+  
+  s += `&lt;/svg&gt;&lt;div class=&quot;ct&quot; role=&quot;tooltip&quot;&gt;&lt;/div&gt;`;
+  
+  const wrap = document.getElementById(wrapId);
+  wrap.innerHTML = s;
+  
+  const svg = wrap.querySelector(&quot;svg&quot;);
+  
+  const tip = wrap.querySelector(&quot;.ct&quot;);
+  
+  function showTip(sk, i) {
+    const w = W[i];
+    let h = `&lt;div class=&quot;ct-title&quot;&gt;Неделя ${w} · ${Q3.dates[w]}&lt;/div&gt;`;
+    
+    [&quot;fact&quot;, &quot;plan&quot;, &quot;sup&quot;].forEach(k2 =&gt; {
+      const sd = Q3[key][k2];
+      if (i &lt; sd.cum.length) {
+        h += `&lt;div class=&quot;row ${k2 === sk ? &quot;hl&quot; : &quot;&quot;}&quot;&gt;` +
+             `&lt;span class=&quot;k&quot;&gt;&lt;span class=&quot;dot&quot; style=&quot;background:${colors[k2]}&quot;&gt;&lt;/span&gt;${names[k2]}&lt;/span&gt;` +
+             `&lt;span class=&quot;v&quot;&gt;${fmtM(sd.cum[i])} млн ₽&lt;/span&gt;` +
+             `&lt;/div&gt;`;
+        h += `&lt;div class=&quot;row ${k2 === sk ? &quot;hl&quot; : &quot;&quot;}&quot;&gt;` +
+             `&lt;span class=&quot;k wk&quot;&gt;за неделю&lt;/span&gt;` +
+             `&lt;span class=&quot;v wk&quot;&gt;${fmtM(sd.weekly[i])} млн ₽&lt;/span&gt;` +
+             `&lt;/div&gt;`;
+      }
+    });
+    
+    if (i &lt; Q3[key].fact.cum.length) {
+      const f = Q3[key].fact.cum[i];
+      const p = Q3[key].plan.cum[i];
+      const dv = f - p;
+      const pct = (p &gt; 0 &amp;&amp; f &gt;= 0) ? (f / p * 100) : null;
+      h += `&lt;div class=&quot;delta ${dv &lt; 0 ? &quot;bad&quot; : &quot;&quot;}&quot;&gt;Δ плану: ${dv &lt; 0 ? &quot;−&quot; : &quot;+&quot;}${fmtM(Math.abs(dv))} млн ₽${pct !== null ? ` · ${pct.toLocaleString(&quot;ru-RU&quot;, { maximumFractionDigits: 1 })}%` : &quot;&quot;}&lt;/div&gt;`;
+    }
+    
+    tip.innerHTML = h;
+    const rect = svg.getBoundingClientRect();
+    const kx = rect.width / VW;
+    const ky = rect.height / VH;
+    
+    const px = X(i) * kx;
+    const py = Y(Q3[key][sk].cum[i]) * ky;
+    
+    tip.style.display = &quot;block&quot;;
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    
+    let left = px - tw / 2;
+    left = Math.max(4, Math.min(left, rect.width - tw - 4));
+    
+    let top = py - th - 14;
+    if (top &lt; 2) top = py + 18;
+    
+    tip.style.left = left + &quot;px&quot;;
+    tip.style.top = top + &quot;px&quot;;
+  }
+  
+  function hideTip() {
+    tip.style.display = &quot;none&quot;;
+  }
+  
+  wrap.querySelectorAll(&quot;.hit&quot;).forEach(c =&gt; {
+    const sk = c.dataset.s;
+    const i = +c.dataset.i;
+    
+    c.addEventListener(&quot;mouseenter&quot;, () =&gt; showTip(sk, i));
+    c.addEventListener(&quot;mouseleave&quot;, hideTip);
+    c.addEventListener(&quot;focus&quot;, () =&gt; showTip(sk, i));
+    c.addEventListener(&quot;blur&quot;, hideTip);
+    c.addEventListener(&quot;click&quot;, e =&gt; {
+      e.stopPropagation();
+      tip.style.display === &quot;block&quot; ? hideTip() : showTip(sk, i);
+    });
+    c.addEventListener(&quot;keydown&quot;, e =&gt; {
+      if (e.key === &quot;Enter&quot; || e.key === &quot; &quot;) {
+        e.preventDefault();
+        showTip(sk, i);
+      }
+      if (e.key === &quot;Escape&quot;) hideTip();
+    });
+  });
+  
+  wrap.addEventListener(&quot;mouseleave&quot;, hideTip);
+}
+
+// Первичная отрисовка
+function renderCharts() {
+  buildChart(&quot;chart-ship-wrap&quot;, &quot;ship&quot;);
+  buildChart(&quot;chart-profit-wrap&quot;, &quot;profit&quot;);
+}
+
+renderCharts();
+
+/* ==================== ГЛОССАРИЙ / ТЕРМИНЫ ==================== */
+const tt = document.getElementById(&quot;term-tip&quot;);
+document.querySelectorAll(&quot;.t&quot;).forEach(el =&gt; {
+  const show = () =&gt; {
+    tt.textContent = el.dataset.tip;
+    tt.style.display = &quot;block&quot;;
+    const r = el.getBoundingClientRect();
+    const tw = tt.offsetWidth;
+    let x = r.left + r.width / 2 - tw / 2;
+    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+    tt.style.left = x + &quot;px&quot;;
+    tt.style.top = (r.bottom + 8) + &quot;px&quot;;
+  };
+  const hide = () =&gt; { tt.style.display = &quot;none&quot;; };
+  
+  el.addEventListener(&quot;mouseenter&quot;, show);
+  el.addEventListener(&quot;mouseleave&quot;, hide);
+  el.addEventListener(&quot;focus&quot;, show);
+  el.addEventListener(&quot;blur&quot;, hide);
+  el.addEventListener(&quot;click&quot;, e =&gt; {
+    e.stopPropagation();
+    tt.style.display === &quot;block&quot; ? hide() : show();
+  });
+  el.setAttribute(&quot;tabindex&quot;, &quot;0&quot;);
+});
+document.addEventListener(&quot;click&quot;, () =&gt; { tt.style.display = &quot;none&quot;; });
+
+/* ==================== SPEAKER NOTES ==================== */
+const notes = document.getElementById(&quot;notes&quot;);
+const nb = document.getElementById(&quot;notes-btn&quot;);
+
+function setNotes(open) {
+  notes.classList.toggle(&quot;open&quot;, open);
+  notes.setAttribute(&quot;aria-hidden&quot;, String(!open));
+  nb.setAttribute(&quot;aria-expanded&quot;, String(open));
+}
+
+nb.addEventListener(&quot;click&quot;, e =&gt; {
+  e.stopPropagation();
+  setNotes(!notes.classList.contains(&quot;open&quot;));
+});
+
+document.getElementById(&quot;notes-close&quot;).addEventListener(&quot;click&quot;, () =&gt; setNotes(false));
+
+document.addEventListener(&quot;keydown&quot;, e =&gt; {
+  if (e.key === &quot;Escape&quot;) setNotes(false);
+  if (e.key === &quot;n&quot; || e.key === &quot;N&quot; || e.key === &quot;т&quot; || e.key === &quot;Т&quot;) {
+    setNotes(!notes.classList.contains(&quot;open&quot;));
+  }
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="План-факт 3 квартала"></iframe>
+      <iframe id="dash-operational" class="dashboard-frame" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot; data-theme=&quot;dark&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;Сводный операционный отчёт · 2026-W29 · EGGHEADS&lt;/title&gt;
+  &lt;style id=&quot;eh-logo-style&quot;&gt;
+.eh-logo{--eh-ink:#000;--eh-accent:#FF0000;--eh-ink-60:#666;--eh-font:&#39;Helvetica Neue&#39;,Arial,sans-serif;--eh-ease:cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:10px;position:relative;text-decoration:none;color:var(--eh-ink);-webkit-tap-highlight-color:transparent}
+.eh-logo--invert{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.eh-head{position:relative;width:24px;height:24px;flex:0 0 24px;display:block;overflow:visible}
+.eh-head svg{width:100%;height:100%;display:block;overflow:visible;fill:var(--eh-ink);transform-origin:50% 50%}
+.eh-logo:hover .eh-head svg{animation:eh-spin .72s var(--eh-ease) both}
+@keyframes eh-spin{0%{transform:rotate(0deg)}68%{transform:rotate(372deg)}84%{transform:rotate(354deg)}100%{transform:rotate(360deg)}}
+.eh-head.is-burnout{animation:eh-drive 1.7s cubic-bezier(.4,0,.22,1) forwards;z-index:60}
+.eh-head.is-burnout svg{animation:eh-wheel 1.7s cubic-bezier(.4,0,.22,1) forwards !important}
+@keyframes eh-wheel{0%{transform:rotate(0)}7%{transform:rotate(-34deg)}20%{transform:rotate(-22deg)}100%{transform:rotate(2160deg)}}
+@keyframes eh-drive{0%{transform:translateX(0)}7%{transform:translateX(-9px)}20%{transform:translateX(-9px)}80%{opacity:1}100%{transform:translateX(680px);opacity:0}}
+.eh-smoke{position:absolute;left:4px;bottom:0;border-radius:50%;background:rgba(0,0,0,.16);pointer-events:none;z-index:59}
+.eh-logo--invert .eh-smoke{background:rgba(255,255,255,.22)}
+@keyframes eh-smoke{0%{opacity:.34;transform:translate(0,0) scale(.35)}100%{opacity:0;transform:translate(-48px,-20px) scale(1.7)}}
+@media (prefers-reduced-motion:reduce){.eh-logo:hover .eh-head svg,.eh-head.is-burnout,.eh-head.is-burnout svg{animation:none !important}}
+.eh-text{display:flex;align-items:flex-end;min-width:0}
+.eh-wordmark{height:20px;width:auto;display:block;flex:0 0 auto;fill:var(--eh-ink)}
+.eh-div{width:2px;height:18px;background:var(--eh-ink);opacity:.5;display:block;flex:0 0 auto;margin:0 16px}
+.eh-tag{font-family:var(--eh-font);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--eh-ink-60);white-space:nowrap}
+  &lt;/style&gt;
+  &lt;style&gt;
+:root {
+  --page-bg: #f5f5f7;
+  --surface: #ffffff;
+  --hero-from: #fafafa;
+  --hero-to: #f0f0f5;
+  --card-bg: #ffffff;
+  --text: #1d1d1f;
+  --muted: #666;
+  --muted-light: #86868b;
+  --border: #e5e5e5;
+  --accent: #FF0000;
+  --dark: #1d1d1f;
+  --shadow: 0 4px 24px rgba(0,0,0,.06);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.12);
+  --button-secondary: #f5f5f7;
+  --button-secondary-hover: #e8e8ed;
+  --good: #0a8f5e;
+  --warn: #c2870a;
+  --bad: #d13b3b;
+  --info: #2563eb;
+}
+[data-theme=&quot;dark&quot;] {
+  --page-bg: #0f1014;
+  --surface: #181a20;
+  --hero-from: #181a20;
+  --hero-to: #111217;
+  --card-bg: #181a20;
+  --text: #f5f5f7;
+  --muted: #c7c7cf;
+  --muted-light: #a6a6ad;
+  --border: rgba(255,255,255,.12);
+  --accent: #FF0000;
+  --dark: #f5f5f7;
+  --shadow: 0 4px 24px rgba(0,0,0,.28);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,.42);
+  --button-secondary: #23252d;
+  --button-secondary-hover: #2b2e38;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  --info: #60a5fa;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-width:320px;background:var(--page-bg);color:var(--text);font-family:&#39;Helvetica Neue&#39;,Arial,sans-serif;transition:background .25s ease,color .25s ease;overflow-x:hidden}
+a{color:inherit}
+.site-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;position:sticky;top:0;z-index:100;transition:background .25s ease,border-color .25s ease}
+.header-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-header .eh-wordmark{height:22px}
+.site-header .eh-div{height:20px;margin:0 12px}
+.site-header .eh-tag{font-size:11px}
+[data-theme=&quot;dark&quot;] .site-header .eh-logo{--eh-ink:#fff;--eh-ink-60:rgba(255,255,255,.6)}
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+.header-meta{text-align:right;min-width:0}
+.header-title{font-size:15px;font-weight:800;letter-spacing:0;white-space:nowrap}
+.header-sub{margin-top:3px;font-size:12px;color:var(--muted-light);white-space:nowrap}
+.theme-toggle{appearance:none;border:1px solid var(--border);background:var(--button-secondary);color:var(--text);border-radius:999px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:700 13px/1 &#39;Helvetica Neue&#39;,Arial,sans-serif;transition:background .2s ease,border-color .2s ease,transform .2s ease;white-space:nowrap}
+.theme-toggle:hover{background:var(--button-secondary-hover);transform:translateY(-1px)}
+.theme-toggle:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 38%,transparent);outline-offset:3px}
+.theme-toggle-icon{width:17px;display:inline-flex;justify-content:center}
+.report-main{width:min(1180px,calc(100% - 56px));margin:0 auto;padding:32px 0 48px}
+.report-section{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-to) 100%);text-align:center}
+.hero h1{margin:0 0 12px;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.02em}
+.hero .period{margin:0 0 18px;color:var(--muted);font-size:15px;font-weight:600}
+.section-title{font-size:20px;font-weight:800;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.detail-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.detail-card h3{margin:0 0 12px;font-size:17px;font-weight:800}
+.detail-card ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:var(--text)}
+.detail-card li{margin-bottom:6px}
+.detail-card p{margin:0 0 10px;font-size:14px;line-height:1.55}
+.detail-card.empty{border-style:dashed;background:transparent;opacity:0.6}
+.detail-card.empty h3{color:var(--muted)}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;font-size:13px;color:var(--muted)}
+.meta-grid strong{color:var(--text)}
+.site-footer{background:#111114;color:#fff;padding:34px 32px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-inner{width:min(1180px,100%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.site-footer .eh-head{width:28px;height:28px;flex-basis:28px}
+.site-footer .eh-wordmark{height:22px}
+.footer-note{color:rgba(255,255,255,.66);font-size:13px;text-align:right}
+@media (max-width:980px){
+  .site-header .eh-tag,.site-header .eh-div{display:none}
+  .header-sub{display:none}
+  .two-col{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .site-header{padding:18px}
+  .header-inner{gap:14px;align-items:flex-start}
+  .site-header .eh-head{width:28px;height:28px;flex-basis:28px}
+  .site-header .eh-wordmark{height:21px;max-width:148px}
+  .header-right{gap:10px;flex-direction:column;align-items:flex-end}
+  .header-title{font-size:13px}
+  .theme-toggle{padding:7px 10px;font-size:12px}
+  .report-main{width:min(100% - 32px,420px);padding:24px 0 36px}
+  .report-section{padding:18px}
+  .hero h1{font-size:24px}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .site-footer .eh-tag,.site-footer .eh-div{display:none}
+  .footer-note{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important;transition-duration:.01ms !important}
+}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body data-theme=&quot;dark&quot; id=&quot;top&quot;&gt;
+  &lt;header class=&quot;site-header&quot;&gt;
+    &lt;div class=&quot;header-inner&quot;&gt;
+      &lt;a class=&quot;eh-logo&quot; href=&quot;#report-main&quot; aria-label=&quot;EGGHEADS · Сводный отчёт&quot;&gt;
+        &lt;span class=&quot;eh-head&quot; aria-hidden=&quot;true&quot;&gt;
+          &lt;svg viewBox=&quot;0 0 512 512&quot; focusable=&quot;false&quot;&gt;&lt;path d=&quot;M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z&quot;/&gt;&lt;path d=&quot;M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z&quot;/&gt;&lt;/svg&gt;
+        &lt;/span&gt;
+        &lt;span class=&quot;eh-text&quot;&gt;
+          &lt;svg class=&quot;eh-wordmark&quot; viewBox=&quot;21.69 95.83 1008.52 129.2&quot; role=&quot;img&quot; aria-label=&quot;EGGHEADS&quot;&gt;&lt;path d=&quot;M119.46,221.54H21.69V99.33H117.02v28.98H55.74v17.46h57.79v28.11H55.74v18.51h63.73v29.16Zm106.32-86.08c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm131.98,0c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm122.55,86.25v-46.27h-44v46.27h-34.57V99.5h34.57v46.44h44v-46.44h34.22v122.22h-34.22Zm143.68-.18h-84.69V99.33h95.33v28.98h-61.29v17.46h57.79v28.11h-57.79v18.51h63.73l-13.08,29.16Zm116.95-20.08h-54.65l-8.03,20.08h-36.67l54.82-122.22h34.92l54.65,122.22h-37.01l-8.03-20.08Zm-27.23-67.92l-15.71,38.93h31.25l-15.54-38.93Zm134.42-34.22c43.12,0,63.9,26.54,63.9,60.23s-20.08,61.98-63.9,61.98h-52.38V99.33h52.38Zm-18.16,93.06h18.16c22,0,29.68-16.41,29.68-33.17s-8.55-31.08-29.68-31.08h-18.16v64.25Zm175.63-59.19c-8.38-6.29-17.98-8.38-28.64-8.38-8.38,0-16.59,2.62-16.59,9.08,0,8.38,8.21,9.6,20.25,10.83,24.27,2.62,49.59,12.39,49.59,40.5s-26.19,39.63-53.61,39.81c-22,.17-37.71-3.67-54.65-21.48l19.03-21.82c12.05,11.7,25.49,13.79,35.79,13.79,11.35,0,19.21-4.02,19.21-10.83,0-6.11-6.98-9.95-20.43-11.17-26.71-2.45-49.76-9.25-49.76-39.63,0-25.84,25.31-37.01,51.16-37.01,18.33,0,32.65,4.19,45.74,14.49l-17.11,21.82Z&quot;/&gt;&lt;/svg&gt;
+        &lt;/span&gt;
+        &lt;span class=&quot;eh-text&quot;&gt;
+          &lt;span class=&quot;eh-div&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;eh-tag&quot;&gt;ЦИФРОВЫЕ СОТРУДНИКИ&lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/a&gt;
+      &lt;div class=&quot;header-right&quot;&gt;
+        &lt;div class=&quot;header-meta&quot;&gt;
+          &lt;div class=&quot;header-title&quot;&gt;Сводный отчёт&lt;/div&gt;
+          &lt;div class=&quot;header-sub&quot;&gt;Дашборд №1 · 2026-W29&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;theme-toggle&quot; type=&quot;button&quot; aria-label=&quot;Переключить тему&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;span class=&quot;theme-toggle-icon&quot; aria-hidden=&quot;true&quot;&gt;☀&lt;/span&gt;
+          &lt;span class=&quot;theme-toggle-text&quot;&gt;Светлая&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;report-main&quot; id=&quot;report-main&quot;&gt;
+    &lt;section class=&quot;report-section hero&quot;&gt;
+      &lt;h1&gt;Сводный операционный отчёт по отчётам сотрудников&lt;/h1&gt;
+      &lt;p class=&quot;period&quot;&gt;2026-W29 (29 неделя) · отчёт подготовлен 21.07.2026&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;report-section&quot;&gt;
+      &lt;h2 class=&quot;section-title&quot;&gt;Детализация по блокам (6 из 8 направлений)&lt;/h2&gt;
+      &lt;div class=&quot;two-col&quot;&gt;
+        
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;Коммерция · Анастасия Левина&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;29 неделя:&lt;/strong&gt; квота выполнена на 167% (4,25 млн ₽ при квоте 2,68 млн ₽). Сетевой канал перевыполнил план, МСП по икре — единственный недобор. Сетевой излишек полностью перекрыл недобор МСП.&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;МСП по икре:&lt;/strong&gt; 84% квоты (недобор 133 тыс. ₽) — единственный недобор.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Фирменная розница:&lt;/strong&gt; 118% квоты.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Новые сети:&lt;/strong&gt; Магнит — договор на подписи у клиента, переговоры 27.07; Самокат — переговоры 21.07; ГиперГлобус, ДА!, Перекресток — согласованы/в работе; МЕТРО — произведена залповая отгрузка 46,5 кг.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;30 неделя:&lt;/strong&gt; план отгрузки покрывает 37% квоты (989 тыс. ₽), требуется удержать сетевые заявки и добрать МСП/розницу.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;Выращивание · Артем Соколов&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;29 неделя:&lt;/strong&gt; отгрузка осетра и стерляди отсутствует (0 кг), отход — 118 шт / 62,7 кг (осетр 76 шт / 48,1 кг, стерлядь 42 шт / 14,6 кг).&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Товарная рыба:&lt;/strong&gt; осетр 2 225,8 кг, стерлядь 2 556,8 кг; всего 4 782,6 кг (3 108 шт.) к реализации.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Остаток корма:&lt;/strong&gt; 24 520,6 кг (хватает на 58 дней при расходе 422,4 кг/день).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Критичные разрывы:&lt;/strong&gt; по кормам 10 мм и 8 мм нулевой остаток при наличии расхода (расход за 10 дней — 1 401,8 кг и 295,7 кг соответственно). Требуется срочная закупка.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Все стадо в садках:&lt;/strong&gt; 89 879 шт. / 188 956,9 кг.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;Экономика и финансы · Тимофей Чернасов&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;29 неделя (ДДС):&lt;/strong&gt; факт поступлений составил 3,69 млн ₽ при плане 5,22 млн ₽ (недобор −1,52 млн ₽, −29%). Накопительно по сводке 27–29 недель: факт 15,19 млн ₽ (план 19,90 млн ₽).&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Просроченная ДЗ:&lt;/strong&gt; 4,74 млн ₽. Пять крупнейших контрагентов формируют 90% суммы (4,28 млн ₽).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Крупнейший риск:&lt;/strong&gt; КАВИАР 65 ООО — 1,69 млн ₽ (исполнительное производство, запрет на изменения в ЕГРЮЛ).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Оплаты на неделе (до 24.07):&lt;/strong&gt; ПЕРЕКРЕСТОК АО (1,14 млн ₽) и ВКУСВИЛЛ АО (722 тыс. ₽).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Судебная работа:&lt;/strong&gt; Квельман Д.Н. ИП — 417 тыс. ₽ (исполнительное производство); Красавцев М.В. ИП — 307 тыс. ₽ (иск в суде 10.08).&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;Качество · Юлия Раскатова&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;29 неделя:&lt;/strong&gt; выявлено 3 рекламаций по качеству от ИП Яцкевич ЕН на сумму 5,16 кг рыбы (осетр филе ломтики хк и тушка гк: не жуется, кислый вкус, жидкость в упаковке).&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Складской контроль (Икра):&lt;/strong&gt; проверено 898 шт., выявлено 23 несоответствия (2,56% брака). Основные дефекты: этикетка (11 шт), стирание даты (5 шт).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Складской контроль (Рыба):&lt;/strong&gt; проверено 127 шт., выявлено 7 несоответствий (5,51% брака: отсутствие вакуума 4 шт, брак крышки 3 шт).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Мониторинг отзывов:&lt;/strong&gt; ВкусВилл — Classic (4,5), Premium (4,5); Перекресток — Premium 100г (1,0, критичное падение); Деликатеска — СТМ 50г (5,0).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Действия:&lt;/strong&gt; провести внеплановую проверку партий гк/хк копчения, усилить контроль герметичности и маркировки этикеток.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;HR · Ирина Харлукова&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;Вакансии в активном подборе:&lt;/strong&gt; Главный бухгалтер, Логист, Специалист по благоустройству, Рыбоводы (×3), Подсобный рабочий.&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Главный бухгалтер:&lt;/strong&gt; 2 финалиста на неделе (8 финалистов с начала подбора на этапе интервью с заказчиком).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Логист:&lt;/strong&gt; 2 финалиста на неделе, 1 найм.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Подсобный рабочий:&lt;/strong&gt; 1 найм на неделе.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Холодный поиск:&lt;/strong&gt; прозвонено 5 сварщиков (1 приедет 20.07), проведен скрининг по шоколатье, специалисту СБ (1 финалист).&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card&quot;&gt;
+          &lt;h3&gt;Переработка икры · Марина Москвина&lt;/h3&gt;
+          &lt;p&gt;&lt;strong&gt;29 неделя:&lt;/strong&gt; производство готовой продукции (ГП) выросло до 72,81 кг (+15,82 кг или +27,8% к 28 неделе, которая была 56,99 кг).&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Драйвер роста:&lt;/strong&gt; линейка Premium (50,85 кг, 69,8% от общего объёма выработки). Classic — 8,12 кг (11,2%), Selected — 7,95 кг (10,9%).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Переработка дойной икры:&lt;/strong&gt; 2,56 кг (Classic 1,59 кг, Premium 0,97 кг). Потери по Selected — 0,15%.&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Остатки на конец недели:&lt;/strong&gt; ГП — 40,87 кг (Premium 11,52 кг, Classic 11,10 кг, Selected 8,53 кг); сырьё 2025–2026 гг. — 6 654,11 кг (снижение на 3,2%).&lt;/li&gt;
+            &lt;li&gt;&lt;strong&gt;Сравнение с 2024 годом:&lt;/strong&gt; остатки сырья в 10,9 раза выше уровня 2024 года (611,75 кг).&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card empty&quot;&gt;
+          &lt;h3&gt;Переработка деликатесов · Максим Таволжанский&lt;/h3&gt;
+          &lt;p&gt;Отчёт не предоставлен за 29 неделю.&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;detail-card empty&quot;&gt;
+          &lt;h3&gt;Производство · Максим Харлуков&lt;/h3&gt;
+          &lt;p&gt;Отчёт не предоставлен за 29 неделю.&lt;/p&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;report-section&quot;&gt;
+      &lt;h2 class=&quot;section-title&quot;&gt;Источники и примечания&lt;/h2&gt;
+      &lt;div class=&quot;meta-grid&quot;&gt;
+        &lt;div&gt;&lt;strong&gt;Источник:&lt;/strong&gt; файлы из ВРХ Облака (NextCloud) в SMB/Оперативная отчётность предприятия/понедельник/&lt;/div&gt;
+        &lt;div&gt;&lt;strong&gt;Критерий отбора:&lt;/strong&gt; имена файлов содержат «29 неделя»&lt;/div&gt;
+        &lt;div&gt;&lt;strong&gt;Найдено файлов:&lt;/strong&gt; 6 из 8 папок&lt;/div&gt;
+        &lt;div&gt;&lt;strong&gt;Папки без файлов:&lt;/strong&gt; Максим Таволжанский Переработка деликатесов, Максим Харлуков Производство&lt;/div&gt;
+        &lt;div&gt;&lt;strong&gt;Дата подготовки сводки:&lt;/strong&gt; 21.07.2026&lt;/div&gt;
+        &lt;div&gt;&lt;strong&gt;Ограничение:&lt;/strong&gt; внутри отчётов заявлены данные 29-й недели (13–19.07.2026). Сверка с первичными источниками рекомендуется.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;site-footer&quot;&gt;
+    &lt;div class=&quot;footer-inner&quot;&gt;
+      &lt;a class=&quot;eh-logo eh-logo--invert&quot; href=&quot;#top&quot; aria-label=&quot;EGGHEADS · Сводный отчёт&quot;&gt;
+        &lt;span class=&quot;eh-head&quot; aria-hidden=&quot;true&quot;&gt;
+          &lt;svg viewBox=&quot;0 0 512 512&quot; focusable=&quot;false&quot;&gt;&lt;path d=&quot;M255.3,217c-19.1,0-34.7,15.5-34.7,34.7h69.4C289.9,232.5,274.4,217,255.3,217z&quot;/&gt;&lt;path d=&quot;M256,0C114.7,0,0,114.7,0,256c0,141.3,114.7,256,256,256c141.3,0,256-114.5,256-256S397.3,0,256,0z M345.8,316.3v83.2c-26.4,16.9-57.7,26.8-91.3,26.8c-94.1,0-170.3-76.2-170.3-170.3c0-94.1,76.2-170.3,170.3-170.3 c18,0,35.4,2.9,51.8,8.1l84.5,222.5H345.8z&quot;/&gt;&lt;/svg&gt;
+        &lt;/span&gt;
+        &lt;span class=&quot;eh-text&quot;&gt;
+          &lt;svg class=&quot;eh-wordmark&quot; viewBox=&quot;21.69 95.83 1008.52 129.2&quot; role=&quot;img&quot; aria-label=&quot;EGGHEADS&quot;&gt;&lt;path d=&quot;M119.46,221.54H21.69V99.33H117.02v28.98H55.74v17.46h57.79v28.11H55.74v18.51h63.73v29.16Zm106.32-86.08c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm131.98,0c-8.9-8.38-19.73-10.65-27.94-10.65-19.9,0-32.82,11.87-32.82,35.79,0,15.71,8.2,35.09,32.82,35.09,6.46,0,16.59-1.22,23.57-6.28v-16.52s9.98,0,9.98,0l-9.98-26.26h28.81v54.3c-7.68,15.54-28.98,23.92-52.55,23.92-48.36,0-66.69-32.3-66.69-64.25s20.95-64.77,66.87-64.77c9.76,0,18.88,1.16,27.94,5.25,6.66,3.01,13.27,7.6,20.08,14.48l-20.08,19.9Zm122.55,86.25v-46.27h-44v46.27h-34.57V99.5h34.57v46.44h44v-46.44h34.22v122.22h-34.22Zm143.68-.18h-84.69V99.33h95.33v28.98h-61.29v17.46h57.79v28.11h-57.79v18.51h63.73l-13.08,29.16Zm116.95-20.08h-54.65l-8.03,20.08h-36.67l54.82-122.22h34.92l54.65,122.22h-37.01l-8.03-20.08Zm-27.23-67.92l-15.71,38.93h31.25l-15.54-38.93Zm134.42-34.22c43.12,0,63.9,26.54,63.9,60.23s-20.08,61.98-63.9,61.98h-52.38V99.33h52.38Zm-18.16,93.06h18.16c22,0,29.68-16.41,29.68-33.17s-8.55-31.08-29.68-31.08h-18.16v64.25Zm175.63-59.19c-8.38-6.29-17.98-8.38-28.64-8.38-8.38,0-16.59,2.62-16.59,9.08,0,8.38,8.21,9.6,20.25,10.83,24.27,2.62,49.59,12.39,49.59,40.5s-26.19,39.63-53.61,39.81c-22,.17-37.71-3.67-54.65-21.48l19.03-21.82c12.05,11.7,25.49,13.79,35.79,13.79,11.35,0,19.21-4.02,19.21-10.83,0-6.11-6.98-9.95-20.43-11.17-26.71-2.45-49.76-9.25-49.76-39.63,0-25.84,25.31-37.01,51.16-37.01,18.33,0,32.65,4.19,45.74,14.49l-17.11,21.82Z&quot;/&gt;&lt;/svg&gt;
+        &lt;/span&gt;
+        &lt;span class=&quot;eh-text&quot;&gt;
+          &lt;span class=&quot;eh-div&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;eh-tag&quot;&gt;ЦИФРОВЫЕ СОТРУДНИКИ&lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/a&gt;
+      &lt;div class=&quot;footer-note&quot;&gt;Сводный управленческий отчёт для дашборда №1 · ВРХ · 21.07.2026&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+
+  &lt;script&gt;
+(function(){
+  var root=document.documentElement;
+  var body=document.body;
+  var button=document.querySelector(&#39;.theme-toggle&#39;);
+  var icon=document.querySelector(&#39;.theme-toggle-icon&#39;);
+  var text=document.querySelector(&#39;.theme-toggle-text&#39;);
+  var currentTheme=&#39;dark&#39;;
+  try{var savedTheme=localStorage.getItem(&#39;eggheads-theme&#39;);if(savedTheme===&#39;dark&#39;||savedTheme===&#39;light&#39;)currentTheme=savedTheme}catch(error){}
+  function applyTheme(theme){
+    root.setAttribute(&#39;data-theme&#39;,theme);
+    body.setAttribute(&#39;data-theme&#39;,theme);
+    if(button)button.setAttribute(&#39;aria-pressed&#39;,String(theme===&#39;dark&#39;));
+    if(icon)icon.textContent=theme===&#39;dark&#39;?&#39;☾&#39;:&#39;☀&#39;;
+    if(text)text.textContent=theme===&#39;dark&#39;?&#39;Тёмная&#39;:&#39;Светлая&#39;;
+    try{localStorage.setItem(&#39;eggheads-theme&#39;,theme)}catch(error){}
+  }
+  applyTheme(currentTheme);
+  if(button)button.addEventListener(&#39;click&#39;,function(){var nextTheme=root.getAttribute(&#39;data-theme&#39;)===&#39;dark&#39;?&#39;light&#39;:&#39;dark&#39;;applyTheme(nextTheme)});
+})();
+  &lt;/script&gt;
+  &lt;script id=&quot;eh-logo-script&quot;&gt;
+(function(){
+  function initLogo(logo){
+    var head=logo.querySelector(&#39;.eh-head&#39;);
+    if(!head)return;
+    if(window.matchMedia&amp;&amp;window.matchMedia(&#39;(prefers-reduced-motion:reduce)&#39;).matches)return;
+    var count=0,last=0,busy=false;
+    head.addEventListener(&#39;mouseenter&#39;,function(){
+      if(busy)return;
+      var now=Date.now();
+      if(now-last&gt;1500)count=0;
+      last=now;
+      count++;
+      if(count&gt;=2){count=0;burnout()}
+    });
+    function puffs(){
+      for(var i=0;i&lt;7;i++){
+        var s=document.createElement(&#39;span&#39;);
+        s.className=&#39;eh-smoke&#39;;
+        var sz=7+Math.random()*11;
+        s.style.width=sz+&#39;px&#39;;
+        s.style.height=sz+&#39;px&#39;;
+        s.style.left=(3+Math.random()*11)+&#39;px&#39;;
+        s.style.bottom=(Math.random()*7)+&#39;px&#39;;
+        s.style.animation=&#39;eh-smoke &#39;+(0.8+Math.random()*0.4).toFixed(2)+&#39;s ease-out forwards&#39;;
+        s.style.animationDelay=(i*55)+&#39;ms&#39;;
+        logo.appendChild(s);
+        (function(node){setTimeout(function(){node.remove()},1400+i*55)})(s);
+      }
+    }
+    function burnout(){
+      busy=true;
+      head.classList.add(&#39;is-burnout&#39;);
+      puffs();
+      setTimeout(puffs,150);
+      var done=function(){head.classList.remove(&#39;is-burnout&#39;);busy=false;head.removeEventListener(&#39;animationend&#39;,done)};
+      head.addEventListener(&#39;animationend&#39;,done);
+      setTimeout(function(){if(busy){head.classList.remove(&#39;is-burnout&#39;);busy=false}},2200);
+    }
+  }
+  document.querySelectorAll(&#39;.eh-logo&#39;).forEach(initLogo);
+})();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="Операционка · Еженедельный сводный отчёт"></iframe>
+      <iframe id="dash-aifirst" class="dashboard-frame" src="https://zb6nw8g6kw-boop.github.io/vrh-dashboards/neural.html" title="AI-first VRH · Нейронное облако"></iframe>
+    </main>
+
+    <footer class="app-footer">
+      <span>Источники: регулярные задачи «ОСП 3 квартала», «План-факт 3 квартала», «Операционка · Еженедельный сводный отчёт» и «AI-first VRH · Нейронное облако».</span>
+      <span>Дизайн и содержимое исходных дашбордов не изменялись.</span>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(id) {
+      const frames = document.querySelectorAll('.dashboard-frame');
+      const tabs = document.querySelectorAll('.tab');
+      const map = { osp: 'tab-osp', planfact: 'tab-planfact', operational: 'tab-operational', aifirst: 'tab-aifirst' };
+
+      frames.forEach(f => f.classList.remove('active'));
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+
+      document.getElementById('dash-' + id).classList.add('active');
+      const activeTab = document.getElementById(map[id]);
+      activeTab.classList.add('active');
+      activeTab.setAttribute('aria-selected', 'true');
+    }
+
+    // Keyboard navigation: left/right arrows switch tabs
+    document.addEventListener('keydown', function(e) {
+      const order = ['osp', 'planfact', 'operational', 'aifirst'];
+      const active = document.querySelector('.tab.active');
+      if (!active) return;
+      const currentId = active.id.replace('tab-', '');
+      const idx = order.indexOf(currentId);
+      if (e.key === 'ArrowRight' && idx < order.length - 1) {
+        switchTab(order[idx + 1]);
+      } else if (e.key === 'ArrowLeft' && idx > 0) {
+        switchTab(order[idx - 1]);
+      }
+    });
+  </script>
+</body>
+</html>
